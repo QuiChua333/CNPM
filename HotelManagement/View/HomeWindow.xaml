@@ -15,6 +15,7 @@
         AllowsTransparency="True"
         Name="AdminWD"
         Background="Transparent"
+        DataContext="{StaticResource HomeVM}"
        
 >
     <Window.Triggers>

@@ -23,7 +23,9 @@
                 <ResourceDictionary Source="./Resources/Styles/HeaderListViewStyle.xaml"/>
                 <ResourceDictionary Source="./Resources/Icons/Icons.xaml"/>
                 <ResourceDictionary Source="./ResourceXAML/MainResources.xaml"/>
-               
+                <ResourceDictionary Source="./ResourceXAML/DataTemplate.xaml"/>
+
+
 
                 <!--Language-->
                 <ResourceDictionary Source="./Resources/Languages/ResourceString.vi-VN.xaml"/>
