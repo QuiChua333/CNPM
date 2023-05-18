@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelManagement.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -23,6 +25,24 @@ namespace HotelManagement.View.RoomManagement
         public RoomManagementPage()
         {
             InitializeComponent();
+            this.Language = XmlLanguage.GetLanguage("vi-VN");
+        }
+        private bool Filter(object item)
+        {
+            if (String.IsNullOrEmpty(SearchBox.Text))
+                return true;
+            else
+                return ((item as RoomDTO).RoomNumber.ToString().IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+        private void Search_SearchTextChange(object sender, EventArgs e)
+        {
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(RoomListView.ItemsSource);
+            if (view != null)
+            {
+                view.Filter = Filter;
+                result.Content = RoomListView.Items.Count;
+                CollectionViewSource.GetDefaultView(RoomListView.ItemsSource).Refresh();
+            }
         }
     }
 }
