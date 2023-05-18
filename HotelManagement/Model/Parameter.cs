@@ -12,12 +12,10 @@ namespace HotelManagement.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Bill
+    public partial class Parameter
     {
-        public string BillId { get; set; }
-        public string CustomerName { get; set; }
-        public string Address { get; set; }
-        public Nullable<double> TotalPrice { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        public int ParameterId { get; set; }
+        public string ParameterKey { get; set; }
+        public Nullable<double> ParamaterValue { get; set; }
     }
 }

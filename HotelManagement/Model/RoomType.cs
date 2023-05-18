@@ -17,14 +17,16 @@ namespace HotelManagement.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public RoomType()
         {
+            this.RevenueReportDetails = new HashSet<RevenueReportDetail>();
             this.Rooms = new HashSet<Room>();
         }
     
         public string RoomTypeId { get; set; }
         public string RoomTypeName { get; set; }
         public Nullable<double> Price { get; set; }
-        public string Note { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RevenueReportDetail> RevenueReportDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room> Rooms { get; set; }
     }

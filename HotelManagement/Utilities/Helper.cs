@@ -1,4 +1,5 @@
-﻿using HotelManagement.Model;
+﻿
+using HotelManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -58,17 +59,7 @@ namespace HotelManagement.Utilities
             image.Freeze();
             return image;
         }
-        public static bool CheckEmailStaff(string currentEmail)
-        {
-            using (var context = new HotelManagementEntities())
-            {
-                foreach(var staff in context.Staffs)
-                {
-                    if (staff.Email == currentEmail) return true;
-                }
-                return false;
-            } 
-        }
+       
 
         internal static string GetEmailTemplatePath(string rESET_PASSWORD_FILE)
         {
