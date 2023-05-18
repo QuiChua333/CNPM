@@ -40,7 +40,7 @@ namespace HotelManagement.ViewModel
         public ICommand SettingCommand { get; set; }
         public HomeVM()
         {
-            _currentView = new StatisticalManagementVM.StatisticalManagementVM();
+            _currentView = new RoomLookupManagementVM.RoomLookupManagementVM();
 
             StatisticalCommand = new RelayCommand(Statistical);
             BookingRoomCommand = new RelayCommand(BookingRoom);

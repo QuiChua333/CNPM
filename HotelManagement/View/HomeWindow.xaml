@@ -9,13 +9,14 @@
         mc:Ignorable="d"
               xmlns:Search="clr-namespace:HotelManagement.Components.Search" 
 
-        Title="AdminWindow" Height="600" Width="1000"
+        Title="AdminWindow" Height="760" Width="1300"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         AllowsTransparency="True"
         Name="AdminWD"
         Background="Transparent"
+        DataContext="{StaticResource HomeVM}"
        
 >
     <Window.Triggers>
@@ -68,7 +69,7 @@
             Background="{DynamicResource SidebarColor}"
             Name="Sidebar"
             CornerRadius="10 0 0 10" 
-            Height="600"  
+            Height="760"  
             HorizontalAlignment="Left"
             Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <Grid Width="62" Name="GridNav">
