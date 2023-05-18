@@ -223,8 +223,33 @@
     </Compile>
     <Compile Include="Utilities\RelyCommand.cs" />
     <Compile Include="ViewModel\BaseVM.cs" />
+    <Compile Include="ViewModel\BookingRoomManagementVM\BookingRoomManagmentVM.cs" />
+    <Compile Include="ViewModel\HelpScreenVM\HelpScreenVM.cs" />
+    <Compile Include="ViewModel\HistoryManagementVM\HistoryManagementVM.cs" />
+    <Compile Include="ViewModel\HomeVM.cs" />
+    <Compile Include="ViewModel\RoomLookupManagementVM\RoomLookupManagementVM.cs" />
+    <Compile Include="ViewModel\RoomManagementVM\RoomManagementVM.cs" />
+    <Compile Include="ViewModel\StatisticalManagementVM\StatisticalManagementVM.cs" />
+    <Compile Include="View\BookingRoomManagement\BookingRoomManagementPage.xaml.cs">
+      <DependentUpon>BookingRoomManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HelpScreen\HelpScreen.xaml.cs">
+      <DependentUpon>HelpScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HistoryManagement\HistoryManagementPage.xaml.cs">
+      <DependentUpon>HistoryManagementPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RoomLookupManagement\RoomLookupPage.xaml.cs">
+      <DependentUpon>RoomLookupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RoomManagement\RoomManagementPage.xaml.cs">
+      <DependentUpon>RoomManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatisticalManagement\StatisticalManagementPage.xaml.cs">
+      <DependentUpon>StatisticalManagementPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Components\Filter\Filter.xaml">
       <SubType>Designer</SubType>
@@ -298,11 +323,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceXAML\DataTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceXAML\MainResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\BookingRoomManagement\BookingRoomManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HelpScreen\HelpScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HistoryManagement\HistoryManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HomeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RoomLookupManagement\RoomLookupPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RoomManagement\RoomManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StatisticalManagement\StatisticalManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
