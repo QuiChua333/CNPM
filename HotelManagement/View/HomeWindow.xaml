@@ -101,7 +101,8 @@
 
                     <StackPanel Name="MenuItems" Margin="0 20 0 0" PreviewMouseLeftButtonUp="MenuItems_PreviewMouseLeftButtonUp">
                         <StackPanel Height="40">
-                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource overview}" IconWidth="16" Text="Thống kê" VerticalAlignment="Center" Command="{Binding StatiscalCommand}"/>
+                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource overview}" IconWidth="16" Text="Thống kê" VerticalAlignment="Center"
+                                                 Command="{Binding StatisticalCommand}"/>
                         </StackPanel>
                        
                         <Border Height="0.2" Background="{DynamicResource PrimaryTextColor}" Margin="10 5"/>

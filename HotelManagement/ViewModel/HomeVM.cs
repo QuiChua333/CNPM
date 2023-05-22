@@ -25,7 +25,11 @@ namespace HotelManagement.ViewModel
             get { return _currentView; }
             set { _currentView = value; OnPropertyChanged(); }
         }
-        private void Statistical(object obj) => CurrentView = new StatisticalManagementVM.StatisticalManagementVM();
+        private void Statistical(object obj)
+        {
+            CurrentView = new StatisticalManagementVM.StatisticalManagementVM();
+            HomeWindow.lbPageName.Content = "MÀN HÌNH THỐNG KÊ";
+        }
         private void RoomLoookup(object obj)
         {
              CurrentView = new RoomLookupManagementVM.RoomLookupManagementVM();
@@ -47,7 +51,6 @@ namespace HotelManagement.ViewModel
         public HomeVM()
         {
             _currentView = new RoomLookupManagementVM.RoomLookupManagementVM();
-
             StatisticalCommand = new RelayCommand(Statistical);
             BookingRoomCommand = new RelayCommand(BookingRoom);
             RoomLookupCommand = new RelayCommand(RoomLoookup);
