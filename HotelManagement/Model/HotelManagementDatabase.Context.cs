@@ -27,6 +27,7 @@ namespace HotelManagement.Model
     
         public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<BillDetail> BillDetails { get; set; }
+        public virtual DbSet<CustomerType> CustomerTypes { get; set; }
         public virtual DbSet<Parameter> Parameters { get; set; }
         public virtual DbSet<RentalContract> RentalContracts { get; set; }
         public virtual DbSet<RentalContractDetail> RentalContractDetails { get; set; }
@@ -34,5 +35,6 @@ namespace HotelManagement.Model
         public virtual DbSet<RevenueReportDetail> RevenueReportDetails { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<RoomType> RoomTypes { get; set; }
+        public virtual DbSet<SurchargeRate> SurchargeRates { get; set; }
     }
 }

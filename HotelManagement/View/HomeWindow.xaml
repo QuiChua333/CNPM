@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:components="clr-namespace:HotelManagement.Components"
         mc:Ignorable="d"
-              xmlns:Search="clr-namespace:HotelManagement.Components.Search" 
+        xmlns:Search="clr-namespace:HotelManagement.Components.Search" 
 
         Title="AdminWindow" Height="760" Width="1300"
         WindowStartupLocation="CenterScreen"
@@ -60,6 +60,18 @@
         <!--TopBar-->
         <Grid Grid.Column="1" Grid.Row="0">
             <Border Background="#F7FAFD" Opacity="0.5" CornerRadius="0 10 0 0">
+                <Label Padding="0" 
+                           Content="MÀN HÌNH CHÍNH"
+                           FontSize="25" 
+                            x:Name="PageName"
+                       
+                           FontWeight="Black" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" 
+                            Foreground="#333" 
+                           FontFamily="{DynamicResource MaterialDesignFont}">
+                    
+                </Label>
             </Border>
             <Rectangle Height="0.4" Fill="#444B55" VerticalAlignment="Bottom" Opacity="0.3"></Rectangle>
         </Grid>
@@ -96,7 +108,7 @@
 
                         <StackPanel Height="40">
                             <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource home}" IconWidth="16" Text="Tra cứu phòng" VerticalAlignment="Center"
-                                                  Command="{Binding RoomCatalogCommand}"/>
+                                                  Command="{Binding RoomLookupCommand}"/>
                         </StackPanel>
                         <StackPanel Height="40">
                             <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource booking}" IconWidth="16" Text="Quản lý đặt phòng" VerticalAlignment="Center" Command="{Binding BookingRoomCommand}"/>

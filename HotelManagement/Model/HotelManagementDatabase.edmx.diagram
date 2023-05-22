@@ -4,19 +4,24 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c6f0b3e63371455ebb645232a0e71d44" Name="Diagram1">
-        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.Bill" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.BillDetail" Width="1.5" PointX="7.5" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.Parameter" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RentalContract" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RentalContractDetail" Width="1.5" PointX="7.5" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RevenueReport" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RevenueReportDetail" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.Room" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RoomType" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
-        <AssociationConnector Association="HotelManagementNMCNPMModel.FK_BillDetail_RentalContract" ManuallyRouted="false" />
+      <Diagram DiagramId="9d74021cb13e4456bc4547ec214b1af8" Name="Diagram1">
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.Bill" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.BillDetail" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.CustomerType" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.Parameter" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RentalContract" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RentalContractDetail" Width="1.5" PointX="7.5" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RevenueReport" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RevenueReportDetail" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.Room" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.RoomType" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagementNMCNPMModel.SurchargeRate" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="HotelManagementNMCNPMModel.FK_BillDetail_Bill" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelManagementNMCNPMModel.FK_BillDetail_Room" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RentalContractDetail_CustomerType" ManuallyRouted="false" />
         <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RentalContract_Room" ManuallyRouted="false" />
         <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RentalContractDetail_RentalContract" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RevenueReportDetail_RevenueReport" ManuallyRouted="false" />
         <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RevenueReportDetail_RoomType" ManuallyRouted="false" />
         <AssociationConnector Association="HotelManagementNMCNPMModel.FK_Room_RoomType" ManuallyRouted="false" />
       </Diagram>

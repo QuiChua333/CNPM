@@ -17,7 +17,6 @@ namespace HotelManagement.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public RentalContract()
         {
-            this.BillDetails = new HashSet<BillDetail>();
             this.RentalContractDetails = new HashSet<RentalContractDetail>();
         }
     
@@ -25,8 +24,6 @@ namespace HotelManagement.Model
         public string RoomId { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillDetail> BillDetails { get; set; }
         public virtual Room Room { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RentalContractDetail> RentalContractDetails { get; set; }

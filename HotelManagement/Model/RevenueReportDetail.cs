@@ -14,11 +14,13 @@ namespace HotelManagement.Model
     
     public partial class RevenueReportDetail
     {
+        public int RevenueReportDetailId { get; set; }
         public string RevenueReportId { get; set; }
         public string RoomTypeId { get; set; }
         public Nullable<double> Revenue { get; set; }
         public Nullable<double> Ratio { get; set; }
     
+        public virtual RevenueReport RevenueReport { get; set; }
         public virtual RoomType RoomType { get; set; }
     }
 }

@@ -12,16 +12,9 @@ namespace HotelManagement.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class BillDetail
+    public partial class SurchargeRate
     {
-        public int BillDetailId { get; set; }
-        public string BillId { get; set; }
-        public string RoomId { get; set; }
-        public Nullable<int> NumberOfRentalDays { get; set; }
-        public Nullable<double> PricePerDay { get; set; }
-        public Nullable<double> Price { get; set; }
-    
-        public virtual Bill Bill { get; set; }
-        public virtual Room Room { get; set; }
+        public int CustomerIndex { get; set; }
+        public Nullable<double> Rate { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CinemaManagementProject.Utilities;
 using HotelManagement.Properties;
+using HotelManagement.View;
 using HotelManagement.ViewModel.BookingRoomManagementVM;
 using HotelManagement.ViewModel.RoomManagementVM;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -15,7 +17,7 @@ namespace HotelManagement.ViewModel
     public class HomeVM : BaseVM
     {
 
-        
+        private Label label;
         
         private object _currentView;
         public object CurrentView
@@ -24,7 +26,11 @@ namespace HotelManagement.ViewModel
             set { _currentView = value; OnPropertyChanged(); }
         }
         private void Statistical(object obj) => CurrentView = new StatisticalManagementVM.StatisticalManagementVM();
-        private void RoomLoookup(object obj) => CurrentView = new RoomLookupManagementVM.RoomLookupManagementVM();
+        private void RoomLoookup(object obj)
+        {
+             CurrentView = new RoomLookupManagementVM.RoomLookupManagementVM();
+            HomeWindow.lbPageName.Content= "MÀN HÌNH TRA CỨU PHÒNG";
+        }
         private void BookingRoom(object obj) => CurrentView = new BookingRoomManagementVM.BookingRoomManagmentVM();
         private void Room(object obj) => CurrentView = new RoomManagementVM.RoomManagementVM();
         private void History(object obj) => CurrentView = new HistoryManagementVM.HistoryManagementVM();

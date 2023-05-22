@@ -170,10 +170,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DTOs\BillDetailDTO.cs" />
+    <Compile Include="DTOs\BillDTO.cs" />
+    <Compile Include="DTOs\ListRoomTypeDTO.cs" />
+    <Compile Include="DTOs\RentalContractDTO.cs" />
+    <Compile Include="DTOs\RoomDTO.cs" />
+    <Compile Include="DTOs\RoomTypeDTO.cs" />
     <Compile Include="Model\Bill.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\BillDetail.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CustomerType.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\HotelManagementDatabase.Context.cs">
@@ -212,6 +221,12 @@
     <Compile Include="Model\RoomType.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Services\BillService.cs" />
+    <Compile Include="Model\Services\RoomService.cs" />
+    <Compile Include="Model\Services\RoomTypeService.cs" />
+    <Compile Include="Model\SurchargeRate.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Utils\EmailFormat.cs" />
     <Compile Include="Utils\RegexUtilities.cs" />
     <Compile Include="Utilities\Constant.cs" />
@@ -227,12 +242,18 @@
     <Compile Include="ViewModel\HelpScreenVM\HelpScreenVM.cs" />
     <Compile Include="ViewModel\HistoryManagementVM\HistoryManagementVM.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
+    <Compile Include="ViewModel\RoomLookupManagementVM\PaymentVM.cs" />
     <Compile Include="ViewModel\RoomLookupManagementVM\RoomLookupManagementVM.cs" />
     <Compile Include="ViewModel\RoomManagementVM\RoomManagementVM.cs" />
     <Compile Include="ViewModel\StatisticalManagementVM\StatisticalManagementVM.cs" />
     <Compile Include="View\BookingRoomManagement\BookingRoomManagementPage.xaml.cs">
       <DependentUpon>BookingRoomManagementPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CustomMessageBoxWindow\CustomMessageBox.cs" />
+    <Compile Include="View\CustomMessageBoxWindow\CustomMessageBoxWindow.xaml.cs">
+      <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomMessageBoxWindow\Util.cs" />
     <Compile Include="View\HelpScreen\HelpScreen.xaml.cs">
       <DependentUpon>HelpScreen.xaml</DependentUpon>
     </Compile>
@@ -241,6 +262,12 @@
     </Compile>
     <Compile Include="View\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RoomLookupManagement\BillWindow.xaml.cs">
+      <DependentUpon>BillWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RoomLookupManagement\PaymentWindow.xaml.cs">
+      <DependentUpon>PaymentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RoomLookupManagement\RoomLookupPage.xaml.cs">
       <DependentUpon>RoomLookupPage.xaml</DependentUpon>
@@ -335,6 +362,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CustomMessageBoxWindow\CustomMessageBoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HelpScreen\HelpScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -344,6 +375,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\HomeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RoomLookupManagement\BillWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RoomLookupManagement\PaymentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -424,12 +463,6 @@
     <Resource Include="Resources\Images\icon_Question.png" />
     <Resource Include="Resources\Images\icon_Succes.png" />
     <Resource Include="Resources\Images\icon_Warning.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\checked.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\unchecked.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\logo_hotel.png" />
@@ -528,8 +561,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="Model\Services\" />
+    <Resource Include="Resources\Images\checked.png" />
+    <Resource Include="Resources\Images\unchecked.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Model\HotelManagementDatabase.Context.tt">

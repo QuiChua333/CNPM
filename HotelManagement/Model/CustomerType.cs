@@ -12,21 +12,19 @@ namespace HotelManagement.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Bill
+    public partial class CustomerType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Bill()
+        public CustomerType()
         {
-            this.BillDetails = new HashSet<BillDetail>();
+            this.RentalContractDetails = new HashSet<RentalContractDetail>();
         }
     
-        public string BillId { get; set; }
-        public string CustomerName { get; set; }
-        public string Address { get; set; }
-        public Nullable<double> TotalPrice { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        public string CustomerTypeId { get; set; }
+        public string CustomerTypeName { get; set; }
+        public Nullable<double> CoefficientSurcharge { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillDetail> BillDetails { get; set; }
+        public virtual ICollection<RentalContractDetail> RentalContractDetails { get; set; }
     }
 }
