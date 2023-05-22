@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelManagement.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,33 @@ namespace HotelManagement.View.HistoryManagement
         public HistoryManagementPage()
         {
             InitializeComponent();
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+        private bool Filter(object item)
+        {
+            if (String.IsNullOrEmpty(SearchBox.Text))
+                return true;
+            else
+                return ((item as BillDTO).BillId.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || (item as BillDTO).CustomerName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || (item as BillDTO).Address.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+
+        }
+
+        private void Search_SearchTextChange(object sender, EventArgs e)
+        {
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(BillListView.ItemsSource);
+            if (view != null)
+            {
+                view.Filter = Filter;
+                CollectionViewSource.GetDefaultView(BillListView.ItemsSource).Refresh();
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using HotelManagement.DTOs;
 using HotelManagement.Utils;
+using MaterialDesignThemes.Wpf;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -114,6 +116,61 @@ namespace HotelManagement.Model.Services
                         r.RoomStatus = ROOM_STATUS.READY;
                         await context.SaveChangesAsync();
                     }
+
+                    int year = DateTime.Now.Year;
+                    int month = DateTime.Now.Month;
+                    bool isExistRevenueReport = context.RevenueReports.Any(x => x.MonthReport.Value.Year == year && x.MonthReport.Value.Month == month);
+                    if (!isExistRevenueReport)
+                    {
+                        var maxRevenueReportId = await context.RevenueReports.MaxAsync(x => x.RevenueReportId);
+                        string revenueId = CreateNextRevenueReportId(maxRevenueReportId);
+                        RevenueReport revenueReport = new RevenueReport
+                        {
+                            RevenueReportId = revenueId,
+                            MonthReport = DateTime.Now,
+                        };
+
+                        context.RevenueReports.Add(revenueReport);
+                        await context.SaveChangesAsync();
+
+                       var listRoomTypeId = await context.RoomTypes.Select(x=> x.RoomTypeId).ToListAsync();
+                        foreach(var roomTypeId in listRoomTypeId)
+                        {
+                            RevenueReportDetail revenueReportDetail = new RevenueReportDetail
+                            {
+                                RevenueReportId = revenueId,
+                                RoomTypeId = roomTypeId,
+                                Revenue = 0,
+                            };
+                            context.RevenueReportDetails.Add(revenueReportDetail);
+                            await context.SaveChangesAsync();
+                        }
+                       
+                    }
+                    var revenueReportDetails = context.RevenueReports.FirstOrDefault(x => x.MonthReport.Value.Year == year && x.MonthReport.Value.Month == month).RevenueReportDetails;
+                    foreach (var item in list)
+                    {
+                        
+                        foreach (var i in revenueReportDetails)
+                        {
+                            if (item.Room.RoomTypeId == i.RoomTypeId)
+                            {
+                                i.Revenue += item.Price;
+                                break;
+                            }
+                        }
+                    }
+                    await context.SaveChangesAsync();
+                    double totalPrice = (double)context.Bills.Where(x => x.CreateDate.Value.Month == month && x.CreateDate.Value.Year == year).Sum(x => x.TotalPrice);
+                     revenueReportDetails = context.RevenueReports.FirstOrDefault(x => x.MonthReport.Value.Year == year && x.MonthReport.Value.Month == month).RevenueReportDetails;
+
+                    foreach (var i in revenueReportDetails)
+                    {
+                        i.Ratio = i.Revenue/ totalPrice;
+                    }
+                    await context.SaveChangesAsync();   
+
+
                     return (true, "Thanh toán thành công!");
                 }
             }
@@ -127,6 +184,7 @@ namespace HotelManagement.Model.Services
             }
         }
 
+       
         private string CreateNextBillId(string maxBillId)
         {
             if (maxBillId is null) return "HD001";
@@ -136,6 +194,14 @@ namespace HotelManagement.Model.Services
             return "HD" + nextNumString;
 
         }
+        private string CreateNextRevenueReportId(string maxRevenueReportId)
+        {
+            if (maxRevenueReportId is null) return "DT001";
+            int num = int.Parse(maxRevenueReportId.Substring(2));
+            string nextNumString = (num + 1).ToString();
+            while (nextNumString.Length < 3) nextNumString = "0" + nextNumString;
+            return "DT" + nextNumString;
 
+        }
     }
 }

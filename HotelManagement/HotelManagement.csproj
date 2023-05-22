@@ -174,6 +174,8 @@
     <Compile Include="DTOs\BillDTO.cs" />
     <Compile Include="DTOs\ListRoomTypeDTO.cs" />
     <Compile Include="DTOs\RentalContractDTO.cs" />
+    <Compile Include="DTOs\RevenueReportDetailDTO.cs" />
+    <Compile Include="DTOs\RevenueReportDTO.cs" />
     <Compile Include="DTOs\RoomDTO.cs" />
     <Compile Include="DTOs\RoomTypeDTO.cs" />
     <Compile Include="Model\Bill.cs">
@@ -222,8 +224,10 @@
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Services\BillService.cs" />
+    <Compile Include="Model\Services\HistoryService.cs" />
     <Compile Include="Model\Services\RoomService.cs" />
     <Compile Include="Model\Services\RoomTypeService.cs" />
+    <Compile Include="Model\Services\StatisticalService.cs" />
     <Compile Include="Model\SurchargeRate.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>

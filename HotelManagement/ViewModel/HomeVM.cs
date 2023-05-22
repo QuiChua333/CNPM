@@ -17,7 +17,6 @@ namespace HotelManagement.ViewModel
     public class HomeVM : BaseVM
     {
 
-        private Label label;
         
         private object _currentView;
         public object CurrentView
@@ -37,7 +36,11 @@ namespace HotelManagement.ViewModel
         }
         private void BookingRoom(object obj) => CurrentView = new BookingRoomManagementVM.BookingRoomManagmentVM();
         private void Room(object obj) => CurrentView = new RoomManagementVM.RoomManagementVM();
-        private void History(object obj) => CurrentView = new HistoryManagementVM.HistoryManagementVM();
+        private void History(object obj)
+        {
+            CurrentView = new HistoryManagementVM.HistoryManagementVM();
+            HomeWindow.lbPageName.Content = "MÀN HÌNH LỊCH SỬ THANH TOÁN";
+        }
         private void Help(object obj) => CurrentView = new HelpScreenVM.HelpScreenVM();
 
 

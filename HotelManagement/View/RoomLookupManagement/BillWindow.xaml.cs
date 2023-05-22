@@ -36,11 +36,7 @@ namespace HotelManagement.View.RoomLookupManagement
                 this.DragMove();
             }
         }
-        protected override void OnDeactivated(EventArgs e)
-        {
-            base.OnDeactivated(e);
-            Close();
-        }
+        
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
