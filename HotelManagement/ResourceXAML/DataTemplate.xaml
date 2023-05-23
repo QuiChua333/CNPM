@@ -14,6 +14,8 @@
                     xmlns:HelpVM="clr-namespace:HotelManagement.ViewModel.HelpScreenVM"
                     xmlns:HomeView="clr-namespace:HotelManagement.View"
                     xmlns:HomeVM="clr-namespace:HotelManagement.ViewModel"
+                    xmlns:CustomerTypeView="clr-namespace:HotelManagement.View.CustomerTypeManagement"
+                    xmlns:CustomerTypeVM="clr-namespace:HotelManagement.ViewModel.CustomerTypeManagementVM"
                     >
 
     <DataTemplate DataType="{x:Type StatisticalVM:StatisticalManagementVM}">
@@ -36,5 +38,8 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type HomeVM:BaseVM}">
         <HomeView:HomeWindow></HomeView:HomeWindow>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type CustomerTypeVM:CustomerTypeManagementVM}">
+        <CustomerTypeView:CustomerTypeManagement></CustomerTypeView:CustomerTypeManagement>
     </DataTemplate>
 </ResourceDictionary>

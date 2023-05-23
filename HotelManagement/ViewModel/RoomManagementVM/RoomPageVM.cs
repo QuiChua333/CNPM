@@ -203,9 +203,7 @@ namespace HotelManagement.ViewModel.RoomManagementVM
             SaveRoomTypeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
             {
                 IsSaving = true;
-
                 await SaveRoomTypeFunc(p);
-
                 IsSaving = false;
             });
 

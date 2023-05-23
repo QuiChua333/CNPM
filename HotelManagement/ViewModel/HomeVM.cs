@@ -26,6 +26,7 @@ namespace HotelManagement.ViewModel
         private void Room(object obj) => CurrentView = new RoomManagementVM.RoomPageVM();
         private void History(object obj) => CurrentView = new HistoryManagementVM.HistoryManagementVM();
         private void Help(object obj) => CurrentView = new HelpScreenVM.HelpScreenVM();
+        private void CustomerType(object obj) => CurrentView = new CustomerTypeManagementVM.CustomerTypeManagementVM();
 
 
         public ICommand RoomLookupCommand { get; set; }
@@ -35,6 +36,7 @@ namespace HotelManagement.ViewModel
         public ICommand HelpScreenCommand { get; set; }
         public ICommand HistoryCommand { get; set; }
         public ICommand SettingCommand { get; set; }
+        public ICommand CustomerTypeCommand { get; set; }
         public HomeVM()
         {
             _currentView = new RoomManagementVM.RoomPageVM();
@@ -45,7 +47,7 @@ namespace HotelManagement.ViewModel
             HistoryCommand = new RelayCommand(History);
             RoomCommand = new RelayCommand(Room);
             HelpScreenCommand = new RelayCommand(Help);
-
+            CustomerTypeCommand = new RelayCommand(CustomerType);
         }
     }
 

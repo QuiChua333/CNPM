@@ -170,6 +170,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DTOs\CustomerTypeDTO.cs" />
     <Compile Include="DTOs\RentalContractDetailDTO.cs" />
     <Compile Include="DTOs\RentalContractDTO.cs" />
     <Compile Include="DTOs\RoomDTO.cs" />
@@ -220,6 +221,7 @@
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Services\BookingRoomService.cs" />
+    <Compile Include="Model\Services\CustomerTypeService.cs" />
     <Compile Include="Model\Services\RoomService.cs" />
     <Compile Include="Model\Services\RoomTypeService.cs" />
     <Compile Include="Model\SurchargeRate.cs">
@@ -238,6 +240,9 @@
     <Compile Include="ViewModel\BaseVM.cs" />
     <Compile Include="ViewModel\BookingRoomManagementVM\BookingRoomManagementVM.cs" />
     <Compile Include="ViewModel\BookingRoomManagementVM\BookingVM.cs" />
+    <Compile Include="ViewModel\CustomerTypeManagementVM\AddCustomerTypeVM.cs" />
+    <Compile Include="ViewModel\CustomerTypeManagementVM\CustomerTypeManagementVM.cs" />
+    <Compile Include="ViewModel\CustomerTypeManagementVM\EditCustomerTypeVM.cs" />
     <Compile Include="ViewModel\HelpScreenVM\HelpScreenVM.cs" />
     <Compile Include="ViewModel\HistoryManagementVM\HistoryManagementVM.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
@@ -264,6 +269,15 @@
     </Compile>
     <Compile Include="View\BookingRoomManagement\RentalContractInfo.xaml.cs">
       <DependentUpon>RentalContractInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomerTypeManagement\AddCustomerType.xaml.cs">
+      <DependentUpon>AddCustomerType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomerTypeManagement\CustomerTypeManagement.xaml.cs">
+      <DependentUpon>CustomerTypeManagement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomerTypeManagement\EditCustomerType.xaml.cs">
+      <DependentUpon>EditCustomerType.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomMessageBoxWindow\CustomMessageBox.cs" />
     <Compile Include="View\CustomMessageBoxWindow\CustomMessageBoxWindow.xaml.cs">
@@ -418,6 +432,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BookingRoomManagement\RentalContractInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomerTypeManagement\AddCustomerType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomerTypeManagement\CustomerTypeManagement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomerTypeManagement\EditCustomerType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

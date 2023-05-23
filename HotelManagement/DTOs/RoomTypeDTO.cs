@@ -12,13 +12,11 @@ namespace HotelManagement.DTOs
         public string RoomTypeId { get; set; }
         public string RoomTypeName { get; set; }
         public double RoomTypePrice { get; set; }
-        public bool IsDeleted { get; set; }
         public string RoomTypePriceStr
         {
             get { return Helper.FormatVNMoney(RoomTypePrice); }
         }
         public IList<RoomDTO> Rooms { get; set; }
-
         public double Revenue { get; set; }
         public int STT { get; set; }
     }

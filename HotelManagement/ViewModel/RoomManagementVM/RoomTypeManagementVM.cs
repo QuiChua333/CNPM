@@ -49,13 +49,6 @@ namespace HotelManagement.ViewModel.RoomManagementVM
             set { isloaddingRoomType = value; OnPropertyChanged(); }
         }
 
-        private bool isSavingRoomType;
-        public bool IsSavingRoomType
-        {
-            get { return isSavingRoomType; }
-            set { isSavingRoomType = value; OnPropertyChanged(); }
-        }
-
         private ObservableCollection<RoomTypeDTO> _roomTypeList;
         public ObservableCollection<RoomTypeDTO> RoomTypeList
         {

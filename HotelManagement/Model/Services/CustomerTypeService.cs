@@ -10,55 +10,39 @@ using System.Threading.Tasks;
 
 namespace HotelManagement.Model.Services
 {
-    public class RoomTypeService
+    public class CustomerTypeService
     {
-        public RoomTypeService() { }
-        private static RoomTypeService _ins;
-        public static RoomTypeService Ins
+        public CustomerTypeService() { }
+        private static CustomerTypeService _ins;
+        public static CustomerTypeService Ins
         {
             get
             {
                 if (_ins == null)
-                    _ins = new RoomTypeService();
+                    _ins = new CustomerTypeService();
                 return _ins;
             }
             private set { _ins = value; }
         }
 
-        public async Task<string> GetRoomTypeID(string rtn)
+        public async Task<List<CustomerTypeDTO>> GetAllCustomerType()
         {
             try
             {
                 using (HotelManagementNMCNPMEntities db = new HotelManagementNMCNPMEntities())
                 {
-                    var item = await db.RoomTypes.Where(x => x.RoomTypeName == rtn).FirstOrDefaultAsync();
-                    return item.RoomTypeId;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public async Task<List<RoomTypeDTO>> GetAllRoomType()
-        {
-            try
-            {
-                using (HotelManagementNMCNPMEntities db = new HotelManagementNMCNPMEntities())
-                {
-                    List<RoomTypeDTO> RoomTypeDTOs = await (
-                        from rt in db.RoomTypes
-                        select new RoomTypeDTO
+                    List<CustomerTypeDTO> CustomerTypeDTOs = await (
+                        from ct in db.CustomerTypes
+                        select new CustomerTypeDTO
                         {
                             // DTO = db
-                            RoomTypeId = rt.RoomTypeId,
-                            RoomTypeName = rt.RoomTypeName,
-                            RoomTypePrice = (double)rt.Price,
+                            CustomerTypeId = ct.CustomerTypeId,
+                            CustomerTypeName = ct.CustomerTypeName,
+                            CoefficientSurcharge = (float)ct.CoefficientSurcharge,
                         }
                     ).ToListAsync();
-                    RoomTypeDTOs.Reverse();
-                    return RoomTypeDTOs;
+                    CustomerTypeDTOs.Reverse();
+                    return CustomerTypeDTOs;
                 }
             }
             catch (Exception e)
@@ -67,51 +51,48 @@ namespace HotelManagement.Model.Services
             }
         }
 
-
-        private string CreateNextRoomTypeCode(string maxCode)
+        private string CreateNextCustomerTypeCode(string maxCode)
         {
             if (maxCode == "")
             {
-                return "LP001";
+                return "LK001";
             }
             int index = (int.Parse(maxCode.Substring(2)) + 1);
             string CodeID = index.ToString();
             while (CodeID.Length < 3) CodeID = "0" + CodeID;
 
-            return "LP" + CodeID;
+            return "LK" + CodeID;
         }
-        public async Task<(bool, string, RoomTypeDTO)> AddRoomType(RoomTypeDTO newRoomType)
+        public async Task<(bool, string, CustomerTypeDTO)> AddCustomerType(CustomerTypeDTO newCustomerType)
         {
             try
             {
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
-                    RoomType rt = context.RoomTypes.Where((RoomType RoomType) => RoomType.RoomTypeId == newRoomType.RoomTypeId).FirstOrDefault();
+                    CustomerType ct = context.CustomerTypes.Where((CustomerType CustomerType) => CustomerType.CustomerTypeId == newCustomerType.CustomerTypeId).FirstOrDefault();
 
-                    if (rt != null)
+                    if (ct != null)
                     {
-
-                        return (false, $"Loại phòng {rt.RoomTypeId} đã tồn tại!", null);
-
+                        return (false, $"Loại phòng {ct.CustomerTypeName} đã tồn tại!", null);
                     }
                     else
                     {
-                        var listid = await context.RoomTypes.Select(s => s.RoomTypeId).ToListAsync();
+                        var listid = await context.CustomerTypes.Select(s => s.CustomerTypeId).ToListAsync();
                         string maxId = "";
 
                         if (listid.Count > 0)
                             maxId = listid[listid.Count - 1];
 
-                        string id = CreateNextRoomTypeCode(maxId);
-                        RoomType roomtype = new RoomType
+                        string id = CreateNextCustomerTypeCode(maxId);
+                        CustomerType customertype = new CustomerType
                         {
-                            RoomTypeId = id,
-                            RoomTypeName = newRoomType.RoomTypeName,
-                            Price = newRoomType.RoomTypePrice
+                            CustomerTypeId = id,
+                            CustomerTypeName = newCustomerType.CustomerTypeName,
+                            CoefficientSurcharge = newCustomerType.CoefficientSurcharge,
                         };
-                        context.RoomTypes.Add(roomtype);
+                        context.CustomerTypes.Add(customertype);
                         await context.SaveChangesAsync();
-                        newRoomType.RoomTypeId = roomtype.RoomTypeId;
+                        newCustomerType.CustomerTypeId = customertype.CustomerTypeId;
                     }
                 }
             }
@@ -135,26 +116,24 @@ namespace HotelManagement.Model.Services
                 Console.WriteLine(e);
                 return (false, $"Error Server {e}", null);
             }
-            return (true, "Thêm loại phòng thành công", newRoomType);
+            return (true, "Thêm loại khách thành công", newCustomerType);
         }
 
-
-        public async Task<(bool, string)> UpdateRoomType(RoomTypeDTO updatedRoomType)
+        public async Task<(bool, string)> UpdateCustomerType(CustomerTypeDTO updatedCustomerType)
         {
             try
             {
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
-                    RoomType roomtype = context.RoomTypes.Find(updatedRoomType.RoomTypeId);
+                    CustomerType customertype = context.CustomerTypes.Find(updatedCustomerType.CustomerTypeId);
 
-                    if (roomtype is null)
+                    if (customertype is null)
                     {
-                        return (false, "Loại phòng này không tồn tại!");
+                        return (false, "Loại khách này không tồn tại!");
                     }
-
-                    roomtype.RoomTypeId = updatedRoomType.RoomTypeId;
-                    roomtype.RoomTypeName = updatedRoomType.RoomTypeName;
-                    roomtype.Price = updatedRoomType.RoomTypePrice;
+                    customertype.CustomerTypeId = updatedCustomerType.CustomerTypeId;
+                    customertype.CustomerTypeName = updatedCustomerType.CustomerTypeName;
+                    customertype.CoefficientSurcharge = updatedCustomerType.CoefficientSurcharge;
 
                     await context.SaveChangesAsync();
                     return (true, "Cập nhật thành công");
@@ -172,37 +151,36 @@ namespace HotelManagement.Model.Services
             {
                 return (false, "Lỗi hệ thống");
             }
-
         }
 
-        public async Task<(bool, string)> DeleteRoomType(string Id)
+        public async Task<(bool, string)> DeleteCustomerType(string Id)
         {
             try
             {
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
-                    Room room = await (from p in context.Rooms
-                                       where p.RoomTypeId == Id
+                    RentalContractDetail rcd = await (from p in context.RentalContractDetails
+                                       where p.CustomerTypeId == Id
                                        select p).FirstOrDefaultAsync();
-                    RoomType roomtype = await (from p in context.RoomTypes
-                                       where p.RoomTypeId == Id
-                                       select p).FirstOrDefaultAsync();
+                    CustomerType ct = await (from p in context.CustomerTypes
+                                               where p.CustomerTypeId == Id
+                                               select p).FirstOrDefaultAsync();
 
-                    if (room is null) 
+                    if (rcd is null)
                     {
-                        if (roomtype is null) 
+                        if (ct is null)
                         {
-                            return (false, "Không tìm thấy loại phòng này !");
+                            return (false, "Không tìm thấy loại khách này !");
                         }
                         else
                         {
-                            context.RoomTypes.Remove(roomtype);
+                            context.CustomerTypes.Remove(ct);
                             await context.SaveChangesAsync();
                         }
                     }
                     else
                     {
-                        return (false, "Loại phòng này đã áp dụng trước đây và đang có khách đặt. Không thể xóa!");
+                        return (false, "Loại khách này đang được áp dụng và đang nằm trong phiếu thuê. Không thể xóa!");
                     }
                 }
             }
@@ -210,8 +188,7 @@ namespace HotelManagement.Model.Services
             {
                 return (false, "Lỗi hệ thống");
             }
-            return (true, "Xóa loại phòng thành công");
+            return (true, "Xóa loại khách thành công");
         }
-
     }
 }

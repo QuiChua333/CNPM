@@ -1,0 +1,142 @@
+﻿<Window x:Class="HotelManagement.View.CustomerTypeManagement.AddCustomerType"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotelManagement.View.CustomerTypeManagement"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        x:Name="addCustomerTypeWindow"
+        Title="AddCustomerType" Height="300" Width="600"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        PreviewKeyUp="AddCustomerTypeWindow_PreviewKeyUp"
+        DataContext="{StaticResource CustomerTypeManagementVM}">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="27*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="16*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="16*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0" 
+                   Source="{StaticResource LogoDark}" 
+                   Height="60" Width="70"/>
+            <Label Grid.Column="1" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Center" 
+                   Margin="40 0 0 0" 
+                   Content="THÊM LOẠI KHÁCH HÀNG" 
+                   FontSize="24" 
+                   Foreground="#009099" 
+                   FontWeight="Bold"/>
+
+            <Button Grid.Column="2" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Top" 
+                    Margin="0 10 10 0" 
+                    Height="50" Width="50" 
+                    HorizontalContentAlignment="Center" 
+                    VerticalContentAlignment="Center" 
+                    BorderThickness="0" 
+                    Background="Transparent"
+                    Command="{Binding CloseCM}"
+                    CommandParameter="{Binding ElementName=addCustomerTypeWindow}">
+                <Image Source="{StaticResource Button_X}" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"  
+                       Height="26" Width="30" />
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="20 0 20 0" >
+            <Border CornerRadius="4" Background="#009099"/>
+        </Grid>
+
+        <Label Grid.Row="2" 
+               Content="THÔNG TIN LOẠI KHÁCH" 
+               FontSize="18" 
+               Foreground="#C95D3B" 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Center"/>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="60*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" 
+                           Content="Tên loại khách hàng:" 
+                           Foreground="#606060" 
+                           FontSize="14" 
+                           FontWeight="Bold" 
+                           Margin="20 0 0 0" 
+                           VerticalAlignment="Top"/>
+                <TextBox Grid.Row="1" 
+                             Padding="10 0 10 0" 
+                             HorizontalAlignment="Left" 
+                             VerticalContentAlignment="Center" 
+                         VerticalAlignment="Top"
+                             FontSize="16" Foreground="Black" 
+                             Margin="28 0 0 0" 
+                             Height="36" Width="240" 
+                             materialDesign:HintAssist.Hint="Nhập tên loại khách hàng" 
+                             BorderThickness="0.5" 
+                             BorderBrush="#545454"
+                             Text="{Binding CustomerTypeName,Mode=TwoWay}"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="60*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" 
+                           Content="Hệ số phụ thu:" 
+                           Foreground="#606060" 
+                           FontSize="14" 
+                           FontWeight="Bold" 
+                           Margin="20 0 0 0" 
+                           VerticalAlignment="Top"/>
+                <TextBox Grid.Row="1" 
+                             Padding="10 0 10 0" 
+                             HorizontalAlignment="Left" 
+                             VerticalContentAlignment="Center" 
+                             FontSize="16" Foreground="Black"
+                         VerticalAlignment="Top"
+                             Margin="28 0 0 0" 
+                             Height="36" Width="240" 
+                             materialDesign:HintAssist.Hint="Nhập hệ số phụ thu " 
+                             BorderThickness="0.5" 
+                             BorderBrush="#545454"
+                             Text="{Binding CoefficientSurcharge,Mode=TwoWay}"/>
+            </Grid>
+        </Grid>
+
+        <Button Grid.Row="4" 
+                Content="Thêm" 
+                Background="#009099" 
+                Width="80" Height="34" 
+                Foreground="White" 
+                HorizontalAlignment="Right" 
+                Margin="0 0 40 0"
+                Command="{Binding SaveCustomerTypeCM}"
+                CommandParameter="{Binding ElementName=addCustomerTypeWindow}"/>
+    </Grid>
+
+</Window>
