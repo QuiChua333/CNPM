@@ -24,6 +24,7 @@ namespace HotelManagement.DTOs
                 return Helper.FormatVNMoney((double)TotalPrice);
             }
         }
+       
 
     }
 }

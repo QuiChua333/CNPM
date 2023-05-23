@@ -85,6 +85,7 @@
                            FontFamily="{DynamicResource MaterialDesignFont}"></Label>
                                         <TextBlock Text="{Binding CustomerName}"
                                    Margin="7,0,0,0"
+                                                 x:Name="tbCustomerName"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
@@ -103,6 +104,7 @@
                            FontFamily="{DynamicResource MaterialDesignFont}"></Label>
                                         <TextBlock Text="{Binding CreateDateStr}"
                                    Margin="7,0,0,0"
+                                                   x:Name="tbCreateDate"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
@@ -129,6 +131,7 @@
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
+                                                   x:Name="tbAddress"
                                FontSize="16"
                                Foreground="Black"
                                FontWeight="Regular"/>
@@ -148,6 +151,7 @@
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
                                FontSize="16"
+                                                   x:Name="tbTotalPrice"
                                Foreground="Black"
                                FontWeight="Regular"/>
                                     </StackPanel>

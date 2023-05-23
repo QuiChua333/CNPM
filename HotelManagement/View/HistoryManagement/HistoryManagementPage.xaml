@@ -43,7 +43,7 @@
                     <StackPanel Orientation="Horizontal"
                              VerticalAlignment="Center">
                         <Label Content="Chọn năm:"
-                       FontSize="20"
+                       FontSize="18"
                        Foreground="#888"
                        FontWeight="Bold"
                        VerticalAlignment="Center"
@@ -98,7 +98,7 @@
                         </Border>
 
                         <Label Content="Chọn tháng:"
-                       FontSize="20"
+                       FontSize="18"
                        Foreground="#888"
                        FontWeight="Bold"
                        VerticalAlignment="Center"
@@ -264,7 +264,7 @@
                                                             Cursor="Hand">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                                                                    <i:InvokeCommandAction Command="{Binding ElementName=VoucherListView, Path=DataContext.LoadInfoBigVRCM}" >
+                                                                    <i:InvokeCommandAction Command="{Binding ElementName=BillListView, Path=DataContext.LoadInfoBillCM}" >
                                                                     </i:InvokeCommandAction>
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
@@ -295,7 +295,7 @@
                                                             Cursor="Hand">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                                                                    <i:InvokeCommandAction Command="{Binding ElementName=VoucherListView, Path=DataContext.LoadDeleteVoucherCM}" />
+                                                                    <i:InvokeCommandAction Command="{Binding ElementName=BillListView, Path=DataContext.DeleteBillCM}" />
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                             <Border.Style>

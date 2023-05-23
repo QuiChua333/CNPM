@@ -176,11 +176,11 @@ namespace HotelManagement.Model.Services
             }
             catch (EntityException e)
             {
-                return (false, "Mất kết nối cơ sở dữ liệu");
+                return (false, "Mất kết nối cơ sở dữ liệu!");
             }
             catch (Exception ex)
             {
-                return (false, ex.Message);
+                return (false, "Lỗi hệ thống!");
             }
         }
 

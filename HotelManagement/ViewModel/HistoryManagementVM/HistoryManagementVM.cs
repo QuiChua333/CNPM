@@ -1,5 +1,8 @@
 ﻿using HotelManagement.DTOs;
 using HotelManagement.Model.Services;
+using HotelManagement.Utilities;
+using HotelManagement.View.CustomMessageBoxWindow;
+using HotelManagement.View.RoomLookupManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +44,15 @@ namespace HotelManagement.ViewModel.HistoryManagementVM
             get { return _ListBill; }
             set { _ListBill = value; OnPropertyChanged(); }
         }
+        private BillDTO _SelectedItem;
+        public BillDTO SelectedItem
+        {
+            get { return _SelectedItem; }
+            set { _SelectedItem = value; OnPropertyChanged(); }
+        }
         public ICommand ChangeTimeCM { get; set; }
+        public ICommand LoadInfoBillCM { get; set; }
+        public ICommand DeleteBillCM { get; set; }
         public HistoryManagementVM()
         {
             ListFilterYear = new List<string>(HistoryService.Ins.GetListFilterYear());
@@ -56,6 +67,32 @@ namespace HotelManagement.ViewModel.HistoryManagementVM
             ChangeTimeCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
                 await ChangeView();
+            });
+            LoadInfoBillCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+                BillWindow wd = new BillWindow();
+                wd.tbCustomerName.Text = SelectedItem.CustomerName;
+                wd.tbAddress.Text = SelectedItem.Address;
+                wd.tbCreateDate.Text = ((DateTime)SelectedItem.CreateDate).ToString("dd/MM/yyyy");
+                wd.tbTotalPrice.Text = Helper.FormatVNMoney((double)SelectedItem.TotalPrice);
+                wd.listRoomBill.ItemsSource = SelectedItem.Bills.ToList();
+                wd.ShowDialog();    
+
+            });
+            DeleteBillCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+                CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel("Bạn có chắc muốn xóa hóa đơn này chứ? Dữ liệu sẽ không thể phục hồi!", "Thông báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
+                if (kq == CustomMessageBoxResult.Cancel) return;
+                (bool isSucceed, string message) = await HistoryService.Ins.DeleteBill(SelectedItem);
+                if (isSucceed)
+                {
+                    CustomMessageBox.ShowOk(message, "Thông báo", "Ok", CustomMessageBoxImage.Success);
+                    ListBill = await HistoryService.Ins.GetListBill(SelectedYear, SelectedMonth);
+                }
+                else
+                {
+                    CustomMessageBox.ShowOk(message, "Thông báo", "Ok", CustomMessageBoxImage.Error);
+                }
             });
         }
 

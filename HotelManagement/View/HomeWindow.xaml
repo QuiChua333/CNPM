@@ -61,10 +61,10 @@
         <Grid Grid.Column="1" Grid.Row="0">
             <Border Background="#F7FAFD" Opacity="0.5" CornerRadius="0 10 0 0">
                 <Label Padding="0" 
-                           Content="MÀN HÌNH CHÍNH"
+                   
                            FontSize="25" 
                             x:Name="PageName"
-                       
+                            Content="THỐNG KÊ"
                            FontWeight="Black" 
                            VerticalAlignment="Center" 
                            HorizontalAlignment="Center" 

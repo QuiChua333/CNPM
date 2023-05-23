@@ -3,6 +3,7 @@ using IronXL.Formatting;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -96,6 +97,31 @@ namespace HotelManagement.Model.Services
             catch (Exception ex)
             {
                 throw ex;
+            }
+
+        }
+        public async Task<(bool,string)> DeleteBill(BillDTO billDTO)
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+                    var list = await context.BillDetails.Where(x=> x.BillId == billDTO.BillId).ToListAsync();
+                     context.BillDetails.RemoveRange(list);
+                    await context.SaveChangesAsync();
+                    var bill = await context.Bills.FindAsync(billDTO.BillId);
+                    context.Bills.Remove(bill);
+                    await context.SaveChangesAsync();
+                    return (true, "Xóa hóa đơn thành công!");
+                }
+            }
+            catch (EntityException e)
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu!");
+            }
+            catch (Exception ex)
+            {
+                return (false, "Lỗi hệ thống!");
             }
         }
     }

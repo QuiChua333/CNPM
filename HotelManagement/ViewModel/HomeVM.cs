@@ -27,19 +27,19 @@ namespace HotelManagement.ViewModel
         private void Statistical(object obj)
         {
             CurrentView = new StatisticalManagementVM.StatisticalManagementVM();
-            HomeWindow.lbPageName.Content = "MÀN HÌNH THỐNG KÊ";
+            HomeWindow.lbPageName.Content = "THỐNG KÊ";
         }
         private void RoomLoookup(object obj)
         {
              CurrentView = new RoomLookupManagementVM.RoomLookupManagementVM();
-            HomeWindow.lbPageName.Content= "MÀN HÌNH TRA CỨU PHÒNG";
+            HomeWindow.lbPageName.Content= "TRA CỨU PHÒNG";
         }
         private void BookingRoom(object obj) => CurrentView = new BookingRoomManagementVM.BookingRoomManagmentVM();
         private void Room(object obj) => CurrentView = new RoomManagementVM.RoomManagementVM();
         private void History(object obj)
         {
             CurrentView = new HistoryManagementVM.HistoryManagementVM();
-            HomeWindow.lbPageName.Content = "MÀN HÌNH LỊCH SỬ THANH TOÁN";
+            HomeWindow.lbPageName.Content = "LỊCH SỬ THANH TOÁN";
         }
         private void Help(object obj) => CurrentView = new HelpScreenVM.HelpScreenVM();
 
@@ -53,7 +53,7 @@ namespace HotelManagement.ViewModel
         public ICommand SettingCommand { get; set; }
         public HomeVM()
         {
-            _currentView = new RoomLookupManagementVM.RoomLookupManagementVM();
+            _currentView = new StatisticalManagementVM.StatisticalManagementVM();
             StatisticalCommand = new RelayCommand(Statistical);
             BookingRoomCommand = new RelayCommand(BookingRoom);
             RoomLookupCommand = new RelayCommand(RoomLoookup);
