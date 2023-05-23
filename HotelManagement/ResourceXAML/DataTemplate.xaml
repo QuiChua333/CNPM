@@ -22,11 +22,11 @@
     <DataTemplate DataType="{x:Type RoomLookupVM:RoomLookupManagementVM}">
         <RoomLookupView:RoomLookupPage></RoomLookupView:RoomLookupPage>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type BookingRoomVM:BookingRoomManagmentVM}">
+    <DataTemplate DataType="{x:Type BookingRoomVM:BookingRoomManagementVM}">
         <BookingRoomView:BookingRoomManagementPage></BookingRoomView:BookingRoomManagementPage>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type RoomVM:RoomManagementVM}">
-        <RoomView:RoomManagementPage></RoomView:RoomManagementPage>
+    <DataTemplate DataType="{x:Type RoomVM:RoomPageVM}">
+        <RoomView:RoomPage></RoomView:RoomPage>
     </DataTemplate>
     <DataTemplate DataType="{x:Type HistoryVM:HistoryManagementVM}">
         <HistoryView:HistoryManagementPage></HistoryView:HistoryManagementPage>

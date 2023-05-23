@@ -14,7 +14,16 @@ namespace HotelManagement.Model
     
     public partial class RevenueReport
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RevenueReport()
+        {
+            this.RevenueReportDetails = new HashSet<RevenueReportDetail>();
+        }
+    
         public string RevenueReportId { get; set; }
         public Nullable<System.DateTime> MonthReport { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RevenueReportDetail> RevenueReportDetails { get; set; }
     }
 }

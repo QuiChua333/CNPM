@@ -14,9 +14,6 @@ namespace HotelManagement.ViewModel
 {
     public class HomeVM : BaseVM
     {
-
-        
-        
         private object _currentView;
         public object CurrentView
         {
@@ -25,8 +22,8 @@ namespace HotelManagement.ViewModel
         }
         private void Statistical(object obj) => CurrentView = new StatisticalManagementVM.StatisticalManagementVM();
         private void RoomLoookup(object obj) => CurrentView = new RoomLookupManagementVM.RoomLookupManagementVM();
-        private void BookingRoom(object obj) => CurrentView = new BookingRoomManagementVM.BookingRoomManagmentVM();
-        private void Room(object obj) => CurrentView = new RoomManagementVM.RoomManagementVM();
+        private void BookingRoom(object obj) => CurrentView = new BookingRoomManagementVM.BookingRoomManagementVM();
+        private void Room(object obj) => CurrentView = new RoomManagementVM.RoomPageVM();
         private void History(object obj) => CurrentView = new HistoryManagementVM.HistoryManagementVM();
         private void Help(object obj) => CurrentView = new HelpScreenVM.HelpScreenVM();
 
@@ -40,7 +37,7 @@ namespace HotelManagement.ViewModel
         public ICommand SettingCommand { get; set; }
         public HomeVM()
         {
-            _currentView = new RoomManagementVM.RoomManagementVM();
+            _currentView = new RoomManagementVM.RoomPageVM();
 
             StatisticalCommand = new RelayCommand(Statistical);
             BookingRoomCommand = new RelayCommand(BookingRoom);

@@ -10,8 +10,8 @@
 >
     <VM1:StatisticalManagementVM x:Key="StatisticalManagementVM" />
     <VM2:RoomLookupManagementVM x:Key="RoomLookupManagementVM" />
-    <VM3:BookingRoomManagmentVM x:Key="BookingRoomManagmentVM" />
-    <VM4:RoomManagementVM x:Key="RoomManagementVM" />
+    <VM3:BookingRoomManagementVM x:Key="BookingRoomManagmentVM" />
+    <VM4:RoomPageVM x:Key="RoomPageVM"/>
     <VM5:HistoryManagementVM x:Key="HistoryManagementVM" />
     <VM6:HelpScreenVM x:Key="HelpScreenVM" />
     <VM7:HomeVM x:Key="HomeVM" />

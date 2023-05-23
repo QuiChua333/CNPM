@@ -138,19 +138,19 @@ namespace HotelManagement.Model.Services
                     Room room = await (from p in context.Rooms
                                        where p.RoomId == Id
                                        select p).FirstOrDefaultAsync();
-                    if (room == null)
+                    if (room.RoomStatus == "Phòng đang thuê")
                     {
-                        return (false, "Loại phòng này không tồn tại!");
+                        return (false, "Phòng đang thuê nên không thể xóa!");
                     }
                     context.Rooms.Remove(room);
                     await context.SaveChangesAsync();
+                    return (true, "Xóa phòng thành công");
                 }
             }
             catch (Exception)
             {
-                return (false, "Phòng này đã áp dụng trước đây và đã có khách đặt. Không thể xóa!");
+                return (false, "Lỗi hệ thống!");
             }
-            return (true, "Xóa phòng thành công");
         }
 
         public async Task<(bool, string)> UpdateRoom(RoomDTO updatedRoom)
@@ -211,6 +211,24 @@ namespace HotelManagement.Model.Services
                                           }
                                           ).ToListAsync();
                     return roomList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public async Task ChangeRoomStatus(string roomId)
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+                    Room r = await context.Rooms.FindAsync(roomId);
+                    r.RoomStatus ="Phòng đang thuê";
+                    await context.SaveChangesAsync();
+
                 }
             }
             catch (Exception ex)

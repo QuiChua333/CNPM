@@ -12,7 +12,7 @@
         x:Name="addroomwindow"
         PreviewKeyUp="addroomwindow_PreviewKeyUp"
         Title="AddNewRoom" Height="522" Width="600"
-        DataContext="{StaticResource RoomManagementVM}">
+        DataContext="{StaticResource RoomPageVM}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="14*"/>
@@ -93,6 +93,7 @@
                     <Label Grid.Row="0" Content="Loại phòng:" Foreground="#606060" FontSize="14" FontWeight="Bold" Margin="20 0 0 0" VerticalAlignment="Bottom"/>
                     <Border Grid.Row="1" Background="White" CornerRadius="5" Width="240" Height="36">
                         <ComboBox Width="240" Height="36"
+                                  ItemsSource="{Binding ListRoomType}"
                                  Padding="10 5"
                                  BorderBrush="#606060"
                                  BorderThickness="0.5"
@@ -100,9 +101,6 @@
                                  FontSize="16"
                                  HorizontalContentAlignment="Center"
                                  SelectedItem="{Binding CbRoomType, Mode=OneWayToSource}">
-                            <ComboBoxItem Tag="Loại A"  Content="Loại A" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Loại B"  Content="Loại B" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Loại C"  Content="Loại C" FontSize="16" Foreground="Black"/>
                         </ComboBox>
                     </Border>
                 </Grid>

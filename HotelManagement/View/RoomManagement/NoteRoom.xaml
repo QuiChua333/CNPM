@@ -11,7 +11,7 @@
         x:Name="noteRoom"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        DataContext="{StaticResource RoomManagementVM}">
+        DataContext="{StaticResource RoomPageVM}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="18*"/>

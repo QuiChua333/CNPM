@@ -10,21 +10,19 @@ using System.Windows.Input;
 
 namespace HotelManagement.ViewModel.RoomManagementVM
 {
-    public partial class RoomManagementVM : BaseVM
+    public partial class RoomPageVM : BaseVM
     {
-        public ICommand LoadAddRoomCM { get; set; }
         public async Task SaveRoomFunc(System.Windows.Window p)
         {
             if (IsValidData())
             {
-                string rtn = CbRoomType.Tag.ToString();
-                string rti = await RoomTypeService.Ins.GetRoomTypeID(rtn);
+                string rti = await RoomTypeService.Ins.GetRoomTypeID(CbRoomType);
                 RoomDTO room = new RoomDTO
                 {   // check ở đây
                     RoomNumber = RoomNumber,
                     Note = RoomNote,
                     RoomTypeId = rti,
-                    RoomTypeName = CbRoomType.Tag.ToString(),
+                    RoomTypeName = CbRoomType,
                     RoomStatus = "Phòng trống",
                 };
 

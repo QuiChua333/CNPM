@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace HotelManagement.ViewModel.RoomManagementVM
 {
-    public partial class RoomManagementVM : BaseVM
+    public partial class RoomPageVM : BaseVM
     {
         private string _RoomId;
         public string RoomId
@@ -50,8 +50,8 @@ namespace HotelManagement.ViewModel.RoomManagementVM
             set { _RoomStatus = value; OnPropertyChanged(); }
         }
 
-        private ComboBoxItem _cbRoomType;
-        public ComboBoxItem CbRoomType
+        private string _cbRoomType;
+        public string CbRoomType
         {
             get { return _cbRoomType; }
             set { _cbRoomType = value; OnPropertyChanged(); }
@@ -89,100 +89,25 @@ namespace HotelManagement.ViewModel.RoomManagementVM
             }
         }
 
+        private ObservableCollection<string> _listRoomType;
+        public ObservableCollection<string> ListRoomType
+        {
+            get => _listRoomType;
+            set
+            {
+                _listRoomType = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand FirstLoadCM { get; set; }
         public ICommand CloseCM { get; set; }
+        public ICommand LoadAddRoomCM { get; set; }
         public ICommand LoadDeleteRoomCM { get; set; }
         public ICommand LoadNoteRoomCM { get; set; }
+        public ICommand LoadEditRoomCM { get; set; }
         public ICommand SaveRoomCM { get; set; }
         public ICommand UpdateRoomCM { get; set; }
-        public RoomManagementVM()
-        {
-            FirstLoadCM = new RelayCommand<System.Windows.Controls.Page>((p) => { return true; }, async (p) =>
-            {
-                RoomList = new ObservableCollection<RoomDTO>();
-                try
-                {
-                    IsLoadding = true;
-                    RoomList = new ObservableCollection<RoomDTO>(await Task.Run(() => RoomService.Ins.GetAllRoom()));
-                    IsLoadding = false;
-                }
-                catch (System.Data.Entity.Core.EntityException e)
-                {
-                    Console.WriteLine(e);
-                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                }
-            });
-
-            LoadAddRoomCM = new RelayCommand<object>((p) => { return true; }, (p) =>
-            {
-                RenewWindowData();
-                AddNewRoom addRoomType = new AddNewRoom();
-                addRoomType.ShowDialog();
-            });
-            LoadEditRoomCM = new RelayCommand<object>((p) => { return true; }, (p) =>
-            {
-                View.RoomManagement.EditRoom w1 = new View.RoomManagement.EditRoom();
-                LoadEditRoom(w1);
-                w1.ShowDialog();
-            });
-            LoadNoteRoomCM = new RelayCommand<object>((p) => { return true; }, (p) =>
-            {
-                NoteRoom w1 = new NoteRoom();
-                RoomNote = SelectedItem.Note;
-                w1.ShowDialog();
-            });
-            LoadDeleteRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            {
-
-                string message = "Bạn có chắc muốn xoá phim này không? Dữ liệu không thể phục hồi sau khi xoá!";
-                CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
-
-                if (kq == CustomMessageBoxResult.OK)
-                {
-                    IsLoadding = true;
-
-                    (bool successDeleteRoom, string messageFromDelRoom) = await RoomService.Ins.DeleteRoom(SelectedItem.RoomId);
-
-                    IsLoadding = false;
-
-                    if (successDeleteRoom)
-                    {
-                        LoadRoomListView(Operation.DELETE);
-                        SelectedItem = null;
-                        CustomMessageBox.ShowOk(messageFromDelRoom, "Thông báo", "OK", CustomMessageBoxImage.Success);
-                    }
-                    else
-                    {
-                        CustomMessageBox.ShowOk(messageFromDelRoom, "Lỗi", "OK", CustomMessageBoxImage.Error);
-                    }
-                }
-            });
-            UpdateRoomCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
-            {
-                IsSaving = true;
-                await UpdateRoomFunc(p);
-                IsSaving = false;
-            });
-            SaveRoomCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
-            {
-                IsSaving = true;
-
-                await SaveRoomFunc(p);
-
-                IsSaving = false;
-            });
-
-            CloseCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
-            {
-                SelectedItem = null;
-                p.Close();
-            });
-        }
 
 
         public async void ReloadListView()
@@ -244,7 +169,7 @@ namespace HotelManagement.ViewModel.RoomManagementVM
         {
             return !string.IsNullOrEmpty(RoomNote) &&
                 !string.IsNullOrEmpty(RoomStatus) &&
-                !string.IsNullOrEmpty(CbRoomType.Tag.ToString());
+                CbRoomType != null;
         }
     }
 }

@@ -17,10 +17,11 @@ namespace HotelManagement.Model
         public string RentalContractDetailId { get; set; }
         public string RentalContractId { get; set; }
         public string CustomerName { get; set; }
-        public string CustomerType { get; set; }
+        public string CustomerTypeId { get; set; }
         public string CCCD { get; set; }
         public string Address { get; set; }
     
+        public virtual CustomerType CustomerType { get; set; }
         public virtual RentalContract RentalContract { get; set; }
     }
 }

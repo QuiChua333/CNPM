@@ -14,10 +14,19 @@ namespace HotelManagement.Model
     
     public partial class Bill
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Bill()
+        {
+            this.BillDetails = new HashSet<BillDetail>();
+        }
+    
         public string BillId { get; set; }
         public string CustomerName { get; set; }
         public string Address { get; set; }
         public Nullable<double> TotalPrice { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillDetail> BillDetails { get; set; }
     }
 }

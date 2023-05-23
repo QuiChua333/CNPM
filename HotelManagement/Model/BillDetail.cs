@@ -14,12 +14,14 @@ namespace HotelManagement.Model
     
     public partial class BillDetail
     {
+        public int BillDetailId { get; set; }
         public string BillId { get; set; }
-        public string RentalContractId { get; set; }
+        public string RoomId { get; set; }
         public Nullable<int> NumberOfRentalDays { get; set; }
         public Nullable<double> PricePerDay { get; set; }
         public Nullable<double> Price { get; set; }
     
-        public virtual RentalContract RentalContract { get; set; }
+        public virtual Bill Bill { get; set; }
+        public virtual Room Room { get; set; }
     }
 }

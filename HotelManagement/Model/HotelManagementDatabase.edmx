@@ -17,14 +17,22 @@
         </EntityType>
         <EntityType Name="BillDetail">
           <Key>
-            <PropertyRef Name="BillId" />
-            <PropertyRef Name="RentalContractId" />
+            <PropertyRef Name="BillDetailId" />
           </Key>
+          <Property Name="BillDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BillId" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="RentalContractId" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="RoomId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="NumberOfRentalDays" Type="int" />
           <Property Name="PricePerDay" Type="float" />
           <Property Name="Price" Type="float" />
+        </EntityType>
+        <EntityType Name="CustomerType">
+          <Key>
+            <PropertyRef Name="CustomerTypeId" />
+          </Key>
+          <Property Name="CustomerTypeId" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CustomerTypeName" Type="nvarchar(max)" />
+          <Property Name="CoefficientSurcharge" Type="float" />
         </EntityType>
         <EntityType Name="Parameter">
           <Key>
@@ -39,7 +47,7 @@
             <PropertyRef Name="RentalContractId" />
           </Key>
           <Property Name="RentalContractId" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="RoomId" Type="varchar" MaxLength="10" />
+          <Property Name="RoomId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" />
         </EntityType>
         <EntityType Name="RentalContractDetail">
@@ -47,9 +55,9 @@
             <PropertyRef Name="RentalContractDetailId" />
           </Key>
           <Property Name="RentalContractDetailId" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="RentalContractId" Type="varchar" MaxLength="10" />
+          <Property Name="RentalContractId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar(max)" />
-          <Property Name="CustomerType" Type="nvarchar(max)" />
+          <Property Name="CustomerTypeId" Type="varchar" MaxLength="10" />
           <Property Name="CCCD" Type="varchar" MaxLength="12" />
           <Property Name="Address" Type="nvarchar(max)" />
         </EntityType>
@@ -62,9 +70,9 @@
         </EntityType>
         <EntityType Name="RevenueReportDetail">
           <Key>
-            <PropertyRef Name="RevenueReportId" />
-            <PropertyRef Name="RoomTypeId" />
+            <PropertyRef Name="RevenueReportDetailId" />
           </Key>
+          <Property Name="RevenueReportDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RevenueReportId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="RoomTypeId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Revenue" Type="float" />
@@ -76,7 +84,7 @@
           </Key>
           <Property Name="RoomId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="RoomNumber" Type="int" />
-          <Property Name="RoomTypeId" Type="varchar" MaxLength="10" />
+          <Property Name="RoomTypeId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="RoomStatus" Type="nvarchar(max)" />
           <Property Name="Note" Type="nvarchar(max)" />
         </EntityType>
@@ -88,20 +96,39 @@
           <Property Name="RoomTypeName" Type="nvarchar(max)" />
           <Property Name="Price" Type="float" />
         </EntityType>
-        <Association Name="FK_BillDetail_RentalContract">
-          <End Role="RentalContract" Type="Self.RentalContract" Multiplicity="1" />
+        <EntityType Name="SurchargeRate">
+          <Key>
+            <PropertyRef Name="CustomerIndex" />
+          </Key>
+          <Property Name="CustomerIndex" Type="int" Nullable="false" />
+          <Property Name="Rate" Type="float" />
+        </EntityType>
+        <Association Name="FK_BillDetail_Bill">
+          <End Role="Bill" Type="Self.Bill" Multiplicity="1" />
           <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="RentalContract">
-              <PropertyRef Name="RentalContractId" />
+            <Principal Role="Bill">
+              <PropertyRef Name="BillId" />
             </Principal>
             <Dependent Role="BillDetail">
-              <PropertyRef Name="RentalContractId" />
+              <PropertyRef Name="BillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetail_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="RoomId" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="RoomId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RentalContract_Room">
-          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="RentalContract" Type="Self.RentalContract" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Room">
@@ -112,8 +139,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RentalContractDetail_CustomerType">
+          <End Role="CustomerType" Type="Self.CustomerType" Multiplicity="0..1" />
+          <End Role="RentalContractDetail" Type="Self.RentalContractDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerType">
+              <PropertyRef Name="CustomerTypeId" />
+            </Principal>
+            <Dependent Role="RentalContractDetail">
+              <PropertyRef Name="CustomerTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RentalContractDetail_RentalContract">
-          <End Role="RentalContract" Type="Self.RentalContract" Multiplicity="0..1" />
+          <End Role="RentalContract" Type="Self.RentalContract" Multiplicity="1" />
           <End Role="RentalContractDetail" Type="Self.RentalContractDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RentalContract">
@@ -121,6 +160,18 @@
             </Principal>
             <Dependent Role="RentalContractDetail">
               <PropertyRef Name="RentalContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RevenueReportDetail_RevenueReport">
+          <End Role="RevenueReport" Type="Self.RevenueReport" Multiplicity="1" />
+          <End Role="RevenueReportDetail" Type="Self.RevenueReportDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RevenueReport">
+              <PropertyRef Name="RevenueReportId" />
+            </Principal>
+            <Dependent Role="RevenueReportDetail">
+              <PropertyRef Name="RevenueReportId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -137,7 +188,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Room_RoomType">
-          <End Role="RoomType" Type="Self.RoomType" Multiplicity="0..1" />
+          <End Role="RoomType" Type="Self.RoomType" Multiplicity="1" />
           <End Role="Room" Type="Self.Room" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RoomType">
@@ -151,6 +202,7 @@
         <EntityContainer Name="HotelManagementNMCNPMModelStoreContainer">
           <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BillDetail" EntityType="Self.BillDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerType" EntityType="Self.CustomerType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parameter" EntityType="Self.Parameter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RentalContract" EntityType="Self.RentalContract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RentalContractDetail" EntityType="Self.RentalContractDetail" Schema="dbo" store:Type="Tables" />
@@ -158,17 +210,30 @@
           <EntitySet Name="RevenueReportDetail" EntityType="Self.RevenueReportDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoomType" EntityType="Self.RoomType" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_BillDetail_RentalContract" Association="Self.FK_BillDetail_RentalContract">
-            <End Role="RentalContract" EntitySet="RentalContract" />
+          <EntitySet Name="SurchargeRate" EntityType="Self.SurchargeRate" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BillDetail_Bill" Association="Self.FK_BillDetail_Bill">
+            <End Role="Bill" EntitySet="Bill" />
+            <End Role="BillDetail" EntitySet="BillDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetail_Room" Association="Self.FK_BillDetail_Room">
+            <End Role="Room" EntitySet="Room" />
             <End Role="BillDetail" EntitySet="BillDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_RentalContract_Room" Association="Self.FK_RentalContract_Room">
             <End Role="Room" EntitySet="Room" />
             <End Role="RentalContract" EntitySet="RentalContract" />
           </AssociationSet>
+          <AssociationSet Name="FK_RentalContractDetail_CustomerType" Association="Self.FK_RentalContractDetail_CustomerType">
+            <End Role="CustomerType" EntitySet="CustomerType" />
+            <End Role="RentalContractDetail" EntitySet="RentalContractDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_RentalContractDetail_RentalContract" Association="Self.FK_RentalContractDetail_RentalContract">
             <End Role="RentalContract" EntitySet="RentalContract" />
             <End Role="RentalContractDetail" EntitySet="RentalContractDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RevenueReportDetail_RevenueReport" Association="Self.FK_RevenueReportDetail_RevenueReport">
+            <End Role="RevenueReport" EntitySet="RevenueReport" />
+            <End Role="RevenueReportDetail" EntitySet="RevenueReportDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_RevenueReportDetail_RoomType" Association="Self.FK_RevenueReportDetail_RoomType">
             <End Role="RoomType" EntitySet="RoomType" />
@@ -193,18 +258,29 @@
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TotalPrice" Type="Double" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillDetails" Relationship="Self.FK_BillDetail_Bill" FromRole="Bill" ToRole="BillDetail" />
         </EntityType>
         <EntityType Name="BillDetail">
           <Key>
-            <PropertyRef Name="BillId" />
-            <PropertyRef Name="RentalContractId" />
+            <PropertyRef Name="BillDetailId" />
           </Key>
+          <Property Name="BillDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BillId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="RentalContractId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoomId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NumberOfRentalDays" Type="Int32" />
           <Property Name="PricePerDay" Type="Double" />
           <Property Name="Price" Type="Double" />
-          <NavigationProperty Name="RentalContract" Relationship="Self.FK_BillDetail_RentalContract" FromRole="BillDetail" ToRole="RentalContract" />
+          <NavigationProperty Name="Bill" Relationship="Self.FK_BillDetail_Bill" FromRole="BillDetail" ToRole="Bill" />
+          <NavigationProperty Name="Room" Relationship="Self.FK_BillDetail_Room" FromRole="BillDetail" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="CustomerType">
+          <Key>
+            <PropertyRef Name="CustomerTypeId" />
+          </Key>
+          <Property Name="CustomerTypeId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CustomerTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CoefficientSurcharge" Type="Double" />
+          <NavigationProperty Name="RentalContractDetails" Relationship="Self.FK_RentalContractDetail_CustomerType" FromRole="CustomerType" ToRole="RentalContractDetail" />
         </EntityType>
         <EntityType Name="Parameter">
           <Key>
@@ -219,9 +295,8 @@
             <PropertyRef Name="RentalContractId" />
           </Key>
           <Property Name="RentalContractId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="RoomId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RoomId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="BillDetails" Relationship="Self.FK_BillDetail_RentalContract" FromRole="RentalContract" ToRole="BillDetail" />
           <NavigationProperty Name="Room" Relationship="Self.FK_RentalContract_Room" FromRole="RentalContract" ToRole="Room" />
           <NavigationProperty Name="RentalContractDetails" Relationship="Self.FK_RentalContractDetail_RentalContract" FromRole="RentalContract" ToRole="RentalContractDetail" />
         </EntityType>
@@ -230,11 +305,12 @@
             <PropertyRef Name="RentalContractDetailId" />
           </Key>
           <Property Name="RentalContractDetailId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="RentalContractId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RentalContractId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerTypeId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="CCCD" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerType" Relationship="Self.FK_RentalContractDetail_CustomerType" FromRole="RentalContractDetail" ToRole="CustomerType" />
           <NavigationProperty Name="RentalContract" Relationship="Self.FK_RentalContractDetail_RentalContract" FromRole="RentalContractDetail" ToRole="RentalContract" />
         </EntityType>
         <EntityType Name="RevenueReport">
@@ -243,16 +319,18 @@
           </Key>
           <Property Name="RevenueReportId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MonthReport" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RevenueReportDetails" Relationship="Self.FK_RevenueReportDetail_RevenueReport" FromRole="RevenueReport" ToRole="RevenueReportDetail" />
         </EntityType>
         <EntityType Name="RevenueReportDetail">
           <Key>
-            <PropertyRef Name="RevenueReportId" />
-            <PropertyRef Name="RoomTypeId" />
+            <PropertyRef Name="RevenueReportDetailId" />
           </Key>
+          <Property Name="RevenueReportDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RevenueReportId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="RoomTypeId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Revenue" Type="Double" />
           <Property Name="Ratio" Type="Double" />
+          <NavigationProperty Name="RevenueReport" Relationship="Self.FK_RevenueReportDetail_RevenueReport" FromRole="RevenueReportDetail" ToRole="RevenueReport" />
           <NavigationProperty Name="RoomType" Relationship="Self.FK_RevenueReportDetail_RoomType" FromRole="RevenueReportDetail" ToRole="RoomType" />
         </EntityType>
         <EntityType Name="Room">
@@ -261,9 +339,10 @@
           </Key>
           <Property Name="RoomId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="RoomNumber" Type="Int32" />
-          <Property Name="RoomTypeId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RoomTypeId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="RoomStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BillDetails" Relationship="Self.FK_BillDetail_Room" FromRole="Room" ToRole="BillDetail" />
           <NavigationProperty Name="RentalContracts" Relationship="Self.FK_RentalContract_Room" FromRole="Room" ToRole="RentalContract" />
           <NavigationProperty Name="RoomType" Relationship="Self.FK_Room_RoomType" FromRole="Room" ToRole="RoomType" />
         </EntityType>
@@ -277,20 +356,51 @@
           <NavigationProperty Name="RevenueReportDetails" Relationship="Self.FK_RevenueReportDetail_RoomType" FromRole="RoomType" ToRole="RevenueReportDetail" />
           <NavigationProperty Name="Rooms" Relationship="Self.FK_Room_RoomType" FromRole="RoomType" ToRole="Room" />
         </EntityType>
-        <Association Name="FK_BillDetail_RentalContract">
-          <End Role="RentalContract" Type="Self.RentalContract" Multiplicity="1" />
+        <EntityType Name="SurchargeRate">
+          <Key>
+            <PropertyRef Name="CustomerIndex" />
+          </Key>
+          <Property Name="CustomerIndex" Type="Int32" Nullable="false" />
+          <Property Name="Rate" Type="Double" />
+        </EntityType>
+        <Association Name="FK_BillDetail_Bill">
+          <End Role="Bill" Type="Self.Bill" Multiplicity="1" />
           <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="RentalContract">
-              <PropertyRef Name="RentalContractId" />
+            <Principal Role="Bill">
+              <PropertyRef Name="BillId" />
             </Principal>
             <Dependent Role="BillDetail">
-              <PropertyRef Name="RentalContractId" />
+              <PropertyRef Name="BillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetail_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="RoomId" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RentalContractDetail_CustomerType">
+          <End Role="CustomerType" Type="Self.CustomerType" Multiplicity="0..1" />
+          <End Role="RentalContractDetail" Type="Self.RentalContractDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerType">
+              <PropertyRef Name="CustomerTypeId" />
+            </Principal>
+            <Dependent Role="RentalContractDetail">
+              <PropertyRef Name="CustomerTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RentalContract_Room">
-          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="RentalContract" Type="Self.RentalContract" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Room">
@@ -302,7 +412,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RentalContractDetail_RentalContract">
-          <End Role="RentalContract" Type="Self.RentalContract" Multiplicity="0..1" />
+          <End Role="RentalContract" Type="Self.RentalContract" Multiplicity="1" />
           <End Role="RentalContractDetail" Type="Self.RentalContractDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RentalContract">
@@ -310,6 +420,18 @@
             </Principal>
             <Dependent Role="RentalContractDetail">
               <PropertyRef Name="RentalContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RevenueReportDetail_RevenueReport">
+          <End Role="RevenueReport" Type="Self.RevenueReport" Multiplicity="1" />
+          <End Role="RevenueReportDetail" Type="Self.RevenueReportDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RevenueReport">
+              <PropertyRef Name="RevenueReportId" />
+            </Principal>
+            <Dependent Role="RevenueReportDetail">
+              <PropertyRef Name="RevenueReportId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -326,7 +448,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Room_RoomType">
-          <End Role="RoomType" Type="Self.RoomType" Multiplicity="0..1" />
+          <End Role="RoomType" Type="Self.RoomType" Multiplicity="1" />
           <End Role="Room" Type="Self.Room" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RoomType">
@@ -340,6 +462,7 @@
         <EntityContainer Name="HotelManagementNMCNPMEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Bills" EntityType="Self.Bill" />
           <EntitySet Name="BillDetails" EntityType="Self.BillDetail" />
+          <EntitySet Name="CustomerTypes" EntityType="Self.CustomerType" />
           <EntitySet Name="Parameters" EntityType="Self.Parameter" />
           <EntitySet Name="RentalContracts" EntityType="Self.RentalContract" />
           <EntitySet Name="RentalContractDetails" EntityType="Self.RentalContractDetail" />
@@ -347,9 +470,18 @@
           <EntitySet Name="RevenueReportDetails" EntityType="Self.RevenueReportDetail" />
           <EntitySet Name="Rooms" EntityType="Self.Room" />
           <EntitySet Name="RoomTypes" EntityType="Self.RoomType" />
-          <AssociationSet Name="FK_BillDetail_RentalContract" Association="Self.FK_BillDetail_RentalContract">
-            <End Role="RentalContract" EntitySet="RentalContracts" />
+          <EntitySet Name="SurchargeRates" EntityType="Self.SurchargeRate" />
+          <AssociationSet Name="FK_BillDetail_Bill" Association="Self.FK_BillDetail_Bill">
+            <End Role="Bill" EntitySet="Bills" />
             <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetail_Room" Association="Self.FK_BillDetail_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RentalContractDetail_CustomerType" Association="Self.FK_RentalContractDetail_CustomerType">
+            <End Role="CustomerType" EntitySet="CustomerTypes" />
+            <End Role="RentalContractDetail" EntitySet="RentalContractDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_RentalContract_Room" Association="Self.FK_RentalContract_Room">
             <End Role="Room" EntitySet="Rooms" />
@@ -358,6 +490,10 @@
           <AssociationSet Name="FK_RentalContractDetail_RentalContract" Association="Self.FK_RentalContractDetail_RentalContract">
             <End Role="RentalContract" EntitySet="RentalContracts" />
             <End Role="RentalContractDetail" EntitySet="RentalContractDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RevenueReportDetail_RevenueReport" Association="Self.FK_RevenueReportDetail_RevenueReport">
+            <End Role="RevenueReport" EntitySet="RevenueReports" />
+            <End Role="RevenueReportDetail" EntitySet="RevenueReportDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_RevenueReportDetail_RoomType" Association="Self.FK_RevenueReportDetail_RoomType">
             <End Role="RoomType" EntitySet="RoomTypes" />
@@ -388,11 +524,21 @@
           <EntitySetMapping Name="BillDetails">
             <EntityTypeMapping TypeName="HotelManagementNMCNPMModel.BillDetail">
               <MappingFragment StoreEntitySet="BillDetail">
+                <ScalarProperty Name="BillDetailId" ColumnName="BillDetailId" />
                 <ScalarProperty Name="BillId" ColumnName="BillId" />
-                <ScalarProperty Name="RentalContractId" ColumnName="RentalContractId" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
                 <ScalarProperty Name="NumberOfRentalDays" ColumnName="NumberOfRentalDays" />
                 <ScalarProperty Name="PricePerDay" ColumnName="PricePerDay" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerTypes">
+            <EntityTypeMapping TypeName="HotelManagementNMCNPMModel.CustomerType">
+              <MappingFragment StoreEntitySet="CustomerType">
+                <ScalarProperty Name="CustomerTypeId" ColumnName="CustomerTypeId" />
+                <ScalarProperty Name="CustomerTypeName" ColumnName="CustomerTypeName" />
+                <ScalarProperty Name="CoefficientSurcharge" ColumnName="CoefficientSurcharge" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -420,7 +566,7 @@
                 <ScalarProperty Name="RentalContractDetailId" ColumnName="RentalContractDetailId" />
                 <ScalarProperty Name="RentalContractId" ColumnName="RentalContractId" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
+                <ScalarProperty Name="CustomerTypeId" ColumnName="CustomerTypeId" />
                 <ScalarProperty Name="CCCD" ColumnName="CCCD" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
@@ -437,6 +583,7 @@
           <EntitySetMapping Name="RevenueReportDetails">
             <EntityTypeMapping TypeName="HotelManagementNMCNPMModel.RevenueReportDetail">
               <MappingFragment StoreEntitySet="RevenueReportDetail">
+                <ScalarProperty Name="RevenueReportDetailId" ColumnName="RevenueReportDetailId" />
                 <ScalarProperty Name="RevenueReportId" ColumnName="RevenueReportId" />
                 <ScalarProperty Name="RoomTypeId" ColumnName="RoomTypeId" />
                 <ScalarProperty Name="Revenue" ColumnName="Revenue" />
@@ -461,6 +608,14 @@
                 <ScalarProperty Name="RoomTypeId" ColumnName="RoomTypeId" />
                 <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SurchargeRates">
+            <EntityTypeMapping TypeName="HotelManagementNMCNPMModel.SurchargeRate">
+              <MappingFragment StoreEntitySet="SurchargeRate">
+                <ScalarProperty Name="CustomerIndex" ColumnName="CustomerIndex" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

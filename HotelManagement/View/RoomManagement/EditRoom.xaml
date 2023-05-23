@@ -12,7 +12,7 @@
         x:Name="editRoomWindow"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         PreviewKeyUp="EditRoomWindow_PreviewKeyUp"
-        DataContext="{StaticResource RoomManagementVM}">
+        DataContext="{StaticResource RoomPageVM}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="14*"/>
@@ -74,7 +74,6 @@
                              Margin="28 0 0 0" 
                              Height="36" 
                              Width="240" 
-                             materialDesign:HintAssist.Hint="Nhập số phòng (VD: 101)" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
                              Text="{Binding RoomNumber,Mode=TwoWay}"/>
@@ -94,10 +93,8 @@
                                     FontSize="16"
                                     HorizontalContentAlignment="Center"
                                     x:Name="loaiphong"
-                                    SelectedItem="{Binding CbRoomType,Mode=OneWayToSource}">
-                            <ComboBoxItem Tag="Loại A" Content="Loại A" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Loại B" Content="Loại B" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Loại C" Content="Loại C" FontSize="16" Foreground="Black"/>
+                                    ItemsSource="{Binding ListRoomType}"
+                                    SelectedItem="{Binding CbRoomType,Mode=TwoWay}">
                         </ComboBox>
                     </Border>
                 </Grid>
@@ -117,7 +114,6 @@
                          VerticalContentAlignment="Top" 
                          HorizontalAlignment="Center"  
                          Width="540" 
-                         materialDesign:HintAssist.Hint="Nhập ghi chú ..." 
                          BorderThickness="0.5" 
                          BorderBrush="#545454"
                          Text="{Binding RoomNote, Mode=TwoWay}"/>

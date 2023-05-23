@@ -9,7 +9,7 @@
       xmlns:Search="clr-namespace:HotelManagement.Components.Search" 
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       Title="RoomManagementPage"
-      DataContext="{StaticResource RoomManagementVM}">
+      DataContext="{StaticResource RoomPageVM}">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -78,7 +78,7 @@
                             <ListView.View>
 
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
-                                    <GridViewColumn Width="220" Header="Số phòng">
+                                    <GridViewColumn Width="200" Header="Số phòng">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding RoomNumber}" 
@@ -91,7 +91,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="300" Header="Loại phòng" >
+                                    <GridViewColumn Width="240" Header="Loại phòng" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding RoomTypeName}" 
@@ -117,7 +117,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="200" Header="Ghi chú" >
+                                    <GridViewColumn Width="220" Header="Ghi chú" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Grid Width="170" HorizontalAlignment="Center" 
@@ -140,7 +140,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="240" Header="Sửa / Xóa">
+                                    <GridViewColumn Width="200" Header="Sửa / Xóa">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
