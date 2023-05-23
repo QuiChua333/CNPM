@@ -177,6 +177,7 @@
     <Compile Include="DTOs\RentalContractDTO.cs" />
     <Compile Include="DTOs\RoomDTO.cs" />
     <Compile Include="DTOs\RoomTypeDTO.cs" />
+    <Compile Include="DTOs\SurchargeRateDTO.cs" />
     <Compile Include="Model\Bill.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
@@ -276,6 +277,9 @@
     </Compile>
     <Compile Include="View\RoomManagement\RoomManagementPage.xaml.cs">
       <DependentUpon>RoomManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingManagement\EditSurchargeFee.xaml.cs">
+      <DependentUpon>EditSurchargeFee.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SettingManagement\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
@@ -396,6 +400,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RoomManagement\RoomManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingManagement\EditSurchargeFee.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
