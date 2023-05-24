@@ -222,8 +222,6 @@
     </Compile>
     <Compile Include="Model\Services\BookingRoomService.cs" />
     <Compile Include="Model\Services\CustomerTypeService.cs" />
-    <Compile Include="Model\Services\RoomService.cs" />
-    <Compile Include="Model\Services\RoomTypeService.cs" />
     <Compile Include="Model\SurchargeRate.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
@@ -279,11 +277,6 @@
     <Compile Include="View\CustomerTypeManagement\EditCustomerType.xaml.cs">
       <DependentUpon>EditCustomerType.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CustomMessageBoxWindow\CustomMessageBox.cs" />
-    <Compile Include="View\CustomMessageBoxWindow\CustomMessageBoxWindow.xaml.cs">
-      <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\CustomMessageBoxWindow\Util.cs" />
     <Compile Include="View\HelpScreen\AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
@@ -444,10 +437,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CustomerTypeManagement\EditCustomerType.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\CustomMessageBoxWindow\CustomMessageBoxWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

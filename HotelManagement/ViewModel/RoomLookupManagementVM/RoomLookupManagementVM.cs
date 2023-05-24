@@ -9,28 +9,6 @@ namespace HotelManagement.ViewModel.RoomLookupManagementVM
 {
     public class RoomLookupManagementVM : BaseVM
     {
-        private ObservableCollection<string> _RampTurnsBasedOnList;
-        public ObservableCollection<string> RampTurnsBasedOnList
-        {
-            get { return _RampTurnsBasedOnList; }
-            set { _RampTurnsBasedOnList = value; OnPropertyChanged(); }
-        }
-
-        public RoomLookupManagementVM()
-        {
-            RampTurnsBasedOnList = new ObservableCollection<string>();
-            RampTurnsBasedOnList.Add("Qui");
-            RampTurnsBasedOnList.Add("Tinh");
-            RampTurnsBasedOnList.Add("Tinh");
-            RampTurnsBasedOnList.Add("Tinh");
-            RampTurnsBasedOnList.Add("Tinh");
-            RampTurnsBasedOnList.Add("Tinh");
-            RampTurnsBasedOnList.Add("Qui");
-            RampTurnsBasedOnList.Add("Qui");
-            RampTurnsBasedOnList.Add("Qui");
-            RampTurnsBasedOnList.Add("Qui");
-            RampTurnsBasedOnList.Add("Qui");
-            RampTurnsBasedOnList.Add("Tinh");
-        }
+        
     }
 }
