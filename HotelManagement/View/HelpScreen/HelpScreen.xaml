@@ -502,7 +502,7 @@
                             <Button Height="70"
                                     materialDesign:ButtonAssist.CornerRadius="6">
                                 <Button.Content>
-                                    <Hyperlink NavigateUri="https://www.facebook.com/groups/216801007760579"
+                                    <Hyperlink NavigateUri="https://www.facebook.com/ngocqui.huynh.1422"
                                                x:Name="Hyperlink_FB_Group"
                                                Command="{Binding FB_Group_Command}"
                                                CommandParameter="{Binding ElementName=Hyperlink_FB_Group,Path=NavigateUri}">
@@ -543,7 +543,7 @@
                             <Button Height="70"
                                     materialDesign:ButtonAssist.CornerRadius="6">
                                 <Button.Content>
-                                    <Hyperlink NavigateUri="https://www.facebook.com/groups/216801007760579"
+                                    <Hyperlink NavigateUri="https://chat.zalo.me/"
                                                x:Name="Hyperlink_FB_Group1"
                                                Command="{Binding FB_Group_Command}"
                                                CommandParameter="{Binding ElementName=Hyperlink_FB_Group1,Path=NavigateUri}">
@@ -584,7 +584,7 @@
                             <Button Height="70"
                                     materialDesign:ButtonAssist.CornerRadius="6">
                                 <Button.Content>
-                                    <Hyperlink NavigateUri="https://www.facebook.com/groups/216801007760579"
+                                    <Hyperlink NavigateUri="https://www.facebook.com/profile.php?id=100009796787588"
                                                x:Name="Hyperlink_FB_Group2"
                                                Command="{Binding FB_Group_Command}"
                                                CommandParameter="{Binding ElementName=Hyperlink_FB_Group2,Path=NavigateUri}">
@@ -625,7 +625,7 @@
                             <Button Height="70"
                                     materialDesign:ButtonAssist.CornerRadius="6">
                                 <Button.Content>
-                                    <Hyperlink NavigateUri="https://www.facebook.com/groups/216801007760579"
+                                    <Hyperlink NavigateUri="https://www.facebook.com/profile.php?id=100040989546712"
                                                x:Name="Hyperlink_FB_Group3"
                                                Command="{Binding FB_Group_Command}"
                                                CommandParameter="{Binding ElementName=Hyperlink_FB_Group3,Path=NavigateUri}">
