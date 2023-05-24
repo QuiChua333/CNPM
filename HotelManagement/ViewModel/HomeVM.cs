@@ -42,6 +42,7 @@ namespace HotelManagement.ViewModel
             HomeWindow.lbPageName.Content = "LỊCH SỬ THANH TOÁN";
         }
         private void Help(object obj) => CurrentView = new HelpScreenVM.HelpScreenVM();
+        private void Setting(object obj) => CurrentView = new SettingManagementVM.SettingManagementVM();
 
 
         public ICommand RoomLookupCommand { get; set; }
@@ -60,6 +61,7 @@ namespace HotelManagement.ViewModel
             HistoryCommand = new RelayCommand(History);
             RoomCommand = new RelayCommand(Room);
             HelpScreenCommand = new RelayCommand(Help);
+            SettingCommand = new RelayCommand(Setting);
 
         }
     }
