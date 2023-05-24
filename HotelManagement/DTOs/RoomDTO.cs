@@ -31,17 +31,18 @@ namespace HotelManagement.DTOs
                 {
                     return "";
                 }
-                return ((DateTime)StartDate).ToString("dd/MM/yyyy"); }
+                return ((DateTime)StartDate).ToString("dd/MM/yyyy");
+            }
         }
         public int DayNumber
         {
             get
             {
-                if ( StartDate == null)
+                if (StartDate == null)
                 {
                     return 0;
                 }
-               
+
                 TimeSpan t = (TimeSpan)(DateTime.Now - StartDate);
                 int res = (int)t.TotalDays + 1;
                 return res;
@@ -57,5 +58,5 @@ namespace HotelManagement.DTOs
         {
             get { return "PH" + RoomNumber.ToString(); }
         }
-   
+    }
 }

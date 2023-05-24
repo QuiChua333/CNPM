@@ -41,7 +41,7 @@ namespace HotelManagement.Model.Services
                             CoefficientSurcharge = (float)ct.CoefficientSurcharge,
                         }
                     ).ToListAsync();
-                    CustomerTypeDTOs.Reverse();
+                 
                     return CustomerTypeDTOs;
                 }
             }

@@ -34,16 +34,38 @@ namespace HotelManagement.ViewModel
              CurrentView = new RoomLookupManagementVM.RoomLookupManagementVM();
             HomeWindow.lbPageName.Content= "TRA CỨU PHÒNG";
         }
-        private void BookingRoom(object obj) => CurrentView = new BookingRoomManagementVM.BookingRoomManagmentVM();
-        private void Room(object obj) => CurrentView = new RoomManagementVM.RoomManagementVM();
+        private void BookingRoom(object obj)
+        {
+            CurrentView = new BookingRoomManagementVM.BookingRoomManagementVM();
+            HomeWindow.lbPageName.Content = "ĐẶT PHÒNG";
+        }
+        private void Room(object obj)
+        {
+            CurrentView = new RoomManagementVM.RoomPageVM();
+            HomeWindow.lbPageName.Content = "QUẢN LÝ PHÒNG";
+        }
         private void History(object obj)
         {
             CurrentView = new HistoryManagementVM.HistoryManagementVM();
             HomeWindow.lbPageName.Content = "LỊCH SỬ THANH TOÁN";
         }
-        private void Help(object obj) => CurrentView = new HelpScreenVM.HelpScreenVM();
-        private void Setting(object obj) => CurrentView = new SettingManagementVM.SettingManagementVM();
-        private void CustomerType(object obj) => CurrentView = new CustomerTypeManagementVM.CustomerTypeManagementVM();
+        private void Help(object obj)
+        {
+            CurrentView = new HelpScreenVM.HelpScreenVM();
+            HomeWindow.lbPageName.Content = "MÀN HÌNH GIÚP ĐỠ";
+
+        }
+        private void Setting(object obj)
+        {
+            CurrentView = new SettingManagementVM.SettingManagementVM();
+            HomeWindow.lbPageName.Content = "MÀN HÌNH CÀI ĐẶT";
+
+        }
+        private void CustomerType(object obj)
+        {
+            CurrentView = new CustomerTypeManagementVM.CustomerTypeManagementVM();
+            HomeWindow.lbPageName.Content = "QUẢN LÝ LOẠI KHÁCH";
+        }
 
 
         public ICommand RoomLookupCommand { get; set; }

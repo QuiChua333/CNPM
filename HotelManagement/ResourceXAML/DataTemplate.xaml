@@ -16,7 +16,7 @@
                     xmlns:HomeVM="clr-namespace:HotelManagement.ViewModel"
                     xmlns:SettingVM="clr-namespace:HotelManagement.ViewModel.SettingManagementVM" 
                     xmlns:SettingView="clr-namespace:HotelManagement.View.SettingManagement"
-                    xmlns:CustomerTypeView="clr-namespace:HotelManagement.View.CustomerTypeManagement"
+                      xmlns:CustomerTypeView="clr-namespace:HotelManagement.View.CustomerTypeManagement"
                     xmlns:CustomerTypeVM="clr-namespace:HotelManagement.ViewModel.CustomerTypeManagementVM"
                     >
 
@@ -41,10 +41,10 @@
     <DataTemplate DataType="{x:Type HomeVM:BaseVM}">
         <HomeView:HomeWindow></HomeView:HomeWindow>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type CustomerTypeVM:CustomerTypeManagementVM}">
-        <CustomerTypeView:CustomerTypeManagement></CustomerTypeView:CustomerTypeManagement>
-    </DataTemplate>
     <DataTemplate DataType="{x:Type SettingVM:SettingManagementVM}">
         <SettingView:SettingPage></SettingView:SettingPage>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type CustomerTypeVM:CustomerTypeManagementVM}">
+        <CustomerTypeView:CustomerTypeManagement></CustomerTypeView:CustomerTypeManagement>
     </DataTemplate>
 </ResourceDictionary>
