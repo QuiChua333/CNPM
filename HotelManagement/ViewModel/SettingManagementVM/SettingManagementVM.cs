@@ -1,0 +1,237 @@
+﻿using CinemaManagementProject.Utilities;
+using HotelManagement.DTOs;
+using HotelManagement.Model;
+using HotelManagement.Utilities;
+using HotelManagement.View;
+using HotelManagement.View.SettingManagement;
+using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Data.Entity.Core;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
+
+namespace HotelManagement.ViewModel.SettingManagementVM
+{
+    public class SettingManagementVM : BaseVM
+    {
+        private int soKhachKhongTinhPhuPhi;
+        public int SoKhachKhongTinhPhuPhi
+        {
+            get { return soKhachKhongTinhPhuPhi; }
+            set { soKhachKhongTinhPhuPhi = value; OnPropertyChanged(); }
+        }
+        private int soKhachToiDa;
+        public int SoKhachToiDa
+        {
+            get { return soKhachToiDa; }
+            set { soKhachToiDa = value; OnPropertyChanged(); }
+        }
+        private bool _IsEditMaxCus { get; set; }
+        public bool IsEditMaxCus
+        {
+            get { return _IsEditMaxCus; }
+            set { _IsEditMaxCus = value; OnPropertyChanged(); }
+        }
+        private ObservableCollection<SurchargeRateDTO> listSurchargeRate;
+        public ObservableCollection<SurchargeRateDTO> ListSurchargeRate
+        {
+            get { return listSurchargeRate; }
+            set { listSurchargeRate = value; OnPropertyChanged(); }
+        }
+        private System.Windows.Media.Brush _colorPicked { get; set; }
+        public System.Windows.Media.Brush ColorPicked
+        {
+            get { return _colorPicked; }
+            set { _colorPicked = value; OnPropertyChanged(); }
+        }
+        private bool _isCheckedAutoStart { get; set; }
+        public bool IsCheckedAutoStart
+        {
+            get { return _isCheckedAutoStart; }
+            set { _isCheckedAutoStart = value; OnPropertyChanged(); }
+        }
+        private RegistryKey reg { get; set; }
+        public ICommand FirstLoadCM { get; set; }
+        public ICommand EditMaxCusCM { get; set; }
+        public ICommand AutoStartAppCM { get; set; }
+        public ICommand ColorPickerCM { get; set; }
+        public ICommand ChooseColorCM { get; set; }
+        public ICommand CloseEditSurchargeRateCM { get; set; }
+        public ICommand SaveSurchargeListCM { get; set; }
+        public SettingManagementVM()
+        {
+            FirstLoadCM = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                if (reg.GetValue("HotelManagementApp") == null)
+                    IsCheckedAutoStart = false;
+                else
+                    IsCheckedAutoStart = true;
+                using (HotelManagementNMCNPMEntities db = new HotelManagementNMCNPMEntities())
+                {
+                    SoKhachKhongTinhPhuPhi = (int)(db.Parameters.FirstOrDefault(item => item.ParameterKey == "SoKhachKhongTinhPhuPhi").ParamaterValue ?? 0);
+                    SoKhachToiDa = (int)(db.Parameters.FirstOrDefault(item => item.ParameterKey == "SoKhachToiDa").ParamaterValue ?? 0);
+                }
+                IsEditMaxCus = false;
+            });
+
+            EditMaxCusCM = new RelayCommand<PackIcon>((p) => { return true; }, (p) =>
+            {
+                if(IsEditMaxCus == false)
+                {
+                    IsEditMaxCus = true;
+                    p.Kind = PackIconKind.Tick;
+                }   
+                else
+                {
+                    try
+                    {
+                        if (SoKhachKhongTinhPhuPhi > SoKhachToiDa)
+                        {
+                            CustomMessageBox.ShowOk("Số khách không tính phụ phí phải nhỏ hơn số khách tối đa", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                        EditSurchargeFee editSurchargeFee = new EditSurchargeFee(p);
+                        ListSurchargeRate = new ObservableCollection<SurchargeRateDTO>();
+                        GetValue();
+                        editSurchargeFee.ShowDialog();
+                    }
+                    catch (EntityException ex)
+                    {
+                        CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                    }
+                    catch (Exception e)
+                    {
+                        CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                    }
+                }    
+            });
+            AutoStartAppCM = new RelayCommand<ToggleButton>((p) => { return true; }, (p) =>
+            {
+                if (p.IsChecked == true)
+                    reg.SetValue("HotelManagementApp", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                else
+                    reg.DeleteValue("HotelManagementApp");
+            });
+
+            ColorPickerCM = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                p.Visibility = System.Windows.Visibility.Visible;
+            });
+            ChooseColorCM = new RelayCommand<Rectangle>((p) => { return true; }, (p) =>
+            {
+                HomeWindow tk = Application.Current.Windows.OfType<HomeWindow>().FirstOrDefault();
+                ColorPicked = p.Fill;
+                tk.Overlay.Fill = p.Fill;
+                SolidColorBrush solidColorBrush = (SolidColorBrush)ColorPicked;
+                Properties.Settings.Default.MainAppColor = solidColorBrush.Color.ToString();
+                Properties.Settings.Default.Save();
+            });
+            CloseEditSurchargeRateCM = new RelayCommand<Rectangle>((p) => { return true; }, (p) =>
+            {
+                IsEditMaxCus = false;
+            });
+            SaveSurchargeListCM = new RelayCommand<Window>((p) => { return true; }, async (p) =>
+            {
+                for(int i = 0; i < ListSurchargeRate.Count; i++)
+                {
+                    string number = ListSurchargeRate[i].Rate.ToString();
+                    if (!Helper.Number.IsNumeric(number))
+                    {
+                        CustomMessageBox.ShowOk("Vui lòng nhập kiểu số thực cho tỷ lệ phụ thu của khách thứ " + (i + 1 + SoKhachKhongTinhPhuPhi), "Cảnh báo", "OK");
+                        return;
+                    }
+                    if (!Helper.Number.IsPositive(number))
+                    {
+                        CustomMessageBox.ShowOk("Vui lòng nhập kiểu số thực dương cho tỷ lệ phụ thu của khách thứ " + (i + 1 + SoKhachKhongTinhPhuPhi), "Cảnh báo", "OK");
+                        return;
+                    }
+
+                    if (ListSurchargeRate[i].Rate > 100 || ListSurchargeRate[i].Rate < 0)
+                    {
+                        CustomMessageBox.ShowOk("Tỷ lệ phụ thu khách thứ " + (i + 1 + SoKhachKhongTinhPhuPhi) + " phải nhỏ hơn 100 và lớn hơn 0", "Cảnh báo", "OK");
+                        return;
+                    }    
+                }    
+                if(await SaveEditSurchargeRate())
+                    CustomMessageBox.ShowOk("Lưu thông tin thành công", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                else
+                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                ListSurchargeRate.Clear();
+                p.Close();
+                IsEditMaxCus = false;
+            });
+        }
+        public async void GetValue()
+        {
+            using (HotelManagementNMCNPMEntities db = new HotelManagementNMCNPMEntities())
+            {
+                for(int i = SoKhachKhongTinhPhuPhi; i < SoKhachToiDa; i++)
+                {
+                    SurchargeRateDTO srDTO = new SurchargeRateDTO();
+                    srDTO.STT = i + 1;
+                    SurchargeRate sr = await db.SurchargeRates.FirstOrDefaultAsync(item => item.CustomerIndex == srDTO.STT);
+                    if(sr == null)
+                        srDTO.Rate = 0;
+                    else
+                        srDTO.Rate = (double)sr.Rate * 100;
+                    ListSurchargeRate.Add(srDTO);
+                }
+            }
+        }
+        public async Task<bool> SaveEditSurchargeRate()
+        {
+            try
+            {
+                using (HotelManagementNMCNPMEntities db = new HotelManagementNMCNPMEntities())
+                {
+                    List<SurchargeRate> srList = db.SurchargeRates.ToList();
+                    int OldLength = 0;
+                    if (srList.Count != 0)
+                        OldLength = srList.Last().CustomerIndex;
+                    for (int i = SoKhachKhongTinhPhuPhi; i < SoKhachToiDa; i++)
+                    {
+                        SurchargeRate sr = await db.SurchargeRates.FirstOrDefaultAsync(item => item.CustomerIndex == i + 1);
+                        if(sr == null)
+                        {
+                            sr = new SurchargeRate();
+                            sr.CustomerIndex = i + 1;
+                            sr.Rate = ListSurchargeRate[i - SoKhachKhongTinhPhuPhi].Rate / 100;
+                            db.SurchargeRates.Add(sr);
+                        }    
+                        else
+                        {
+                            sr.Rate = ListSurchargeRate[i - SoKhachKhongTinhPhuPhi].Rate / 100;
+                        }    
+                    }
+                    for(int i = SoKhachToiDa; i < OldLength; i++)
+                    {
+                        SurchargeRate sr = await db.SurchargeRates.FirstOrDefaultAsync(item => item.CustomerIndex == i + 1);
+                        if(sr != null)
+                            db.SurchargeRates.Remove(sr);
+                    }
+
+                    (await db.Parameters.FirstOrDefaultAsync(item => item.ParameterKey == "SoKhachToiDa")).ParamaterValue = SoKhachToiDa;
+                    
+                    await db.SaveChangesAsync();
+                    return true;
+                }
+            }
+            catch(EntityException e)
+            {
+                return false;
+            }
+        }
+    }
+}

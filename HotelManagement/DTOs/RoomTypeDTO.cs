@@ -19,5 +19,10 @@ namespace HotelManagement.DTOs
         public IList<RoomDTO> Rooms { get; set; }
         public double Revenue { get; set; }
         public int STT { get; set; }
+        public Nullable<double> Price { get; set; }
+        public string PriceStr
+        {
+            get { return Helper.FormatVNMoney((double)Price); }
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace HotelManagement.DTOs
         public Nullable<System.DateTime> CreateDate { get; set; }
         public int STT_RentalContract { get; set; }
         public string CreateDateStr
-        {
+    {
             get { return ((DateTime)CreateDate).ToString("dd/MM/yyyy"); }
         }
         public IList<RentalContractDetailDTO> RentalContracts { get; set; }

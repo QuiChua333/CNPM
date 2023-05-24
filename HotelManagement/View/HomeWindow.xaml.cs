@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +21,11 @@ namespace HotelManagement.View
     /// </summary>
     public partial class HomeWindow : Window
     {
+        public static Label lbPageName;
         public HomeWindow()
         {
             InitializeComponent();
+            lbPageName = this.PageName;
         }
         private void Tg_Btn_Checked(object sender, RoutedEventArgs e)
         {

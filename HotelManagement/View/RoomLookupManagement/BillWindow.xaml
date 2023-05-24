@@ -1,0 +1,325 @@
+﻿<Window x:Class="HotelManagement.View.RoomLookupManagement.BillWindow"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+       xmlns:i="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotelManagement.View.RoomLookupManagement"
+        mc:Ignorable="d"
+         WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True" 
+        Background="Transparent"
+        WindowStyle="None"
+        x:Name="window"
+        DataContext="{StaticResource RoomLookupManagementVM}">
+    <Border CornerRadius="5" Background="#FFFFFF" BorderBrush="Gray" BorderThickness="0.3"  Width="650" VerticalAlignment="Top">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="5" Direction="270" Color="Black" ShadowDepth="4" Opacity="0.25"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="65"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1">
+                    <Border  BorderBrush="#009099" BorderThickness="0,0,0,5">
+                    </Border>
+                    <Label Padding="0" 
+                           Content="HÓA ĐƠN"
+                           FontSize="25" 
+                           FontWeight="Bold" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" 
+                           Foreground="#009099" 
+                           FontFamily="{DynamicResource MaterialDesignFont}">
+                        <Label.Effect>
+                            <DropShadowEffect BlurRadius="0.3" Direction="-45" Color="#000000" ShadowDepth="1" Opacity="0.5"/>
+                        </Label.Effect>
+                    </Label>
+                    <Image Source="{StaticResource Logo2}" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Width="70"
+                           Margin="5,0,0,0">
+
+                    </Image>
+                </Grid>
+            </Grid>
+
+
+            <Grid Grid.Row="2" Margin="30,15,30,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="110"/>
+                    <RowDefinition Height="65*"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Border Background="#F5F3F2" CornerRadius="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                        <Label VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                            Content="Khách hàng:"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           FontSize="16"
+                                       Width="100"  
+                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
+                                        <TextBlock Text="{Binding CustomerName}"
+                                   Margin="7,0,0,0"
+                                                 x:Name="tbCustomerName"
+                               FontFamily="{DynamicResource MaterialDesignFont}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="16"
+                               Foreground="Black"
+                               FontWeight="Regular"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                        <Label VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                            Content="Ngày tạo:"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           FontSize="16"
+                            Width="100"     
+                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
+                                        <TextBlock Text="{Binding CreateDateStr}"
+                                   Margin="7,0,0,0"
+                                                   x:Name="tbCreateDate"
+                               FontFamily="{DynamicResource MaterialDesignFont}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="16"
+                               Foreground="Black"
+                               FontWeight="Regular"/>
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                        <Label VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                            Content="Địa chỉ:"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           FontSize="16"
+                                       Width="70"  
+                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
+                                        <TextBlock Text="{Binding Address}"
+                                   Margin="7,0,0,0"
+                               FontFamily="{DynamicResource MaterialDesignFont}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                                                   x:Name="tbAddress"
+                               FontSize="16"
+                               Foreground="Black"
+                               FontWeight="Regular"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                        <Label VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                            Content="Trị giá:"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           FontSize="16"
+                            Width="70"     
+                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
+                                        <TextBlock Text="{Binding TotalPriceStr}"
+                                   Margin="7,0,0,0"
+                               FontFamily="{DynamicResource MaterialDesignFont}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="16"
+                                                   x:Name="tbTotalPrice"
+                               Foreground="Black"
+                               FontWeight="Regular"/>
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                            </Grid>
+
+                        </Grid>
+
+                    </Border>
+                </Grid>
+                <Border Grid.Row="1" Margin="0,20,0,0" Background="#F5F3F2" CornerRadius="5">
+                    <StackPanel Margin="25,10">
+                        <Grid VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label  Grid.Column="0"
+                            VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                            Content="Phòng"
+                                    Margin="10,0,0,0"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           FontSize="16"
+                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
+                            <Label  Grid.Column="1"
+                            VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                            Content="Số ngày thuê"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           FontSize="16"
+                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
+                            <Label  Grid.Column="2"
+                            VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                            Content="Đơn giá"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           FontSize="16"
+                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
+
+
+                            <Label  Grid.Column="3"
+                            VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Content="Thành tiền"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           FontSize="16"
+                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
+
+
+                        </Grid>
+                        <Rectangle Height="1" Fill="#C95D3B" Margin="-5,2,-5,0"></Rectangle>
+                        <Grid Margin="0,10,0,0" MaxHeight="175">
+                            <ListBox ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                        ItemsSource="{Binding ListRoomBill}"
+                                         x:Name="listRoomBill"
+                                         VerticalAlignment="Top"
+                                          d:ItemsSource="{d:SampleData ItemCount=5}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource myListBoxItems}" />
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="1"
+                                            VerticalAlignment="Center"
+                                             FlowDirection="LeftToRight" 
+                                              />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid VerticalAlignment="Center" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock  
+                                                       Grid.Column="0"
+                                                        Text="{Binding RoomName}"
+                                   Margin="10,0,0,0"
+                               FontFamily="{DynamicResource MaterialDesignFont}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="16"
+                               Foreground="Black"
+                               FontWeight="Regular"/>
+                                            <TextBlock 
+                                                       Grid.Column="1"
+                                   Text="{Binding NumberOfRentalDays}"
+                               FontFamily="{DynamicResource MaterialDesignFont}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="16"
+                               Foreground="Black"
+                               FontWeight="Regular"/>
+                                            <TextBlock 
+                                                       Grid.Column="2"
+                                   Text="{Binding PricePerDayStr}"
+                               FontFamily="{DynamicResource MaterialDesignFont}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="16"
+                               Foreground="Black"
+                               FontWeight="Regular"/>
+
+
+                                            <TextBlock 
+                                                       Grid.Column="3"
+                                   Text="{Binding PriceStr}"
+                               FontFamily="{DynamicResource MaterialDesignFont}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="16"
+                               Foreground="Black"
+                               FontWeight="Regular"/>
+
+
+                                        </Grid>
+
+
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+
+
+
+                            </ListBox>
+
+
+                        </Grid>
+
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+            <Grid Grid.Row="3">
+
+                <Button HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CustomButton}"
+                        Content="Thoát"
+                        CommandParameter="{Binding ElementName=window}"
+                        FontSize="14"
+                        Background="{StaticResource ButtonCancel}"
+                        Margin="30,0,0,0"
+                        Width="90" Click="Button_Click_1" 
+                        >
+                </Button>
+                <Button HorizontalAlignment="Right" Margin="0,0,20,0"
+                        Background="Transparent"
+                        BorderThickness="0">
+                    <materialDesign:PackIcon Kind="Printer"
+                                                                     Width="27"
+                                                                     Height="27"
+                                                                     Foreground="#948D8D"/>
+                </Button>
+
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

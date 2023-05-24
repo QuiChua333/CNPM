@@ -1,6 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    
+                    xmlns:VM1="clr-namespace:HotelManagement.ViewModel.StatisticalManagementVM"
+                    xmlns:VM2="clr-namespace:HotelManagement.ViewModel.RoomLookupManagementVM"
+                    xmlns:VM3="clr-namespace:HotelManagement.ViewModel.BookingRoomManagementVM"
+                    xmlns:VM4="clr-namespace:HotelManagement.ViewModel.RoomManagementVM"
+                    xmlns:VM5="clr-namespace:HotelManagement.ViewModel.HistoryManagementVM"
+                    xmlns:VM6="clr-namespace:HotelManagement.ViewModel.HelpScreenVM"
+                    xmlns:VM7="clr-namespace:HotelManagement.ViewModel"
+                    xmlns:VM8="clr-namespace:HotelManagement.ViewModel.SettingManagementVM"
 >
-    
+    <VM1:StatisticalManagementVM x:Key="StatisticalManagementVM" />
+    <VM2:RoomLookupManagementVM x:Key="RoomLookupManagementVM" />
+    <VM3:BookingRoomManagmentVM x:Key="BookingRoomManagmentVM" />
+    <VM4:RoomManagementVM x:Key="RoomManagementVM" />
+    <VM5:HistoryManagementVM x:Key="HistoryManagementVM" />
+    <VM6:HelpScreenVM x:Key="HelpScreenVM" />
+    <VM7:HomeVM x:Key="HomeVM"/>
+    <VM8:SettingManagementVM x:Key="SettingVM"/>
+
 </ResourceDictionary>

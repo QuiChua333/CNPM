@@ -1,14 +1,348 @@
 ﻿<Page x:Class="HotelManagement.View.StatisticalManagement.StatisticalManagementPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:Search="clr-namespace:HotelManagement.Components.Search"
       xmlns:local="clr-namespace:HotelManagement.View.StatisticalManagement"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="StatisticalManagementPage">
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
 
-    <Grid>
-        
+      mc:Ignorable="d" 
+      Width="1200"
+      Height="700"
+      Title="RoomCatalogManagementPage"
+      ShowsNavigationUI="False"
+      x:Name="mainPage"
+      DataContext="{StaticResource StatisticalManagementVM}">
+
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding FirstLoadCM}"
+                                   CommandParameter="{Binding ElementName=mainPage}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20">
+        <Border CornerRadius="20" Background="#F5F5F5F5">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" Color="Black" ShadowDepth="4" Opacity="0.25"/>
+            </Border.Effect>
+        </Border>
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal"
+                             VerticalAlignment="Center">
+                    <Label Content="Chọn năm:"
+                       FontSize="20"
+                       Foreground="#888"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center">
+
+                    </Label>
+                    <Border Background="White" 
+                            BorderBrush="#606060" 
+                            BorderThickness="0.5" 
+                            CornerRadius="2"
+                            Width="180" Height="36" 
+                            HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource iconFilter}" 
+                                   Height="24" 
+                                   Width="30" 
+                                   Margin="10 0 0 0"/>
+                            <ScrollViewer  MaxHeight="160" HorizontalScrollBarVisibility="Hidden" CanContentScroll="False" >
+                                <ScrollViewer.Resources>
+                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+                                </ScrollViewer.Resources>
+                                <ComboBox Width="130" Height="36"
+                                      Padding="10 5"
+                                      BorderBrush="#606060"
+                                      BorderThickness="0"
+                                      VerticalContentAlignment="Center"
+                                      FontWeight="Medium" 
+                                      Foreground="{StaticResource Gray1}" 
+                                      SelectedIndex="0"
+                                      ItemsSource="{Binding ListFilterYear}"
+                                      Margin="10 0 0 0"
+                                      FontSize="14"
+                                      SelectedItem="{Binding SelectedYear}"
+                                      x:Name="cbbYear"
+                                      HorizontalContentAlignment="Center">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Loaded">
+                                            <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbYearCM}" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbYearCM}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ComboBox>
+                            </ScrollViewer>
+                            
+                        </StackPanel>
+                    </Border>
+
+                    <Label Content="Chọn tháng:"
+                       FontSize="20"
+                       Foreground="#888"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                           Margin="60,0,0,0">
+
+                    </Label>
+                    <Border Background="White" 
+                            BorderBrush="#606060" 
+                            BorderThickness="0.5" 
+                            CornerRadius="2"
+                            Width="180" Height="36" 
+                            HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource iconFilter}" 
+                                   Height="24" 
+                                   Width="30" 
+                                   Margin="10 0 0 0"/>
+                            <ScrollViewer  MaxHeight="160" HorizontalScrollBarVisibility="Hidden" CanContentScroll="False" >
+                                <ScrollViewer.Resources>
+                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+                                </ScrollViewer.Resources>
+                                <ComboBox Width="130" Height="36"
+                                      Padding="10 5"
+                                      BorderBrush="#606060"
+                                      BorderThickness="0"
+                                      FontWeight="Medium"
+                                      VerticalContentAlignment="Center"
+                                      Foreground="{StaticResource Gray1}" 
+                                      SelectedIndex="0"
+                                      ItemsSource="{Binding ListFilterMonth}"
+                                      Margin="10 0 0 0"
+                                      FontSize="14"
+                                      SelectedItem="{Binding SelectedMonth}"
+                                      x:Name="cbbMonth"
+                                      HorizontalContentAlignment="Center">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Loaded">
+                                            <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbMonthCM}" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbMonth}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </ComboBox>
+                            </ScrollViewer>
+                           
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="275" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="10">
+                    <Border CornerRadius="15" Background="White" BorderBrush="Gray" BorderThickness="0.3">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10" Direction="270" Color="Black" ShadowDepth="4" Opacity="0.25"/>
+                        </Border.Effect>
+                        <StackPanel Margin="20,20,20,0">
+                            <Label Content="Bảng thống kê doanh thu" Margin="0,5,0,0"
+                           FontFamily="{DynamicResource MaterialDesignFont }"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#888">
+                            </Label>
+
+                            <Border HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="0,10,0,0"
+                                    BorderThickness="2,0,2,2"
+                                    BorderBrush="#ccc">
+                                <ScrollViewer  MaxHeight="160" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                                    <ScrollViewer.Resources>
+                                        <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+                                    </ScrollViewer.Resources>
+                                    <ListView  
+                                      Width="750"
+                                      HorizontalAlignment="Center"
+                                            Focusable="True"
+                                FontFamily="{StaticResource MaterialDesignFont}"
+                                Foreground="Black"
+                                FontSize="14"
+                              ItemsSource="{Binding RevenueReport.revenueReportDetailDTOs}"
+                              d:ItemsSource="{d:SampleData ItemCount=3}">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                <Setter Property="Height" Value="40"/>
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                            <Border
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Background="{TemplateBinding Background}">
+                                                                <GridViewRowPresenter HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="Auto" Margin="0" Content="{TemplateBinding Content}"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+
+                                            <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
+
+                                                <GridViewColumn Width="100" Header="STT">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding STT}" 
+                                                       Width="30"
+                                                       FontSize="15" 
+                                                       TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <GridViewColumn Width="240" Header="Tên loại phòng">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding RoomTypeName}"
+                                                        Width="160"
+                                                        FontSize="14" 
+                                                        TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+
+
+                                                <GridViewColumn Width="200" Header="Doanh số">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding RevenueStr}"
+                                                        Width="140"
+                                                        FontSize="14" 
+                                                               Margin="10,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        TextAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Width="200" Header="Tỷ lệ">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding RatioStr}"
+                                                        Width="140"
+                                                        FontSize="14" 
+                                                        HorizontalAlignment="Left"
+                                                        TextAlignment="Center"
+                                                               Margin="20,0,0,0"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </ScrollViewer>
+                              
+                            </Border>
+                           
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="2" Margin="10">
+                    <Border CornerRadius="15" Background="#F5F5F5" BorderBrush="Gray" BorderThickness="0.3">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10" Direction="270" Color="Black" ShadowDepth="4" Opacity="0.25"/>
+                        </Border.Effect>
+                        <StackPanel Margin="20">
+                            <Label Content="Biểu đồ doanh thu" Margin="0,5,0,0"
+                           FontFamily="{DynamicResource MaterialDesignFont }"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#888">
+                            </Label>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="1">
+                                    <StackPanel Margin="100,-20,0,0" VerticalAlignment="Center" >
+                                        <Label Padding="0" 
+                           Content="TỔNG DOANH THU THÁNG"
+                           FontSize="22" 
+                           FontWeight="Bold" 
+                           VerticalAlignment="Center" 
+                           
+                           Foreground="#009099" 
+                           FontFamily="{DynamicResource MaterialDesignFont}">
+                                            <Label.Effect>
+                                                <DropShadowEffect BlurRadius="0.3" Direction="-45" Color="#000000" ShadowDepth="1" Opacity="0.5"/>
+                                            </Label.Effect>
+                                        </Label>
+                                        <Label Content="{Binding RevenueReport.TotalRevenueStr}" Margin="50,5,0,0"
+                                       VerticalAlignment="Center"
+                           FontFamily="{DynamicResource MaterialDesignFont }"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Foreground="#666">
+                                        </Label>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Column="0">
+                                    <Grid HorizontalAlignment="Right"
+                                          Margin="0 0 20 0">
+                                        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                 Value="0"
+                                 IsIndeterminate="True"
+                                 Width="80"
+                                 Height="80"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,68,0"
+                                 Foreground="#FF455345" />
+                                        <lvc:PieChart LegendLocation="Right"
+                                    InnerRadius="10"
+                                    Background="Transparent"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                             Width="300"
+                                      
+                                    Series="{Binding RoomTypeRevenuePieChart}" 
+                                    Height="180"/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+
+                          
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
+
 </Page>

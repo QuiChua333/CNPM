@@ -6,7 +6,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <StackPanel Orientation="Horizontal">
-                        <Image x:Name="checkboxImage" Source="../Images/unchecked.png" Width="20"/>
+                        <Image x:Name="checkboxImage" Source="../Images/unchecked.png" Width="18" />
                         <ContentPresenter/>
                     </StackPanel>
                     <ControlTemplate.Triggers>

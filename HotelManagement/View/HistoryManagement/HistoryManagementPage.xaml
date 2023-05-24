@@ -3,12 +3,329 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"      
       xmlns:local="clr-namespace:HotelManagement.View.HistoryManagement"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="HistoryManagementPage">
+       xmlns:Search="clr-namespace:HotelManagement.Components.Search"
+      Width="1200"
+      Height="700"
+      Title="HistoryManagementPage"
+      DataContext="{StaticResource HistoryManagementVM}">
 
-    <Grid>
-        
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20">
+        <Border CornerRadius="20" Background="#F5F5F5F5">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" Color="Black" ShadowDepth="4" Opacity="0.25"/>
+            </Border.Effect>
+        </Border>
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    
+                <Search:Search 
+                        x:Name="SearchBox"
+                            HorizontalAlignment="Left"
+                        Width="260" Height="40"
+                        FontSize="12"
+                        IconSize="18"
+                    Margin="20,0,0,0"
+                        IndicatorBrush="White"
+                        Corner="10"
+                        SearchTextChange="Search_SearchTextChange"  
+                        
+                    />
+                    <StackPanel Orientation="Horizontal"
+                             VerticalAlignment="Center">
+                        <Label Content="Chọn năm:"
+                       FontSize="18"
+                       Foreground="#888"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                               Margin="80,0,0,0">
+
+                        </Label>
+                        <Border Background="White" 
+                            BorderBrush="#606060" 
+                            BorderThickness="0.5" 
+                            CornerRadius="2"
+                            Width="180" Height="36" 
+                            HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{StaticResource iconFilter}" 
+                                   Height="24" 
+                                   Width="30" 
+                                   Margin="10 0 0 0"/>
+                                <ScrollViewer  MaxHeight="160" HorizontalScrollBarVisibility="Hidden" CanContentScroll="False" >
+                                    <ScrollViewer.Resources>
+                                        <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+                                    </ScrollViewer.Resources>
+                                    <ComboBox Width="130" Height="36"
+                                      Padding="10 5"
+                                      BorderBrush="#606060"
+                                      BorderThickness="0"
+                                      VerticalContentAlignment="Center"
+                                      FontWeight="Medium" 
+                                      Foreground="{StaticResource Gray1}" 
+                                      SelectedIndex="0"
+                                      ItemsSource="{Binding ListFilterYear}"
+                                      Margin="10 0 0 0"
+                                      FontSize="14"
+                                      SelectedItem="{Binding SelectedYear}"
+                                      x:Name="cbbYear"
+                                      HorizontalContentAlignment="Center">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Loaded">
+                                                <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbYearCM}" />
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbYearCM}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ComboBox>
+                                </ScrollViewer>
+
+                            </StackPanel>
+                        </Border>
+
+                        <Label Content="Chọn tháng:"
+                       FontSize="18"
+                       Foreground="#888"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                           Margin="60,0,0,0">
+
+                        </Label>
+                        <Border Background="White" 
+                            BorderBrush="#606060" 
+                            BorderThickness="0.5" 
+                            CornerRadius="2"
+                            Width="180" Height="36" 
+                            HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{StaticResource iconFilter}" 
+                                   Height="24" 
+                                   Width="30" 
+                                   Margin="10 0 0 0"/>
+                                <ScrollViewer  MaxHeight="160" HorizontalScrollBarVisibility="Hidden" CanContentScroll="False" >
+                                    <ScrollViewer.Resources>
+                                        <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+                                    </ScrollViewer.Resources>
+                                    <ComboBox Width="130" Height="36"
+                                      Padding="10 5"
+                                      BorderBrush="#606060"
+                                      BorderThickness="0"
+                                      FontWeight="Medium"
+                                      VerticalContentAlignment="Center"
+                                      Foreground="{StaticResource Gray1}" 
+                                      SelectedIndex="0"
+                                      ItemsSource="{Binding ListFilterMonth}"
+                                      Margin="10 0 0 0"
+                                      FontSize="14"
+                                      SelectedItem="{Binding SelectedMonth}"
+                                      x:Name="cbbMonth"
+                                      HorizontalContentAlignment="Center">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Loaded">
+                                                <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbMonthCM}" />
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbMonth}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+
+                                    </ComboBox>
+                                </ScrollViewer>
+
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Margin="20">
+                <Border 
+                    CornerRadius="20" 
+                    Background="White">
+                    <Border.Effect>
+                        <DropShadowEffect
+                                BlurRadius="10"
+                                Color="Black"
+                                ShadowDepth="4"
+                                Opacity=".25"
+                                Direction="270"/>
+                    </Border.Effect>
+                    <materialDesign:Card UniformCornerRadius="20">
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden" 
+                                      HorizontalScrollBarVisibility="Hidden" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                            <ListView FontFamily="{StaticResource MaterialDesignFont}" 
+                                  FontSize="14"                                 
+                                  
+                                  ItemsSource="{Binding ListBill}"
+                                  SelectedItem="{Binding SelectedItem,UpdateSourceTrigger=PropertyChanged}"
+                                  x:Name="BillListView" d:ItemsSource="{d:SampleData ItemCount=5}">
+
+                                <ListView.ItemContainerStyle>
+                                    <Style  TargetType="{x:Type ListViewItem}"
+                                        BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                                        <Setter Property="Height" Value="50"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="240">
+                                            <GridViewColumn.Header>
+                                                <TextBlock Margin="70,0,0,0" Text="Mã hóa đơn" FontSize="14" FontWeight="Medium" Foreground="Black"/>
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate >
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding BillId}"
+                                                           FontSize="14" 
+                                                           FontFamily="{StaticResource MaterialDesignFont}"
+                                                           Margin="100 10 0 0"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="240" >
+                                            <GridViewColumn.Header>
+                                                <TextBlock Text="Tên khách hàng" FontSize="14" FontWeight="Medium" Foreground="Black"/>
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding CustomerName}" 
+                                                           Margin="20 10 0 0"
+                                                           FontSize="14" 
+                                                           FontFamily="{StaticResource MaterialDesignFont}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="150">
+                                            <GridViewColumn.Header>
+                                                <TextBlock Text="Địa chỉ" FontSize="14" FontWeight="Medium" Foreground="Black"/>
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Address}" 
+                                                           Margin="20 10 0 0"
+                                                           FontSize="14" 
+                                                           FontFamily="{StaticResource MaterialDesignFont}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="150">
+                                            <GridViewColumn.Header>
+                                                <TextBlock Text="Trị giá" FontSize="14" FontWeight="Medium" Foreground="Black"/>
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding TotalPriceStr}" 
+                                                           Margin="20 10 0 0"
+                                                           FontSize="14" 
+                                                           FontFamily="{StaticResource MaterialDesignFont}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="120" >
+                                            <GridViewColumn.Header>
+                                                <TextBlock Text="Ngày tạo" FontSize="14" FontWeight="Medium" Foreground="Black"/>
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding CreateDate, StringFormat=dd/MM/yyyy}" 
+                                                           Margin="20 10 0 0"
+                                                           FontSize="14" 
+                                                           FontFamily="{StaticResource MaterialDesignFont}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                      
+                                        <GridViewColumn>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel VerticalAlignment="Center"
+                                                            Orientation="Horizontal" 
+                                                            Margin="20 5 0 0">
+                                                        <Border BorderBrush="Black"
+                                                            BorderThickness="1"
+                                                            CornerRadius="6"
+                                                            Cursor="Hand">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                                                    <i:InvokeCommandAction Command="{Binding ElementName=BillListView, Path=DataContext.LoadInfoBillCM}" >
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+
+                                                            <Border.Style>
+                                                                <Style TargetType="{x:Type Border}">
+                                                                    <Style.Triggers>
+                                                                        <Trigger    Property="IsMouseOver"
+                                                                                Value="True">
+                                                                            <Setter Property="Background"
+                                                                                Value="#00e5ff" />
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+
+                                                            </Border.Style>
+                                                            <materialDesign:PackIcon Kind="Pencil"
+                                                                                 Width="22"
+                                                                                 Height="22"
+                                                                                 Cursor="Hand">
+                                                            </materialDesign:PackIcon>
+
+                                                        </Border>
+                                                        <Border Margin="10 0 0 0"
+                                                            BorderBrush="Black"
+                                                            BorderThickness="1"
+                                                            CornerRadius="6"
+                                                            Cursor="Hand">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                                                    <i:InvokeCommandAction Command="{Binding ElementName=BillListView, Path=DataContext.DeleteBillCM}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <Border.Style>
+                                                                <Style TargetType="{x:Type Border}">
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver"
+                                                                            Value="True">
+                                                                            <Setter Property="Background"
+                                                                                Value="#ff6255" />
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                            <materialDesign:PackIcon Kind="GarbageCanEmpty"
+                                                                                 Width="22"
+                                                                                 Height="22"
+                                                                                 Cursor="Hand" />
+                                                        </Border>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ScrollViewer>
+                    </materialDesign:Card>
+
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

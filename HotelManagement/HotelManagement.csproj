@@ -151,6 +151,7 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -170,11 +171,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DTOs\BillDetailDTO.cs" />
+    <Compile Include="DTOs\BillDTO.cs" />
+    <Compile Include="DTOs\ListRoomTypeDTO.cs" />
+    <Compile Include="DTOs\RevenueReportDetailDTO.cs" />
+    <Compile Include="DTOs\RevenueReportDTO.cs" />
+    <Compile Include="DTOs\RoomDTO.cs" />
+    <Compile Include="DTOs\RoomTypeDTO.cs" />
+    <Compile Include="DTOs\SurchargeRateDTO.cs" />
     <Compile Include="DTOs\CustomerTypeDTO.cs" />
     <Compile Include="DTOs\RentalContractDetailDTO.cs" />
     <Compile Include="DTOs\RentalContractDTO.cs" />
-    <Compile Include="DTOs\RoomDTO.cs" />
-    <Compile Include="DTOs\RoomTypeDTO.cs" />
     <Compile Include="Model\Bill.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
@@ -220,6 +227,14 @@
     <Compile Include="Model\RoomType.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Services\BillService.cs" />
+    <Compile Include="Model\Services\HistoryService.cs" />
+    <Compile Include="Model\Services\RoomService.cs" />
+    <Compile Include="Model\Services\RoomTypeService.cs" />
+    <Compile Include="Model\Services\StatisticalService.cs" />
+    <Compile Include="Model\SurchargeRate.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Services\BookingRoomService.cs" />
     <Compile Include="Model\Services\CustomerTypeService.cs" />
     <Compile Include="Model\SurchargeRate.cs">
@@ -244,12 +259,14 @@
     <Compile Include="ViewModel\HelpScreenVM\HelpScreenVM.cs" />
     <Compile Include="ViewModel\HistoryManagementVM\HistoryManagementVM.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
+    <Compile Include="ViewModel\RoomLookupManagementVM\PaymentVM.cs" />
     <Compile Include="ViewModel\RoomLookupManagementVM\RoomLookupManagementVM.cs" />
     <Compile Include="ViewModel\RoomManagementVM\AddNewRoomTypeVM.cs" />
     <Compile Include="ViewModel\RoomManagementVM\AddNewRoomVM.cs" />
     <Compile Include="ViewModel\RoomManagementVM\EditRoomTypeVM.cs" />
     <Compile Include="ViewModel\RoomManagementVM\EditRoomVM.cs" />
     <Compile Include="ViewModel\RoomManagementVM\RoomManagementVM.cs" />
+    <Compile Include="ViewModel\SettingManagementVM\SettingManagementVM.cs" />
     <Compile Include="ViewModel\RoomManagementVM\RoomPageVM.cs" />
     <Compile Include="ViewModel\RoomManagementVM\RoomTypeManagementVM.cs" />
     <Compile Include="ViewModel\StatisticalManagementVM\StatisticalManagementVM.cs" />
@@ -283,6 +300,11 @@
     <Compile Include="View\HelpScreen\Frequently_asked_questions.xaml.cs">
       <DependentUpon>Frequently_asked_questions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CustomMessageBoxWindow\CustomMessageBox.cs" />
+    <Compile Include="View\CustomMessageBoxWindow\CustomMessageBoxWindow.xaml.cs">
+      <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomMessageBoxWindow\Util.cs" />
     <Compile Include="View\HelpScreen\HelpScreen.xaml.cs">
       <DependentUpon>HelpScreen.xaml</DependentUpon>
     </Compile>
@@ -297,6 +319,12 @@
     </Compile>
     <Compile Include="View\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RoomLookupManagement\BillWindow.xaml.cs">
+      <DependentUpon>BillWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RoomLookupManagement\PaymentWindow.xaml.cs">
+      <DependentUpon>PaymentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RoomLookupManagement\RoomLookupPage.xaml.cs">
       <DependentUpon>RoomLookupPage.xaml</DependentUpon>
@@ -318,6 +346,12 @@
     </Compile>
     <Compile Include="View\RoomManagement\RoomManagementPage.xaml.cs">
       <DependentUpon>RoomManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingManagement\EditSurchargeFee.xaml.cs">
+      <DependentUpon>EditSurchargeFee.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingManagement\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RoomManagement\RoomPage.xaml.cs">
       <DependentUpon>RoomPage.xaml</DependentUpon>
@@ -448,6 +482,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CustomMessageBoxWindow\CustomMessageBoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HelpScreen\HelpScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -465,6 +503,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\HomeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RoomLookupManagement\BillWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RoomLookupManagement\PaymentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -493,6 +539,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RoomManagement\RoomManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingManagement\EditSurchargeFee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingManagement\SettingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -573,12 +627,6 @@
     <Resource Include="Resources\Images\icon_Question.png" />
     <Resource Include="Resources\Images\icon_Succes.png" />
     <Resource Include="Resources\Images\icon_Warning.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\checked.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\unchecked.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\logo_hotel.png" />
@@ -677,6 +725,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Images\checked.png" />
+    <Resource Include="Resources\Images\unchecked.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Model\HotelManagementDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HotelManagementDatabase.edmx</DependentUpon>
@@ -688,6 +740,7 @@
       <LastGenOutput>HotelManagementDatabase.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

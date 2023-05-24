@@ -8,6 +8,7 @@
         xmlns:components="clr-namespace:HotelManagement.Components"
         mc:Ignorable="d"
         xmlns:Search="clr-namespace:HotelManagement.Components.Search" 
+
         Title="AdminWindow" Height="760" Width="1300"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -58,6 +59,18 @@
         <!--TopBar-->
         <Grid Grid.Column="1" Grid.Row="0">
             <Border Background="#F7FAFD" Opacity="0.5" CornerRadius="0 10 0 0">
+                <Label Padding="0" 
+                   
+                           FontSize="25" 
+                            x:Name="PageName"
+                            Content="THỐNG KÊ"
+                           FontWeight="Black" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" 
+                            Foreground="#333" 
+                           FontFamily="{DynamicResource MaterialDesignFont}">
+                    
+                </Label>
             </Border>
             <Rectangle Height="0.4" Fill="#444B55" VerticalAlignment="Bottom" Opacity="0.3"></Rectangle>
         </Grid>
@@ -87,14 +100,15 @@
 
                     <StackPanel Name="MenuItems" Margin="0 20 0 0" PreviewMouseLeftButtonUp="MenuItems_PreviewMouseLeftButtonUp">
                         <StackPanel Height="40">
-                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource overview}" IconWidth="16" Text="Thống kê" VerticalAlignment="Center" Command="{Binding StatiscalCommand}"/>
+                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource overview}" IconWidth="16" Text="Thống kê" VerticalAlignment="Center"
+                                                 Command="{Binding StatisticalCommand}"/>
                         </StackPanel>
                        
                         <Border Height="0.2" Background="{DynamicResource PrimaryTextColor}" Margin="10 5"/>
 
                         <StackPanel Height="40">
                             <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource home}" IconWidth="16" Text="Tra cứu phòng" VerticalAlignment="Center"
-                                                  Command="{Binding RoomCatalogCommand}"/>
+                                                  Command="{Binding RoomLookupCommand}"/>
                         </StackPanel>
                         <StackPanel Height="40">
                             <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource customer}" IconWidth="16" Text="Quản lý loại khách" VerticalAlignment="Center" Command="{Binding CustomerTypeCommand}"/>
