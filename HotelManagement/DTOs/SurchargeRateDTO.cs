@@ -10,5 +10,6 @@ namespace HotelManagement.DTOs
     {
         public int STT { get; set; }
         public double Rate { get; set; }
+        public string RateStr { get; set; }
     }
 }

@@ -141,28 +141,29 @@ namespace HotelManagement.ViewModel.SettingManagementVM
             CloseEditSurchargeRateCM = new RelayCommand<Rectangle>((p) => { return true; }, (p) =>
             {
                 IsEditMaxCus = false;
+                using (HotelManagementNMCNPMEntities db = new HotelManagementNMCNPMEntities())
+                    SoKhachToiDa = (int)db.Parameters.FirstOrDefault(item => item.ParameterKey == "SoKhachToiDa").ParamaterValue;
             });
             SaveSurchargeListCM = new RelayCommand<Window>((p) => { return true; }, async (p) =>
             {
                 for(int i = 0; i < ListSurchargeRate.Count; i++)
                 {
-                    string number = ListSurchargeRate[i].Rate.ToString();
-                    if (!Helper.Number.IsNumeric(number))
+                    double price;
+                    bool isDouble = Double.TryParse(ListSurchargeRate[i].RateStr, out price);
+                    if (!isDouble)
                     {
-                        CustomMessageBox.ShowOk("Vui lòng nhập kiểu số thực cho tỷ lệ phụ thu của khách thứ " + (i + 1 + SoKhachKhongTinhPhuPhi), "Cảnh báo", "OK");
+                        CustomMessageBox.ShowOk("Vui lòng nhập kiểu số thực cho tỷ lệ phụ thu của khách thứ " + (i + 1 + SoKhachKhongTinhPhuPhi), "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                         return;
                     }
-                    if (!Helper.Number.IsPositive(number))
+                    else
                     {
-                        CustomMessageBox.ShowOk("Vui lòng nhập kiểu số thực dương cho tỷ lệ phụ thu của khách thứ " + (i + 1 + SoKhachKhongTinhPhuPhi), "Cảnh báo", "OK");
-                        return;
+                        if(price < 0 || price > 1)
+                        {
+                            CustomMessageBox.ShowOk("Tỷ lệ phụ thu khách thứ " + (i + 1 + SoKhachKhongTinhPhuPhi) + " phải nhỏ hơn 1 và lớn hơn 0", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                        ListSurchargeRate[i].Rate = price;
                     }
-
-                    if (ListSurchargeRate[i].Rate > 100 || ListSurchargeRate[i].Rate < 0)
-                    {
-                        CustomMessageBox.ShowOk("Tỷ lệ phụ thu khách thứ " + (i + 1 + SoKhachKhongTinhPhuPhi) + " phải nhỏ hơn 100 và lớn hơn 0", "Cảnh báo", "OK");
-                        return;
-                    }    
                 }    
                 if(await SaveEditSurchargeRate())
                     CustomMessageBox.ShowOk("Lưu thông tin thành công", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
@@ -185,7 +186,8 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                     if(sr == null)
                         srDTO.Rate = 0;
                     else
-                        srDTO.Rate = (double)sr.Rate * 100;
+                        srDTO.Rate = (double)sr.Rate;
+                    srDTO.RateStr = System.Convert.ToString(srDTO.Rate);
                     ListSurchargeRate.Add(srDTO);
                 }
             }
@@ -207,12 +209,12 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                         {
                             sr = new SurchargeRate();
                             sr.CustomerIndex = i + 1;
-                            sr.Rate = ListSurchargeRate[i - SoKhachKhongTinhPhuPhi].Rate / 100;
+                            sr.Rate = ListSurchargeRate[i - SoKhachKhongTinhPhuPhi].Rate;
                             db.SurchargeRates.Add(sr);
                         }    
                         else
                         {
-                            sr.Rate = ListSurchargeRate[i - SoKhachKhongTinhPhuPhi].Rate / 100;
+                            sr.Rate = ListSurchargeRate[i - SoKhachKhongTinhPhuPhi].Rate;
                         }    
                     }
                     for(int i = SoKhachToiDa; i < OldLength; i++)
