@@ -120,11 +120,12 @@
                              FontSize="16" Foreground="Black"
                          VerticalAlignment="Top"
                              Margin="28 0 0 0" 
+                         PreviewTextInput="TextBox_PreviewTextInput"
                              Height="36" Width="240" 
                              materialDesign:HintAssist.Hint="Nhập hệ số phụ thu " 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
-                             Text="{Binding CoefficientSurcharge,Mode=TwoWay}"/>
+                             Text="{Binding CoefficientSurcharge,Mode=TwoWay, UpdateSourceTrigger=LostFocus ,StringFormat={}{0:#.##}}"/>
             </Grid>
         </Grid>
 

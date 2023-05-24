@@ -9,6 +9,7 @@
       xmlns:Search="clr-namespace:HotelManagement.Components.Search" 
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       Title="BookingRoomManagementPage"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       DataContext="{StaticResource BookingRoomManagmentVM}">
 
     <i:Interaction.Triggers>
@@ -26,21 +27,21 @@
 
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60*"/>
-                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Border CornerRadius="6" 
+                <Border CornerRadius="3" 
                         BorderBrush="#1D242E" 
                         Background="#EBFFFC"
                         BorderThickness="0.5" 
-                        Width="410"  
+                        Width="250"  
                         Margin="30 0 0 0"
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Center" >
                     <Search:Search 
-                        Width="400" Height="38"
+                        Width="240" Height="30"
                         FontSize="12"
                         IconSize="18"
                         Corner="5"
@@ -49,35 +50,119 @@
                         x:Name="SearchBox"
                     />
                 </Border>
-                <!--<Border Height="38" Width="180" 
-                        CornerRadius="4"  
-                        Background="#fff" 
-                        BorderBrush="#1D242E" 
-                        HorizontalAlignment="Left" 
-                        BorderThickness="0.5"
-                        Margin="30 0 0 0">
-                    <ComboBox Padding="12,8" BorderBrush="{DynamicResource SecondTextColor}" Foreground="{DynamicResource SecondTextColor}"
-                              SelectedIndex="0"
-                              FontWeight="Regular"
-                              UseLayoutRounding="False"
-                              FontSize="14" 
-                              SelectedValuePath="Tag"
-                              BorderThickness="0" 
-                              x:Name="cbbFilterRentalContract" 
-                              FontFamily="{DynamicResource MaterialDesignFont}"
-                              HorizontalContentAlignment="Left"
-                              SelectedItem="{Binding FiltercbbItem,Mode=OneWayToSource}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding FilterListRentalContractCommand}"
-                                                   CommandParameter="{Binding ElementName=cbbFilterRentalContract}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <ComboBoxItem  Content="Tất cả" Tag="Tất cả" FontSize="14" />
-                        <ComboBoxItem  Content="Còn hiệu lực" Tag="Còn hiệu lực" FontSize="14"/>
-                        <ComboBoxItem  Content="Hết hiệu lực" Tag="Hết hiệu lực" FontSize="14" />
-                    </ComboBox>
-                </Border>-->
+             
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Label Content="Chọn năm:"
+                       FontSize="16"
+                       Foreground="#888"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                               Margin="20,0,0,0">
+
+                </Label>
+                <Border Background="White" 
+                            BorderBrush="#606060" 
+                            BorderThickness="0.5" 
+                            CornerRadius="2"
+                            Width="160" Height="30" 
+                            HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource iconFilter}" 
+                                   Height="20" 
+                                   Width="28" 
+                                   Margin="10 0 0 0"/>
+                        <ScrollViewer  MaxHeight="160" HorizontalScrollBarVisibility="Hidden" CanContentScroll="False" >
+                            <ScrollViewer.Resources>
+                                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+                            </ScrollViewer.Resources>
+                            <ComboBox Width="110" Height="30"
+                                      Padding="10 5"
+                                      BorderBrush="#606060"
+                                      BorderThickness="0"
+                                      VerticalContentAlignment="Center"
+                                      FontWeight="Medium" 
+                                      Foreground="{StaticResource Gray1}" 
+                                      SelectedIndex="0"
+                                      ItemsSource="{Binding ListFilterYear}"
+                                      Margin="10 0 0 0"
+                                      FontSize="14"
+                                      SelectedItem="{Binding SelectedYear}"
+                                      x:Name="cbbYear"
+                                      HorizontalContentAlignment="Center">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbYearCM}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbYearCM}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </ScrollViewer>
+
+                    </StackPanel>
+                </Border>
+
+                <Label Content="Chọn tháng:"
+                       FontSize="16"
+                       Foreground="#888"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                           Margin="50,0,0,0">
+
+                </Label>
+                <Border Background="White" 
+                            BorderBrush="#606060" 
+                            BorderThickness="0.5" 
+                            CornerRadius="2"
+                            Width="160" Height="30" 
+                            HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource iconFilter}" 
+                                   Height="20" 
+                                   Width="28" 
+                                   Margin="10 0 0 0"/>
+                        <ScrollViewer  MaxHeight="160" HorizontalScrollBarVisibility="Hidden" CanContentScroll="False" >
+                            <ScrollViewer.Resources>
+                                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+                            </ScrollViewer.Resources>
+                            <ComboBox Width="110" Height="30"
+                                      Padding="10 5"
+                                      BorderBrush="#606060"
+                                      BorderThickness="0"
+                                      FontWeight="Medium"
+                                      VerticalContentAlignment="Center"
+                                      Foreground="{StaticResource Gray1}" 
+                                      SelectedIndex="0"
+                                      ItemsSource="{Binding ListFilterMonth}"
+                                      Margin="10 0 0 0"
+                                      FontSize="14"
+                                      SelectedItem="{Binding SelectedMonth}"
+                                      x:Name="cbbMonth"
+                                      HorizontalContentAlignment="Center">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbMonthCM}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ChangeTimeCM}"
+                                                       CommandParameter="{Binding ElementName=cbbMonth}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                            </ComboBox>
+                        </ScrollViewer>
+
+                    </StackPanel>
+                </Border>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0">

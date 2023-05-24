@@ -184,7 +184,30 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 OnPropertyChanged();
             }
         }
-
+        private List<string> _ListFilterYear;
+        public List<string> ListFilterYear
+        {
+            get { return _ListFilterYear; }
+            set { _ListFilterYear = value; OnPropertyChanged(); }
+        }
+        private string _SelectedYear;
+        public string SelectedYear
+        {
+            get { return _SelectedYear; }
+            set { _SelectedYear = value; OnPropertyChanged(); }
+        }
+        private List<string> _ListFilterMonth;
+        public List<string> ListFilterMonth
+        {
+            get { return _ListFilterMonth; }
+            set { _ListFilterMonth = value; OnPropertyChanged(); }
+        }
+        private string _SelectedMonth;
+        public string SelectedMonth
+        {
+            get { return _SelectedMonth; }
+            set { _SelectedMonth = value; OnPropertyChanged(); }
+        }
         public ICommand CloseCM { get; set; }
         public ICommand FirstLoadCM { get; set; }
         public ICommand LoadBookingCM { get; set; }
@@ -196,12 +219,22 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         public ICommand LoadRentalContractInfoCM { get; set; }
         public ICommand ConfirmSaveRentalContract { get; set; }
         public ICommand LoadDeleteRentalContractCM { get; set; }
-        
+        public ICommand ChangeTimeCM { get; set; }
+
         public BookingRoomManagementVM() 
         {
             CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
             ci.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
             Thread.CurrentThread.CurrentCulture = ci;
+            ListFilterYear = new List<string>(BookingRoomService.Ins.GetListFilterYear());
+            SelectedYear = ListFilterYear[0];
+            ListFilterMonth = new List<string>();
+            for (int i = 1; i <= 12; i++)
+            {
+                ListFilterMonth.Add("Tháng " + i.ToString());
+            }
+            ListFilterMonth.Insert(0, "Tất cả");
+            SelectedMonth = "Tất cả";
 
             FirstLoadCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
@@ -209,6 +242,10 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 SelectedRoom = null;
                 await LoadReadyRoom();
                 RentalContractList = new ObservableCollection<RentalContractDTO>(await BookingRoomService.Ins.GetRentalContractList());
+            });
+            ChangeTimeCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+                await ChangeView();
             });
             LoadBookingCM = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
@@ -225,32 +262,33 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 }
                 else
                 {
-                    if (ListCustomer.Count <= 3)
+                    int maxPer = BookingRoomService.Ins.GetMaxNumOfPer();
+                    if (ListCustomer.Count == maxPer)
                     {
-                        try
-                        {
-                            ListCustomerType = new ObservableCollection<string>((await CustomerTypeService.Ins.GetAllCustomerType()).Select(x => x.CustomerTypeName));
-                        }
-                        catch (System.Data.Entity.Core.EntityException e)
-                        {
-                            Console.WriteLine(e);
-                            CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                        }
-
-                        RenewWindowDataCusTomer();
-                        EnterInfoCustomer w = new EnterInfoCustomer();
-                        w.ShowDialog();
-                    }
-                    else
-                    {
-                        CustomMessageBox.ShowOk("Mỗi phòng chỉ được ở tối đa 3 khách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+                        CustomMessageBox.ShowOk($"Mỗi phòng chỉ được ở tối đa {maxPer} khách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
                         return;
                     }
+                  
+                    try
+                    {
+                        ListCustomerType = new ObservableCollection<string>((await CustomerTypeService.Ins.GetAllCustomerType()).Select(x => x.CustomerTypeName));
+                    }
+                    catch (System.Data.Entity.Core.EntityException e)
+                    {
+                        Console.WriteLine(e);
+                        CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                    }
+
+                    RenewWindowDataCusTomer();
+                    EnterInfoCustomer w = new EnterInfoCustomer();
+                    w.ShowDialog();
+                    
+                
                 }
             });
             ConfirmCustomerCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, (p) =>
@@ -344,6 +382,10 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             double  RentalContractPrice = await BookingRoomService.Ins.GetRentalContractPrice(SelectedItem.RentalContractId);
             w.priceInfo.Text = Helper.FormatVNMoney2(RentalContractPrice);
             w.lsvCustomerInfo.ItemsSource = SelectedItem.RentalContracts;
+        }
+        private async Task ChangeView()
+        {
+            RentalContractList = new ObservableCollection<RentalContractDTO>(await BookingRoomService.Ins.GetRentalContractListFilter(SelectedYear, SelectedMonth));
         }
         public void RenewWindowDataCusTomer()
         {

@@ -125,6 +125,7 @@
                                  Focusable="False"
                                  x:Name="roomNumberInfo"
                              Foreground="#686868" 
+                             
                              Height="30" Width="160" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"/>

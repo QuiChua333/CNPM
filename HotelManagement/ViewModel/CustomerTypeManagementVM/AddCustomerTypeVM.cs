@@ -15,10 +15,11 @@ namespace HotelManagement.ViewModel.CustomerTypeManagementVM
         {
             if (IsValidDataCustomerType())
             {
+                float t = float.Parse(CoefficientSurcharge);
                 CustomerTypeDTO customertype = new CustomerTypeDTO
                 {   // check ở đây
                     CustomerTypeName = CustomerTypeName,
-                    CoefficientSurcharge = CoefficientSurcharge,
+                    CoefficientSurcharge = t,
                 };
 
                 (bool successAddCustomerType, string messageFromAddCustomerType, CustomerTypeDTO newCustomerType) = await CustomerTypeService.Ins.AddCustomerType(customertype);

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace HotelManagement.Model.Services
 {
@@ -27,6 +28,93 @@ namespace HotelManagement.Model.Services
         }
 
         public BookingRoomService() { }
+        public List<string> GetListFilterYear()
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+                    var listYear = context.RentalContracts.Select(x => x.CreateDate.Value.Year).ToList();
+                    if (listYear == null) listYear = new List<int>();
+                    if (!listYear.Contains(DateTime.Now.Year))
+                    {
+                        listYear.Add(DateTime.Now.Year);
+                    }
+                    var listYearStr = listYear.Select(x => "Năm " + x.ToString()).ToList();
+                    listYearStr.Reverse();
+                    List<string> list = new List<string>();
+                    foreach (var item in listYearStr)
+                    {
+                        if (!list.Contains(item)) list.Add(item);
+                    }
+                    list.Insert(0, "Tất cả");
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<List<RentalContractDTO>> GetRentalContractListFilter(string yearstr, string monthstr)
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+
+                    int index = 1;
+                    List<RentalContractDTO> RentalContractDTOs = await (
+                        from r in context.RentalContracts
+                        join room in context.Rooms
+                        on r.RoomId equals room.RoomId
+                        select new RentalContractDTO
+                        {
+                            RentalContractId = r.RentalContractId,
+                            CreateDate = r.CreateDate,
+                            RoomId = r.RoomId,
+                            RoomNumber = (int)room.RoomNumber,
+                            RentalContracts = r.RentalContractDetails.Select(x => new RentalContractDetailDTO
+                            {
+                                RentalContractId = x.RentalContractId,
+                                CustomerName = x.CustomerName,
+                                CCCD = x.CCCD,
+                                Address = x.Address,
+                                CustomerType = x.CustomerType.CustomerTypeName,
+                            }).ToList()
+                        }
+                    ).ToListAsync();
+                    RentalContractDTOs.Reverse();
+                    foreach (var r in RentalContractDTOs)
+                    {
+                        r.STT_RentalContract = index++;
+                        int index2 = 1;
+                        foreach (var item in r.RentalContracts)
+                        {
+                            item.STT = index2++;
+                        }
+                    }
+                    if (yearstr != "Tất cả")
+                    {
+                        int year = int.Parse(yearstr.Substring(4));
+                        RentalContractDTOs = new List<RentalContractDTO>(RentalContractDTOs.Where(x => x.CreateDate.Value.Year == year).ToList());
+                    }
+                    if (monthstr != "Tất cả")
+                    {
+                        int month = int.Parse(monthstr.Substring(6));
+                        RentalContractDTOs = new List<RentalContractDTO>(RentalContractDTOs.Where(x => x.CreateDate.Value.Month == month).ToList());
+                    }
+
+
+                    return RentalContractDTOs;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public async Task<(bool, string)> DeleteRentalContract(string rentalContractId)
         {
             try
@@ -223,6 +311,23 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
-        
+        public int GetMaxNumOfPer()
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+
+                    int res = (int)context.Parameters.FirstOrDefault(x => x.ParameterKey == "SoKhachToiDa").ParamaterValue;
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
     }
 }

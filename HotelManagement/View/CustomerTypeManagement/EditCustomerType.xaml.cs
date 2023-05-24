@@ -30,19 +30,23 @@ namespace HotelManagement.View.CustomerTypeManagement
         {
             this.DragMove();
         }
-        private static readonly Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
-
-
-        private static bool IsTextAllowed(string text)
-        {
-            return !_regex.IsMatch(text);
-        }
+       
         private void EditCustomerTypeWindow_PreviewKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key != System.Windows.Input.Key.Escape) return;
 
             e.Handled = true;
             this.Close();
+        }
+
+        private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+        private static bool IsTextAllowed(string text)
+        {
+            return !_regex.IsMatch(text);
+        }
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
         }
     }
 }

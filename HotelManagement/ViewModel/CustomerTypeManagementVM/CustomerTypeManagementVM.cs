@@ -30,8 +30,8 @@ namespace HotelManagement.ViewModel.CustomerTypeManagementVM
             set { _CustomerTypeName = value; OnPropertyChanged(); }
         }
 
-        private float _CoefficientSurcharge;
-        public float CoefficientSurcharge
+        private string _CoefficientSurcharge;
+        public string CoefficientSurcharge
         {
             get { return _CoefficientSurcharge; }
             set { _CoefficientSurcharge = value; OnPropertyChanged(); }
@@ -208,7 +208,7 @@ namespace HotelManagement.ViewModel.CustomerTypeManagementVM
         {
             CustomerTypeId = null;
             CustomerTypeName = null;
-            CoefficientSurcharge = 0;
+            CoefficientSurcharge = "";
         }
         public bool IsValidDataCustomerType()
         {
