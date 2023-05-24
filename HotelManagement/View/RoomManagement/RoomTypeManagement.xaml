@@ -33,7 +33,7 @@
             <Grid Grid.Column="0">
                 <Border CornerRadius="6" 
                         BorderBrush="#1D242E" 
-                        Background="#E3FFF7"
+                        Background="#EBFFFC"
                         BorderThickness="0.5" 
                         Width="410"  
                         Margin="30 0 0 0"

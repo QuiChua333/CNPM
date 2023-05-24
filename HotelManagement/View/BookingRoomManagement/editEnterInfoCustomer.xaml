@@ -197,10 +197,9 @@
                                   materialDesign:HintAssist.Hint="Chọn loại khách hàng"
                                   FontSize="16"
                                   x:Name="cbbCusType"
-                                  SelectedItem="{Binding CustomerType, Mode=TwoWay}"
+                                  ItemsSource="{Binding ListCustomerType}"
+                                  SelectedItem="{Binding CustomerType, Mode=OneWayToSource}"
                                   HorizontalContentAlignment="Left">
-                            <ComboBoxItem  Content="Nội địa" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem  Content="Nước ngoài" FontSize="16" Foreground="Black"/>
                         </ComboBox>
                     </Border>
                 </Grid>

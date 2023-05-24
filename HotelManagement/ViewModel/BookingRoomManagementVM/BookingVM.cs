@@ -52,7 +52,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 cus.CustomerName = CustomerName;
                 cus.Address = AddressCustomer;
                 cus.CCCD = CCCD;
-                cus.CustomerType = CustomerType.Content.ToString();
+                cus.CustomerType = CustomerType;
                 cus.STT = STT;
                 foreach (var i in ListCustomer)
                 {
@@ -113,7 +113,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 SelectedCustomer.CustomerName = CustomerName;
                 SelectedCustomer.CCCD = CCCD;
                 SelectedCustomer.Address = AddressCustomer;
-                SelectedCustomer.CustomerType = CustomerType.Content.ToString();
+                SelectedCustomer.CustomerType = CustomerType;
                 
                 CustomMessageBox.ShowOk("Cập nhật thông tin khách ở thành công !", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
                 p.Close();

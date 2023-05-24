@@ -50,13 +50,6 @@ namespace HotelManagement.ViewModel.RoomManagementVM
             set { _RoomStatus = value; OnPropertyChanged(); }
         }
 
-        private string _cbRoomType;
-        public string CbRoomType
-        {
-            get { return _cbRoomType; }
-            set { _cbRoomType = value; OnPropertyChanged(); }
-        }
-
         private RoomDTO _selectedItem;
         public RoomDTO SelectedItem
         {
@@ -87,6 +80,12 @@ namespace HotelManagement.ViewModel.RoomManagementVM
                 _roomList = value;
                 OnPropertyChanged();
             }
+        }
+        private string _cbRoomType;
+        public string CbRoomType
+        {
+            get { return _cbRoomType; }
+            set { _cbRoomType = value; OnPropertyChanged(); }
         }
 
         private ObservableCollection<string> _listRoomType;

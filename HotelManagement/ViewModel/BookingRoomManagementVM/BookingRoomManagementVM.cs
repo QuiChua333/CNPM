@@ -125,8 +125,8 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             }
         }
         private bool IsSave = false;
-        private ComboBoxItem _CustomerType;
-        public ComboBoxItem CustomerType
+        private string _CustomerType;
+        public string CustomerType
         {
             get { return _CustomerType; }
             set { _CustomerType = value; OnPropertyChanged(); }
@@ -172,6 +172,19 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             get { return _RentalDay; }
             set { _RentalDay = value; OnPropertyChanged(); }
         }
+
+
+        private ObservableCollection<string> _listCustomerType;
+        public ObservableCollection<string> ListCustomerType
+        {
+            get => _listCustomerType;
+            set
+            {
+                _listCustomerType = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand CloseCM { get; set; }
         public ICommand FirstLoadCM { get; set; }
         public ICommand LoadBookingCM { get; set; }
@@ -203,7 +216,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 Booking booking = new Booking();
                 booking.ShowDialog();
             });
-            LoadFormInfoCustomerCM = new RelayCommand<object>((p) => { return true; }, (p) =>
+            LoadFormInfoCustomerCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
                 if (SelectedRoom == null)
                 {
@@ -214,6 +227,21 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 {
                     if (ListCustomer.Count <= 3)
                     {
+                        try
+                        {
+                            ListCustomerType = new ObservableCollection<string>((await CustomerTypeService.Ins.GetAllCustomerType()).Select(x => x.CustomerTypeName));
+                        }
+                        catch (System.Data.Entity.Core.EntityException e)
+                        {
+                            Console.WriteLine(e);
+                            CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                        }
+
                         RenewWindowDataCusTomer();
                         EnterInfoCustomer w = new EnterInfoCustomer();
                         w.ShowDialog();
@@ -235,6 +263,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             {
                 IsSave = true;
                 EditCustomerFunc(p);
+                SelectedCustomer = null;
             });
             LoadDeleteCustomerCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
             {
@@ -244,8 +273,23 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 if (kq == CustomMessageBoxResult.OK)
                     ListCustomer.Remove(SelectedCustomer);
             });
-            LoadEditCustomerCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
+            LoadEditCustomerCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, async (p) =>
             {
+                try
+                {
+                    ListCustomerType = new ObservableCollection<string>((await CustomerTypeService.Ins.GetAllCustomerType()).Select(x => x.CustomerTypeName));
+                }
+                catch (System.Data.Entity.Core.EntityException e)
+                {
+                    Console.WriteLine(e);
+                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+
                 cccd_Last = SelectedCustomer.CCCD.ToString();
                 editEnterInfoCustomer w = new editEnterInfoCustomer();
                 CustomerName = SelectedCustomer.CustomerName;
@@ -314,7 +358,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             return (!string.IsNullOrEmpty(CustomerName) &&
                 !string.IsNullOrEmpty(CCCD) &&
                 !string.IsNullOrEmpty(AddressCustomer) &&
-                !string.IsNullOrEmpty(CustomerType.Content.ToString()));
+                !string.IsNullOrEmpty(CustomerType));
         }
     }
 }
