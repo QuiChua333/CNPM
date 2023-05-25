@@ -50,10 +50,5 @@ namespace HotelManagement.View.SettingManagement
         {
             EditIcon.Kind = PackIconKind.Pencil;
         }
-
-        private void InputPercentage_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
-        }
     }
 }
