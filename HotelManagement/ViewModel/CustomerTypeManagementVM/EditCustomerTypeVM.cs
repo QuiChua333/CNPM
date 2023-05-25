@@ -18,14 +18,14 @@ namespace HotelManagement.ViewModel.CustomerTypeManagementVM
         {
             CustomerTypeName = SelectedItemCustomerType.CustomerTypeName;
             CustomerTypeId = SelectedItemCustomerType.CustomerTypeId;
-            CoefficientSurcharge = SelectedItemCustomerType.CoefficientSurcharge.ToString();
+            CoefficientSurcharge = SelectedItemCustomerType.CoefficientSurchargeStr;
         }
 
         public async Task UpdateCustomerTypeFunc(System.Windows.Window p)
         {
             if (CustomerTypeId != null && IsValidDataCustomerType())
             {
-                float t = float.Parse(CoefficientSurcharge);
+                double t = Double.Parse(CoefficientSurcharge);
                 CustomerTypeDTO customertype = new CustomerTypeDTO
                 {
                     CustomerTypeId = CustomerTypeId,

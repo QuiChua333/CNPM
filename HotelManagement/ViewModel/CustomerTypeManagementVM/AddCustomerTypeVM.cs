@@ -15,7 +15,7 @@ namespace HotelManagement.ViewModel.CustomerTypeManagementVM
         {
             if (IsValidDataCustomerType())
             {
-                float t = float.Parse(CoefficientSurcharge);
+                double t = double.Parse(CoefficientSurcharge);
                 CustomerTypeDTO customertype = new CustomerTypeDTO
                 {   // check ở đây
                     CustomerTypeName = CustomerTypeName,

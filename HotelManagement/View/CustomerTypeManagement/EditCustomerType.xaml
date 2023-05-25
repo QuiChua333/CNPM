@@ -125,7 +125,7 @@
                              materialDesign:HintAssist.Hint="Nhập hệ số phụ thu " 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
-                             Text="{Binding CoefficientSurcharge,Mode=TwoWay, UpdateSourceTrigger=LostFocus ,StringFormat={}{0:#.##}}"/>
+                             Text="{Binding CoefficientSurcharge,Mode=TwoWay}"/>
             </Grid>
         </Grid>
 

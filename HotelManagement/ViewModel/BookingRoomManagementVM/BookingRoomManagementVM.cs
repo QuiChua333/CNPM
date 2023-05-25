@@ -286,6 +286,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
 
                     RenewWindowDataCusTomer();
                     EnterInfoCustomer w = new EnterInfoCustomer();
+                    w.cbbCusType.SelectedIndex= 0;
                     w.ShowDialog();
                     
                 
@@ -392,7 +393,6 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             CustomerName = null;
             CCCD = null;
             AddressCustomer = null;
-            CustomerType = null;
             
         }
         public bool IsValidDataCustomer()

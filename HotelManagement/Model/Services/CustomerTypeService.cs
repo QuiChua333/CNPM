@@ -38,7 +38,7 @@ namespace HotelManagement.Model.Services
                             // DTO = db
                             CustomerTypeId = ct.CustomerTypeId,
                             CustomerTypeName = ct.CustomerTypeName,
-                            CoefficientSurcharge = (float)ct.CoefficientSurcharge,
+                            CoefficientSurcharge = (double)ct.CoefficientSurcharge,
                         }
                     ).ToListAsync();
                  

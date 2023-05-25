@@ -10,7 +10,14 @@ namespace HotelManagement.DTOs
     {
         public string CustomerTypeId { get; set; }
         public string CustomerTypeName { get; set; }
-        public float CoefficientSurcharge { get; set; }
+        public double CoefficientSurcharge { get; set; }
+        public string CoefficientSurchargeStr
+        {
+            get
+            {
+                return Convert.ToString(CoefficientSurcharge);
+            }
+        }
 
     }
 }

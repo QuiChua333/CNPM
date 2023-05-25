@@ -118,7 +118,7 @@
                                     <GridViewColumn Width="310" Header="Hệ số phụ thu" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding CoefficientSurcharge}"
+                                                <TextBlock Text="{Binding CoefficientSurchargeStr}"
                                                            Width="200"
                                                            FontSize="14" 
                                                            Margin="0 8 0 0"
