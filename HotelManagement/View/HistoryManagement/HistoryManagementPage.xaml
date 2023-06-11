@@ -28,12 +28,11 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Border CornerRadius="6" 
+                <Border CornerRadius="5" 
                         BorderBrush="#1D242E" 
                         Background="#EBFFFC"
                         BorderThickness="0.5" 
-                        Width="360"  
-                        Margin="30 0 0 0"
+                        Margin="40 0 0 0"
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Center" >
                     <Search:Search 
@@ -41,8 +40,8 @@
                         FontSize="12"
                         IconSize="18"
                         Corner="5"
-                        Margin="10 0 0 0"
                         SearchTextChange="Search_SearchTextChange"
+                        IndicatorBrush="#EBFFFC"
                         x:Name="SearchBox"
                     />
                 </Border>
