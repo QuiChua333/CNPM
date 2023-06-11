@@ -69,6 +69,7 @@ namespace HotelManagement.ViewModel.SettingManagementVM
         public ICommand ChooseColorCM { get; set; }
         public ICommand CloseEditSurchargeRateCM { get; set; }
         public ICommand SaveSurchargeListCM { get; set; }
+        public ICommand CLoseColorPickerCM { get; set; }
         public SettingManagementVM()
         {
             FirstLoadCM = new RelayCommand<object>((p) => { return true; }, (p) =>
@@ -84,6 +85,7 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                     SoKhachToiDa = (int)(db.Parameters.FirstOrDefault(item => item.ParameterKey == "SoKhachToiDa").ParamaterValue ?? 0);
                 }
                 IsEditMaxCus = false;
+                ColorPicked = (SolidColorBrush)new BrushConverter().ConvertFrom(Properties.Settings.Default.MainAppColor);
             });
 
             EditMaxCusCM = new RelayCommand<PackIcon>((p) => { return true; }, (p) =>
@@ -172,6 +174,10 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                 ListSurchargeRate.Clear();
                 p.Close();
                 IsEditMaxCus = false;
+            });
+            CLoseColorPickerCM = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                p.Visibility = Visibility.Collapsed;
             });
         }
         public async void GetValue()
