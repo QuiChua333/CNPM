@@ -26,6 +26,7 @@ namespace HotelManagement.ViewModel
             get { return _currentView; }
             set { _currentView = value; OnPropertyChanged(); }
         }
+        public static HomeVM homeVM;
         private void Statistical(object obj)
         {
             CurrentView = new StatisticalManagementVM.StatisticalManagementVM();
@@ -94,6 +95,10 @@ namespace HotelManagement.ViewModel
             SettingCommand = new RelayCommand(Setting);
             CustomerTypeCommand = new RelayCommand(CustomerType);
 
+        }
+        public void setNavigateHelpScreen()
+        {
+            CurrentView = new HelpScreenVM.HelpScreenVM();
         }
     }
 

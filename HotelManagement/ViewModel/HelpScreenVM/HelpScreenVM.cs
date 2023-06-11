@@ -25,8 +25,7 @@ namespace HotelManagement.ViewModel.HelpScreenVM
             {
                 string myUri = !uri.ToString().Contains("https://") && !uri.ToString().Contains("http://") ? "http://" + uri.ToString() : uri.ToString();
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(myUri));
-                HelpScreen h = new HelpScreen();
-                h.ShowsNavigationUI = true;
+                HomeVM.homeVM.setNavigateHelpScreen();
             });
             Load_PrivacyPolicy = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
