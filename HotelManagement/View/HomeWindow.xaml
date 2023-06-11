@@ -120,7 +120,7 @@
                                                  Command="{Binding CustomerTypeCommand}"/>
                         </StackPanel>
                         <StackPanel Height="40">
-                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource billing}" IconWidth="16" Text="Quản lý phòng" VerticalAlignment="Center" 
+                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource billing}" IconWidth="16" Text="Quản lý phòng - loại phòng" VerticalAlignment="Center" 
                                                  Command="{Binding RoomCommand}"/>
                         </StackPanel>
                       

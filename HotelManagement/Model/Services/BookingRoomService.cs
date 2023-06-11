@@ -56,6 +56,40 @@ namespace HotelManagement.Model.Services
                 throw ex;
             }
         }
+        public async Task<double> GetPriceBooking(string roomId, List<RentalContractDetailDTO> ListCustomer)
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+                    int numPerForUnitPrice = (int)context.Parameters.FirstOrDefault(x => x.ParameterKey == "SoKhachKhongTinhPhuPhi").ParamaterValue;
+                    double rateForeign = (double)context.CustomerTypes.FirstOrDefault(x => x.CustomerTypeName == "Nước ngoài").CoefficientSurcharge;
+                    var listSurcharge = await context.SurchargeRates.ToListAsync();
+
+                    Room r = await context.Rooms.FindAsync(roomId);
+                    int numPer = ListCustomer.Count;
+                    bool isHasForeign = ListCustomer.Any(x => x.CustomerType == "Nước ngoài");
+                    double RoomTypePrice = (double)r.RoomType.Price;
+                    double PricePerDay = RoomTypePrice;
+                    if (numPer > numPerForUnitPrice)
+                    {
+                        for (int i = 0; i < numPer - numPerForUnitPrice; i++)
+                        {
+                            PricePerDay += RoomTypePrice * (double)listSurcharge[i].Rate;
+                        }
+                    }
+                    if (isHasForeign)
+                    {
+                        PricePerDay *= rateForeign;
+                    }
+                    return PricePerDay;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<List<RentalContractDTO>> GetRentalContractListFilter(string yearstr, string monthstr)
         {
             try

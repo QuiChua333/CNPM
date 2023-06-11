@@ -35,7 +35,7 @@
             <Label Grid.Column="1" 
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center" 
-                   Content="THÔNG TIN ĐẶT PHÒNG" 
+                   Content="THÔNG TIN KHÁCH HÀNG" 
                    FontSize="24" 
                    Foreground="#009099" 
                    FontWeight="Bold"/>

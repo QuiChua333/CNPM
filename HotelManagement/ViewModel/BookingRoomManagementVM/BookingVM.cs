@@ -1,6 +1,7 @@
 ﻿using HotelManagement.DTOs;
 using HotelManagement.Model;
 using HotelManagement.Model.Services;
+using HotelManagement.Utilities;
 using HotelManagement.Utils;
 using HotelManagement.View.CustomMessageBoxWindow;
 using System;
@@ -42,7 +43,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 CustomMessageBox.ShowOk(message, "Lỗi", "OK", CustomMessageBoxImage.Error);
             }
         }
-        public void SaveCustomerFunc(System.Windows.Window p)
+        public async Task SaveCustomerFunc(System.Windows.Window p)
         {
             if (IsValidDataCustomer())
             {
@@ -77,6 +78,9 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 }
                 ListCustomer.Add(cus);
                 CustomMessageBox.ShowOk("Thêm khách ở thành công !", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+
+                var Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                PriceStr = Helper.FormatVNMoney2(Price);
                 p.Close();
             }
             else
@@ -85,7 +89,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             }
         }
 
-        public void EditCustomerFunc(System.Windows.Window p)
+        public async Task EditCustomerFunc(System.Windows.Window p)
         {
             if (IsValidDataCustomer())
             {
@@ -116,6 +120,8 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 SelectedCustomer.CustomerType = CustomerType;
                 
                 CustomMessageBox.ShowOk("Cập nhật thông tin khách ở thành công !", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                var Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                PriceStr = Helper.FormatVNMoney2(Price);
                 p.Close();
             }
             else

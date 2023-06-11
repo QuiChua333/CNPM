@@ -70,6 +70,16 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 OnPropertyChanged();
             }
         }
+        private string _PriceStr;
+        public string PriceStr
+        {
+            get => _PriceStr;
+            set
+            {
+                _PriceStr = value;
+                OnPropertyChanged();
+            }
+        }
         private string _RoomId;
         public string RoomId
         {
@@ -240,6 +250,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             {
                 STT = 0;
                 SelectedRoom = null;
+                PriceStr = "";
                 await LoadReadyRoom();
                 RentalContractList = new ObservableCollection<RentalContractDTO>(await BookingRoomService.Ins.GetRentalContractList());
             });
@@ -292,16 +303,16 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 
                 }
             });
-            ConfirmCustomerCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, (p) =>
+            ConfirmCustomerCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; },async (p) =>
             {
                 IsSaving = true;
-                SaveCustomerFunc(p);
+                await SaveCustomerFunc(p);
                 IsSaving = false;
             });
-            ConfirmEditCustomerCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
+            ConfirmEditCustomerCM = new RelayCommand<System.Windows.Window>((p) => { return true; },async (p) =>
             {
                 IsSave = true;
-                EditCustomerFunc(p);
+                await EditCustomerFunc(p);
                 SelectedCustomer = null;
             });
             LoadDeleteCustomerCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>

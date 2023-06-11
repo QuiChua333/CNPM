@@ -42,7 +42,7 @@ namespace HotelManagement.ViewModel
         private void Room(object obj)
         {
             CurrentView = new RoomManagementVM.RoomPageVM();
-            HomeWindow.lbPageName.Content = "QUẢN LÝ PHÒNG";
+            HomeWindow.lbPageName.Content = "QUẢN LÝ PHÒNG - LOẠI PHÒNG";
         }
         private void History(object obj)
         {

@@ -18,7 +18,7 @@ namespace HotelManagement.DTOs
         }
         public string RentalContractId { get; set; }
         public string RentalContractDetailId { get; set; }
-        public string CustomerTypeId { get; set; }
+        public string CustomerTypeId { get; set; } 
         private string _CustomerName;
         public string CustomerName
         {
