@@ -30,21 +30,20 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <Border CornerRadius="6" 
+                <Border CornerRadius="5" 
                         BorderBrush="#1D242E" 
                         Background="#EBFFFC"
                         BorderThickness="0.5" 
-                        Width="410"  
-                        Margin="30 0 0 0"
+                        Margin="40 0 0 0"
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Center" >
                     <Search:Search 
-                        Width="400" Height="38"
+                        Width="410" Height="38"
                         FontSize="12"
                         IconSize="18"
                         Corner="5"
-                        Margin="10 0 0 0"
                         SearchTextChange="Search_SearchTextChange"
+                        IndicatorBrush="#EBFFFC"
                         x:Name="SearchBox"
                     />
                 </Border>

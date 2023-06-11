@@ -32,25 +32,24 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Border CornerRadius="3" 
+                <Border CornerRadius="5" 
                         BorderBrush="#1D242E" 
                         Background="#EBFFFC"
                         BorderThickness="0.5" 
-                        Width="250"  
                         Margin="30 0 0 0"
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Center" >
                     <Search:Search 
-                        Width="240" Height="30"
+                        Width="250" Height="30"
                         FontSize="12"
                         IconSize="18"
                         Corner="5"
-                        Margin="10 0 0 0"
                         SearchTextChange="Search_SearchTextChange"
+                        IndicatorBrush="#EBFFFC"
                         x:Name="SearchBox"
                     />
                 </Border>
-             
+
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <Label Content="Chọn năm:"

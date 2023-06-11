@@ -161,19 +161,26 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" VerticalAlignment="Bottom">
-
-                    <Label x:Name="clock"
-                           Content="{Binding CurrentDateTime}"
-                           ContentStringFormat="dd/MM/yyyy HH:mm"
-                           FontSize="22" 
-                           FontWeight="Bold" 
-                           VerticalAlignment="Center" 
-                           HorizontalAlignment="Left" 
-                           Foreground="#009099" 
-                           FontFamily="{DynamicResource MaterialDesignFont}">
-                        
-                        
-                    </Label>
+                    <StackPanel>
+                        <Border CornerRadius="5" 
+                            BorderBrush="#1D242E" 
+                            Background="#EBFFFC"
+                            BorderThickness="0.5" 
+                            Margin="30 0 0 0"
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" >
+                                <Search:Search 
+                                    Width="350" Height="38"
+                                    FontSize="12"
+                                    IconSize="18"
+                                    Corner="5"
+                                    SearchTextChange="SearchBox_SearchTextChange"
+                                    IndicatorBrush="#EBFFFC"
+                                    x:Name="SearchBox"
+                                />
+                            </Border>
+                    </StackPanel>
+                 
                     <materialDesign:TransitioningContent Visibility="Hidden"
                                                          x:Name="btnThanhToan"
                                                               HorizontalAlignment="Right">
@@ -212,7 +219,7 @@
 
 
                     <ListBox x:Name="listListRoomType"
-                    
+                    Loaded="listListRoomType_Loaded"
                                  VerticalAlignment="Top"
                                  HorizontalAlignment="Left"
                                  Margin="20,0,0,0"
@@ -255,6 +262,7 @@
                                     </StackPanel>
                                     <ListBox           
                                         ItemsSource="{Binding Rooms}"
+                                        Loaded="listRoom_Loaded"
                                         x:Name="listRoom"
                                          VerticalAlignment="Center"
                                          HorizontalAlignment="Left"

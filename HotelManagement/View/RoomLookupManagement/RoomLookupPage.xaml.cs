@@ -26,15 +26,49 @@ namespace HotelManagement.View.RoomLookupManagement
         public RoomLookupPage()
         {
             InitializeComponent();
+            listRoomList = new List<ListBox>();
         }
+        List<ListBox> listRoomList;
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
-        
 
-      
+
+        private void SearchBox_SearchTextChange(object sender, EventArgs e)
+        {
+            for (int i = 0; i < listRoomList.Count; i++)
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listRoomList[i].ItemsSource);
+                if (view != null)
+                {
+                    view.Filter = Filter;
+                    CollectionViewSource.GetDefaultView(listRoomList[i].ItemsSource).Refresh();
+                }
+            }
+        }
+        private bool Filter(object item)
+        {
+            if (String.IsNullOrEmpty(SearchBox.Text))
+                return true;
+            else
+                return ((item as RoomDTO).RoomNumber.ToString().IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
+        private void listListRoomType_Loaded(object sender, RoutedEventArgs e)
+        {
+            ListBox a = sender as ListBox;
+
+        }
+
+        private void listRoom_Loaded(object sender, RoutedEventArgs e)
+        {
+            ListBox a = sender as ListBox;
+            if(a!=null)
+                listRoomList.Add(a);
+        }
+
     }
 }
