@@ -72,6 +72,5 @@ namespace HotelManagement.View.SettingManagement
             BlueRectangle.Width = 50;
             BlueRectangle.Height = 50;
         }
-
     }
 }

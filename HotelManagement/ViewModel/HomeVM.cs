@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace HotelManagement.ViewModel
 {
@@ -67,7 +69,7 @@ namespace HotelManagement.ViewModel
             HomeWindow.lbPageName.Content = "QUẢN LÝ LOẠI KHÁCH";
         }
 
-
+        public ICommand FirstLoadCM { get; set; }
         public ICommand RoomLookupCommand { get; set; }
         public ICommand BookingRoomCommand { get; set; }
         public ICommand RoomCommand { get; set; }
@@ -78,6 +80,10 @@ namespace HotelManagement.ViewModel
         public ICommand CustomerTypeCommand { get; set; }
         public HomeVM()
         {
+            FirstLoadCM = new RelayCommand<Rectangle>((p) => { return true; }, (p) =>
+            {
+                p.Fill = (SolidColorBrush)new BrushConverter().ConvertFrom(Properties.Settings.Default.MainAppColor);
+            });
             _currentView = new StatisticalManagementVM.StatisticalManagementVM();
             StatisticalCommand = new RelayCommand(Statistical);
             BookingRoomCommand = new RelayCommand(BookingRoom);
@@ -87,6 +93,7 @@ namespace HotelManagement.ViewModel
             HelpScreenCommand = new RelayCommand(Help);
             SettingCommand = new RelayCommand(Setting);
             CustomerTypeCommand = new RelayCommand(CustomerType);
+
         }
     }
 
