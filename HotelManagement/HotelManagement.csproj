@@ -739,6 +739,7 @@
       <DependentUpon>HotelManagementDatabase.edmx</DependentUpon>
       <LastGenOutput>HotelManagementDatabase.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\Icons\zoomout.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

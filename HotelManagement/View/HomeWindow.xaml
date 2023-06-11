@@ -57,30 +57,152 @@
         <!--Content-->
         <Frame NavigationUIVisibility="Hidden" x:Name="Content" Grid.Column="1" Grid.Row="1" Content="{Binding CurrentView}"></Frame>
         <!--TopBar-->
-        <Grid Grid.Column="1" Grid.Row="0">
+        <Grid Name="TopBar"  Grid.Column="1" Grid.Row="0">
             <Border Background="#F7FAFD" Opacity="0.5" CornerRadius="0 10 0 0">
-                <Label Padding="0" 
-                   
-                           FontSize="25" 
-                            x:Name="PageName"
-                            Content="THỐNG KÊ"
-                           FontWeight="Black" 
-                           VerticalAlignment="Center" 
-                           HorizontalAlignment="Center" 
-                            Foreground="#333" 
-                           FontFamily="{DynamicResource MaterialDesignFont}">
-                    
-                </Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="14*"/>
+                        <ColumnDefinition Width="571*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
             </Border>
             <Rectangle Height="0.4" Fill="#444B55" VerticalAlignment="Bottom" Opacity="0.3"></Rectangle>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Ellipse x:Name="AvatarGreeding" Fill="#FED600" Width="18" Height="18" />
+                        <TextBlock x:Name="Honorifics" Text="Good Morning" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="#1D242E"  FontWeight="Medium" FontSize="14" Grid.ColumnSpan="2" HorizontalAlignment="Left"/>
+
+                    </StackPanel>
+                    <TextBlock Name="DayMonthYear" HorizontalAlignment="Right" Text="14 January 2022" VerticalAlignment="Center" Foreground="#1D242E"  FontWeight="Regular" FontSize="14" Grid.ColumnSpan="2" />
+
+                </StackPanel>
+            </Grid>
+            <Label Padding="0" 
+                    FontSize="25" 
+                    x:Name="PageName"
+                    Content="THỐNG KÊ"
+                    FontWeight="Black" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" 
+                    Foreground="#333" 
+                    FontFamily="{DynamicResource MaterialDesignFont}">
+            </Label>
+            <Border Name="TopControl" Background="Transparent" Margin="0 0 20 0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Opacity" Value="0.6"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <StackPanel Height="40" Orientation="Horizontal">
+                    <Button Focusable="False" Foreground="Black" Cursor="Hand" Click="Button_Click_1">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Width" Value="24"/>
+                                <Setter Property="Margin" Value="0,4,0,4"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseCaptured" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Border Width="24" Height="24" Background="#FF01BB01" CornerRadius="24">
+                            <Image Width="17" Height="17" Source="{StaticResource DockWindowIcon}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </Button>
+                    <Button Focusable="False" Foreground="Black" Cursor="Hand" Click="Button_Click">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Width" Value="24"/>
+                                <Setter Property="Margin" Value="12,4,12,4"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseCaptured" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Border Width="24" Height="24" Background="#FFEBEB00" CornerRadius="24">
+                            <materialDesign:PackIcon Kind="Minimize" Foreground="#FF2E2E2E" VerticalAlignment="Center" HorizontalAlignment="Center"></materialDesign:PackIcon>
+                        </Border>
+                    </Button>
+                    <Button Focusable="False" materialDesign:ButtonAssist.CornerRadius="0,10,0,0" Cursor="Hand" Click="Button_Click_2">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Width" Value="24"/>
+                                <Setter Property="Margin" Value="0,4,0,4"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="0,10,0,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseCaptured" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Border Width="24" Height="24" Background="#FFE00000" CornerRadius="24">
+                            <materialDesign:PackIcon Kind="Close" Foreground="#FF2D2D2D" VerticalAlignment="Center" HorizontalAlignment="Center"></materialDesign:PackIcon>
+                        </Border>
+                    </Button>
+                </StackPanel>
+            </Border>
         </Grid>
+        
+        <!--<Grid Grid.Column="1" Grid.Row="0">
+            <Border Background="#F7FAFD" Opacity="0.5" CornerRadius="0 10 0 0">
+                
+            </Border>
+            <Rectangle Height="0.4" Fill="#444B55" VerticalAlignment="Bottom" Opacity="0.3"></Rectangle>
+        </Grid>-->
         <Rectangle Grid.ColumnSpan="2" Grid.RowSpan="2" MouseLeftButtonDown="Mask_MouseLeftButtonDown" x:Name="Mask" Fill="Black" Visibility="Collapsed" Opacity="0.3" RadiusX="10" RadiusY="10"/>
         <!--SideBar-->
         <Border 
             Background="{DynamicResource SidebarColor}"
             Name="Sidebar"
             CornerRadius="10 0 0 10" 
-            Height="760"  
+            VerticalAlignment="Stretch"
             HorizontalAlignment="Left"
             Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <Grid Width="62" Name="GridNav">
