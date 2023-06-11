@@ -64,7 +64,7 @@
                                         <RadioButton GroupName="RoomType"  Background="#666666"
                                         
                                          x:Name="rdbRoomType"
-                                         IsChecked="True"
+                                         
                                          Command="{Binding ChangeRoomType1CM}"
                                          CommandParameter="{Binding ElementName=rdbRoomType}">
                                             <i:Interaction.Triggers>
