@@ -7,10 +7,12 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
+        
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="EditSurchargeFee"
         Name="EditSurchargeWD"
         WindowStyle="None"
-        Width="420" MaxHeight="680"
+        Width="420" Height="350"
         AllowsTransparency="True"
         Background="Transparent"
         DataContext="{StaticResource SettingVM}"
@@ -45,7 +47,13 @@
                     </Grid>
                     <Grid Name="Content" Grid.Row="1">
                         <StackPanel Margin="5 10 5 10" HorizontalAlignment="Center">
-                            <ListBox ItemsSource="{Binding ListSurchargeRate}">
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                            <ListBox ItemsSource="{Binding ListSurchargeRate}"
+                                      d:ItemsSource="{d:SampleData ItemCount=5}"
+                                      MaxHeight="200">
+                                <ListBox.Resources>
+                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+                                </ListBox.Resources>
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="{x:Type ListBoxItem}">
                                         <Setter Property="Background" Value="Transparent"/>
@@ -82,7 +90,8 @@
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                        </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 0 20 20" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                         <Button Name="CloseButton" Cursor="Hand" Click="CloseButton_Click" Margin="0 0 10 0" Width="60" Height="36" materialDesign:ButtonAssist.CornerRadius="5" Background="#EC4242">
