@@ -61,7 +61,7 @@ namespace HotelManagement.ViewModel
         private void Setting(object obj)
         {
             CurrentView = new SettingManagementVM.SettingManagementVM();
-            HomeWindow.lbPageName.Content = "MÀN HÌNH CÀI ĐẶT";
+            HomeWindow.lbPageName.Content = "THAY ĐỔI TỶ LỆ PHỤ THU - SỐ KHÁCH TỐI ĐA";
 
         }
         private void CustomerType(object obj)
@@ -78,6 +78,7 @@ namespace HotelManagement.ViewModel
         public ICommand HelpScreenCommand { get; set; }
         public ICommand HistoryCommand { get; set; }
         public ICommand SettingCommand { get; set; }
+        public ICommand ViewSettingCommand { get; set; }
         public ICommand CustomerTypeCommand { get; set; }
         public HomeVM()
         {
@@ -95,6 +96,11 @@ namespace HotelManagement.ViewModel
             HelpScreenCommand = new RelayCommand(Help);
             SettingCommand = new RelayCommand(Setting);
             CustomerTypeCommand = new RelayCommand(CustomerType);
+            ViewSettingCommand = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                ViewSettingWindow viewSettingWindow = new ViewSettingWindow(); ;
+                viewSettingWindow.ShowDialog();
+            });
 
         }
         public void setNavigateHelpScreen()

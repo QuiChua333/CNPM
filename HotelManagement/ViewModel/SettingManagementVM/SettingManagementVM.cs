@@ -70,6 +70,7 @@ namespace HotelManagement.ViewModel.SettingManagementVM
         public ICommand CloseEditSurchargeRateCM { get; set; }
         public ICommand SaveSurchargeListCM { get; set; }
         public ICommand CLoseColorPickerCM { get; set; }
+        public ICommand OpenEditSurchargeCM { get; set; }
         public SettingManagementVM()
         {
             FirstLoadCM = new RelayCommand<object>((p) => { return true; }, (p) =>
@@ -87,14 +88,31 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                 IsEditMaxCus = false;
                 ColorPicked = (SolidColorBrush)new BrushConverter().ConvertFrom(Properties.Settings.Default.MainAppColor);
             });
-
+            OpenEditSurchargeCM = new RelayCommand<PackIcon>((p) => { return true; }, (p) =>
+            {
+                try
+                {
+                    EditSurchargeFee editSurchargeFee = new EditSurchargeFee(p);
+                    ListSurchargeRate = new ObservableCollection<SurchargeRateDTO>();
+                    GetValue();
+                    editSurchargeFee.ShowDialog();
+                }
+                catch (EntityException ex)
+                {
+                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+                catch (Exception e)
+                {
+                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+            });
             EditMaxCusCM = new RelayCommand<PackIcon>((p) => { return true; }, (p) =>
             {
                 if(IsEditMaxCus == false)
                 {
                     IsEditMaxCus = true;
                     p.Kind = PackIconKind.Tick;
-                }   
+                }
                 else
                 {
                     try
@@ -198,6 +216,7 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                 }
             }
         }
+
         public async Task<bool> SaveEditSurchargeRate()
         {
             try

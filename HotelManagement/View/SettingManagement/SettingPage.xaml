@@ -39,7 +39,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Rectangle
+            <Rectangle
             x:Name="SettingPageView"
             Fill="White"
             Grid.Column="0"
@@ -57,13 +57,14 @@
                     />
                     </Rectangle.Effect>
                 </Rectangle>
-                <StackPanel Grid.Row="0" Orientation="Horizontal">
+
+            <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal">
                     <Grid  Width="180" Height="180" Margin="20,0,0,0" >
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding OpenAvatarPopupCommand}" CommandParameter="{Binding ElementName=PopupCard}"></i:InvokeCommandAction>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
                         <Image Source="{StaticResource LogoDark}"></Image>
                     </Grid>
                     <StackPanel Margin="35,0,0,0" VerticalAlignment="Center">
@@ -106,25 +107,14 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding EditPriceCM}"
-                                                            CommandParameter="{Binding ElementName=iconEdit}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
                             </Border>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Name="UserContainer" Grid.Column="0" Margin="20,0,10,0" >
-                        <StackPanel Margin="0,0,0,0">
-                            <TextBlock FontFamily="{StaticResource MaterialDesignFont}" FontSize="18" FontWeight="SemiBold" Text="Thay đổi quy định"></TextBlock>
+                <StackPanel Name="UserContainer" Grid.Column="1" Margin="60,60,10,0" >
+                    <StackPanel Margin="0,0,0,0">
+                            <TextBlock FontFamily="{StaticResource MaterialDesignFont}" FontSize="18" FontWeight="SemiBold" Text="Thay đổi số khách tối đa"></TextBlock>
                             <StackPanel Margin="0 10 0 0">
                                 <StackPanel Orientation="Horizontal" Margin="0,7,0,7">
                                     <TextBlock FontSize="18" FontFamily="{StaticResource MaterialDesignFont}" FontWeight="Regular" Text="Số khách không tính phụ phí: ">
@@ -157,19 +147,23 @@
                                         x:Name="_soKhachToiDa"
                                         Text="{Binding SoKhachToiDa,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                         FontSize="18" FontFamily="{StaticResource MaterialDesignFont}" FontWeight="Regular" Margin="5,0,0,0"
+                                        Width="40"
                                         IsEnabled="{Binding IsEditMaxCus, Mode=TwoWay}"
                                     >
                                         <TextBox.Style>
                                             <Style TargetType="TextBox">
                                                 <Setter Property="BorderThickness"
-                                                        Value="0" />
+                                                        Value="1" />
                                                 <Setter Property="Background"
                                                         Value="#FFFFFF" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsEdit}" Value="True">
-                                                        <Setter Property="Background"
-                                                        Value="#FFF0F3F7" />
-                                                    </DataTrigger>
+                                                    <Setter Property="BorderThickness"
+                                                        Value="1" />
+                                                    <Setter Property="BorderBrush"
+                                                        Value="#FFFF6666" />
+                                                    <Setter Property="Focusable" Value="True"/>
+                                                </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBox.Style>
@@ -204,94 +198,26 @@
 
                                     </Border>
                                 </StackPanel>
-                            </StackPanel>
+                                
                         </StackPanel>
+                        </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" FontSize="18" FontWeight="SemiBold" Text="Tra cứu và thay đổi tỷ lệ phụ thu"></TextBlock>
+                        <Button
+                            Content="Phụ thu" 
+                            Background="#009099" 
+                            Width="100" Height="34" 
+                            Foreground="White" 
+                            HorizontalAlignment="Right" 
+                            Margin="50 0 40 0"
+                            Command="{Binding OpenEditSurchargeCM}" CommandParameter="{Binding ElementName=iconEditSoKhachToiDa}"/>
+                    </StackPanel>
                     </StackPanel>
                     <Grid x:Name="CompanyContainer" Grid.Column="1">
                         <StackPanel Grid.Row="0" Orientation="Horizontal">
                             <Grid  Width="180" Height="180" Margin="20,0,0,0" >
                             </Grid>
                         </StackPanel>
-                        <Grid >
-                            <StackPanel Margin="20,0,0,0">
-                                <StackPanel Margin="0,0,0,0">
-                                    <TextBlock FontFamily="{StaticResource MaterialDesignFont}" FontSize="18" FontWeight="SemiBold" Text="Khởi động và ghi nhớ tài khoản"></TextBlock>
-                                    <Grid  Margin="0,10,0,0">
-                                        <TextBlock  FontFamily="{StaticResource MaterialDesignFont}" VerticalAlignment="Center" FontSize="18" FontWeight="Regular" Text="Khởi động SaiGonHotel khi mở máy"></TextBlock>
-                                        <ToggleButton Name="StartAppToggle" IsChecked="{Binding IsCheckedAutoStart}" HorizontalAlignment="Right" Margin="0,0,40,0" RenderTransformOrigin="5.282,-1.111">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding AutoStartAppCM}" CommandParameter="{Binding ElementName=StartAppToggle}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </ToggleButton>
-                                    </Grid>
-                                </StackPanel >
-                                <StackPanel Margin="0,20,0,0">
-                                    <TextBlock FontFamily="{StaticResource MaterialDesignFont}" FontSize="18" FontWeight="SemiBold" Text="Màu sắc (Color)"></TextBlock>
-                                    <Grid  Margin="0,10,0,0" Cursor="Hand">
-                                        <Grid.Style>
-                                            <Style TargetType="Grid">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Opacity" Value="0.8"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsMouseOver" Value="False">
-                                                        <Setter Property="Opacity" Value="1"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Grid.Style>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                <i:InvokeCommandAction Command="{Binding ColorPickerCM}" CommandParameter="{Binding ElementName=colorPicker}"/>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-
-                                        <TextBlock  FontFamily="{StaticResource MaterialDesignFont}" VerticalAlignment="Center" FontSize="18" FontWeight="Regular" Text="Thay đổi màu sắc"></TextBlock>
-                                        <Rectangle Name="ColorAvatar" Width="100" Height="40" Fill="{Binding ColorPicked}" HorizontalAlignment="Right" Margin="0,0,40,0" RadiusX="10" RadiusY="10" Stroke="Blue" StrokeThickness="0.5"></Rectangle>
-                                    </Grid>
-                                </StackPanel>
-                                <Grid Name="colorPicker" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Collapsed" Margin="0,2,40,0">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseLeave">
-                                            <i:InvokeCommandAction Command="{Binding CLoseColorPickerCM}" CommandParameter="{Binding ElementName=colorPicker}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <Grid VerticalAlignment="Top" Height="20" Margin="0,-20,0,0"></Grid>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Rectangle Name="GreenRectangle" Cursor="Hand" Width="50" Height="50" Fill="#B1FFB1" Stroke="LightBlue" StrokeThickness="0.5" RadiusX="10" RadiusY="10" MouseMove="GreenRectangle_MouseMove" MouseLeave="GreenRectangle_MouseLeave">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                    <i:InvokeCommandAction Command="{Binding ChooseColorCM}" CommandParameter="{Binding ElementName=GreenRectangle}"></i:InvokeCommandAction>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Rectangle>
-                                        <Rectangle Name="YellowRectangle" Cursor="Hand" Width="50" Height="50" Fill="#FFE9A7" Stroke="LightBlue" StrokeThickness="0.5" RadiusX="10" RadiusY="10" MouseMove="YellowRectangle_MouseMove" MouseLeave="YellowRectangle_MouseLeave">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                    <i:InvokeCommandAction Command="{Binding ChooseColorCM}" CommandParameter="{Binding ElementName=YellowRectangle}"></i:InvokeCommandAction>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Rectangle>
-                                        <Rectangle Name="PinkRectangle" Cursor="Hand" Width="50" Height="50" Fill="#FFEFF4" Stroke="LightBlue" StrokeThickness="0.5" RadiusX="10" RadiusY="10" MouseMove="PinkRectangle_MouseMove" MouseLeave="PinkRectangle_MouseLeave"> 
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                    <i:InvokeCommandAction Command="{Binding ChooseColorCM}" CommandParameter="{Binding ElementName=PinkRectangle}"></i:InvokeCommandAction>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Rectangle>
-                                        <Rectangle Name="BlueRectangle" Cursor="Hand" Width="50" Height="50" Fill="#D7ECFF" Stroke="LightBlue" StrokeThickness="0.5" RadiusX="10" RadiusY="10" MouseMove="BlueRectangle_MouseMove" MouseLeave="BlueRectangle_MouseLeave">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                    <i:InvokeCommandAction Command="{Binding ChooseColorCM}" CommandParameter="{Binding ElementName=BlueRectangle}"></i:InvokeCommandAction>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Rectangle>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                        </Grid>
                     </Grid>
                 </Grid>
 

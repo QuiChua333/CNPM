@@ -362,6 +362,9 @@
     <Compile Include="View\StatisticalManagement\StatisticalManagementPage.xaml.cs">
       <DependentUpon>StatisticalManagementPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ViewSettingWindow.xaml.cs">
+      <DependentUpon>ViewSettingWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Components\Filter\Filter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -559,6 +562,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\StatisticalManagement\StatisticalManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ViewSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
