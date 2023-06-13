@@ -13,6 +13,11 @@
         x:Name="ViewSettingWD"
         Background="Transparent" Height="350" Width="550"
         DataContext="{StaticResource SettingVM}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding FirstLoadSettingViewCM}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid Height="330" Width="530">
         <Border CornerRadius="5" VerticalAlignment="Stretch" BorderThickness="0.3" BorderBrush="Black"  HorizontalAlignment="Stretch" Background="White">
             <Border.Effect>
