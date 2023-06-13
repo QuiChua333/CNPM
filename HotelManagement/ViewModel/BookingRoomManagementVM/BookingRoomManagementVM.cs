@@ -431,6 +431,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         }
         public async Task UpdateRentalPrice()
         {
+            if (SelectedRoom == null) return;
             Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
             PriceStr = Helper.FormatVNMoney2(Price);
         }

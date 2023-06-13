@@ -256,7 +256,7 @@
                                                  Command="{Binding HistoryCommand}"/>
                         </StackPanel>
                         <StackPanel Height="40">
-                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource EditSurcharge}" IconWidth="16" Text="Cài đặt" 
+                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource EditSurcharge}" IconWidth="16" Text="Thay đổi quy định" 
                                                  Command="{Binding SettingCommand}" VerticalAlignment="Center"/>
                         </StackPanel>
                         <Border Height="0.2" Background="{DynamicResource PrimaryTextColor}" Margin="10 5"/>
@@ -286,7 +286,7 @@
 
 
                                 </Button.Style>
-                                <components:MenuItem IsEnabled="False" GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource settings}" IconWidth="16" Text="Cài đặt" 
+                                <components:MenuItem IsEnabled="False" GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource settings}" IconWidth="16" Text="Thay đổi QĐ" 
                                                   VerticalAlignment="Center"/>
                             </Button>
                         </StackPanel>
