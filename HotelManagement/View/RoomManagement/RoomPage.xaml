@@ -45,9 +45,9 @@
                                  FontSize="18"
                                  FontWeight="Bold"
                                  IsChecked="True"
-                                 Content="Loại Phòng"
+                                 Content="Phòng"
                                  Margin="20,10,0,0"
-                                 Command="{Binding LoadRoomTypeCM}"
+                                 Command="{Binding LoadRoomCM}"
                                  CommandParameter="{Binding ElementName=card1}"/>
 
                     <RadioButton Style="{StaticResource MaterialDesignTabRadioButtonBottom}"
@@ -57,9 +57,9 @@
                                  FontSize="18"
                                  FontWeight="Bold"
                                  IsChecked ="False"
-                                 Content="Phòng"
+                                 Content="Loại phòng"
                                  Margin="20,10,0,0"
-                                 Command="{Binding LoadRoomCM}"
+                                 Command="{Binding LoadRoomTypeCM}"
                                  CommandParameter="{Binding ElementName=card1}"/>
                 </StackPanel>
             </materialDesign:Card>
@@ -75,7 +75,7 @@
                     <Frame x:Name="mainFrame" Margin="0,0,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
-                                <i:InvokeCommandAction Command="{Binding LoadRoomTypeCM}"
+                                <i:InvokeCommandAction Command="{Binding LoadRoomCM}"
                                                CommandParameter="{Binding ElementName=card1}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>

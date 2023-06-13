@@ -35,6 +35,7 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
 
+                    var listRentalContract = await context.RentalContracts.ToListAsync();
                     var list = await context.RoomTypes.Select(x => new ListRoomTypeDTO
                     {   
                         RoomTypeName= x.RoomTypeName,
