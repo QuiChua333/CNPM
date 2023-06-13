@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 
 namespace HotelManagement.Model.Services
@@ -79,7 +80,7 @@ namespace HotelManagement.Model.Services
                         }
                     }
 
-                    double heSo = (double)listCusType.Min(x=> x.CoefficientSurcharge);
+                    double heSo = (double)1;
                     foreach (var item in ListCustomer)
                     {
                         string cusType = item.CustomerType;

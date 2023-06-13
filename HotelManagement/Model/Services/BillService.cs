@@ -59,7 +59,7 @@ namespace HotelManagement.Model.Services
                             }
                         }
 
-                        double heSo = (double)listCusType.Min(x => x.CoefficientSurcharge);
+                        double heSo = (double)1;
                         foreach (var item in rentalContract.RentalContractDetails)
                         {
                             string cusTypeId = item.CustomerTypeId ;
