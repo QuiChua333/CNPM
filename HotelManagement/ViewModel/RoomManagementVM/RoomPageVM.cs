@@ -112,7 +112,6 @@ namespace HotelManagement.ViewModel.RoomManagementVM
             LoadEditRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
                 View.RoomManagement.EditRoom w1 = new View.RoomManagement.EditRoom();
-
                 await LoadEditRoom(w1);
                 w1.ShowDialog();
             });
@@ -122,23 +121,61 @@ namespace HotelManagement.ViewModel.RoomManagementVM
                 RoomNote = SelectedItem.Note;
                 w1.ShowDialog();
             });
-            LoadDeleteRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            LoadUnableRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
-
-                string message = "Bạn có chắc muốn xoá phòng này không? Dữ liệu không thể phục hồi sau khi xoá!";
+                if (SelectedItem.RoomStatus == ROOM_STATUS.RENTING)
+                {
+                    CustomMessageBox.ShowOk("Phòng có khách đang thuê, không thể tạm ngưng!", "Thông báo", "Xác nhận", CustomMessageBoxImage.Warning);
+                    return;
+                }
+                if (SelectedItem.RoomStatus == ROOM_STATUS.UNABLE)
+                { 
+                    return;
+                }
+                string message = "Bạn có chắc muốn ngưng sử dụng phòng này không?";
                 CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
 
                 if (kq == CustomMessageBoxResult.OK)
                 {
                     IsLoadding = true;
 
-                    (bool successDeleteRoom, string messageFromDelRoom) = await RoomService.Ins.DeleteRoom(SelectedItem.RoomId);
+                    (bool successDeleteRoom, string messageFromDelRoom) = await RoomService.Ins.UnableRoom(SelectedItem.RoomId);
 
                     IsLoadding = false;
 
                     if (successDeleteRoom)
                     {
-                        LoadRoomListView(Operation.DELETE);
+                        RoomList = new ObservableCollection<RoomDTO>(await RoomService.Ins.GetAllRoom());
+                        SelectedItem = null;
+                        CustomMessageBox.ShowOk(messageFromDelRoom, "Thông báo", "OK", CustomMessageBoxImage.Success);
+                    }
+                    else
+                    {
+                        CustomMessageBox.ShowOk(messageFromDelRoom, "Lỗi", "OK", CustomMessageBoxImage.Error);
+                    }
+                }
+            });
+            LoadActivateRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+                if (SelectedItem.RoomStatus != ROOM_STATUS.UNABLE)
+                {
+                    return;
+                }
+                string message = "Bạn có chắc muốn kích hoạt sử dụng lại phòng này không?";
+                CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
+
+                if (kq == CustomMessageBoxResult.OK)
+                {
+                    IsLoadding = true;
+                    
+
+                    (bool successDeleteRoom, string messageFromDelRoom) = await RoomService.Ins.EnableRoom(SelectedItem.RoomId);
+
+                    IsLoadding = false;
+
+                    if (successDeleteRoom)
+                    {
+                        RoomList = new ObservableCollection<RoomDTO>(await RoomService.Ins.GetAllRoom());
                         SelectedItem = null;
                         CustomMessageBox.ShowOk(messageFromDelRoom, "Thông báo", "OK", CustomMessageBoxImage.Success);
                     }

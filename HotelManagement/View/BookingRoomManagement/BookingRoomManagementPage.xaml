@@ -194,7 +194,7 @@
                                   FontFamily="{StaticResource MaterialDesignFont}"
                                   Foreground="Black"
                                   FontSize="14"
-                                  ToolTip="Nháy đúp để xem chi tiết" d:ItemsSource="{d:SampleData ItemCount=20}">
+                                  d:ItemsSource="{d:SampleData ItemCount=20}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

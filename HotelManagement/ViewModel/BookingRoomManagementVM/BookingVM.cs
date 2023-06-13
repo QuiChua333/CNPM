@@ -59,27 +59,15 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 {
                     if (CCCD.Equals(i.CCCD))
                     {
-                        CustomMessageBox.ShowOk("Số CCCD này đã tồn tại!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+                        CustomMessageBox.ShowOk("Số CCCD/ ID định danh này đã tồn tại trong danh sách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
                         return;
                     }
                 }
-                foreach (var i in CCCD)
-                {
-                    if (!"0123456789".Contains(i))
-                    {
-                        CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-                        return;
-                    }
-                }
-                if (CCCD.Length != 12)
-                {
-                    CustomMessageBox.ShowOk("Định dạng CCCD đang khác 12 số. Vui lòng kiểm tra lại!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-                    return;
-                }
+                
                 ListCustomer.Add(cus);
                 CustomMessageBox.ShowOk("Thêm khách ở thành công !", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
 
-                var Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
                 PriceStr = Helper.FormatVNMoney2(Price);
                 p.Close();
             }
@@ -93,34 +81,22 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         {
             if (IsValidDataCustomer())
             {
-                foreach (var i in CCCD)
-                {
-                    if (!"0123456789".Contains(i))
-                    {
-                        CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-                        return;
-                    }
-                }
-                if (CCCD.Length != 12)
-                {
-                    CustomMessageBox.ShowOk("Định dạng CCCD đang khác 12 số. Vui lòng kiểm tra lại!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-                    return;
-                }
                 foreach (var i in ListCustomer)
                 {
-                    if (CCCD.Equals(i.CCCD) && CCCD != cccd_Last)
+                    if (CCCD.Equals(i.CCCD))
                     {
-                        CustomMessageBox.ShowOk("Số CCCD này đã tồn tại!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+                        CustomMessageBox.ShowOk("Số CCCD/ ID định danh này đã tồn tại trong danh sách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
                         return;
                     }
                 }
+              
                 SelectedCustomer.CustomerName = CustomerName;
                 SelectedCustomer.CCCD = CCCD;
                 SelectedCustomer.Address = AddressCustomer;
                 SelectedCustomer.CustomerType = CustomerType;
                 
                 CustomMessageBox.ShowOk("Cập nhật thông tin khách ở thành công !", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-                var Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                 Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
                 PriceStr = Helper.FormatVNMoney2(Price);
                 p.Close();
             }

@@ -44,5 +44,10 @@ namespace HotelManagement.View.RoomManagement
             e.Handled = true;
             this.Close();
         }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
     }
 }

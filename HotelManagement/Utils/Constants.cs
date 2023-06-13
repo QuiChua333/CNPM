@@ -22,6 +22,7 @@ namespace HotelManagement.Utils
     {
         public static readonly string READY = "Phòng trống";
         public static readonly string RENTING = "Phòng đang thuê";
+        public static readonly string UNABLE = "Ngưng sử dụng";
     }
    
 

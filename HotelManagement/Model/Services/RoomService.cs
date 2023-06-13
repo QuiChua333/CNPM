@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,25 +36,39 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
 
-                    var listRentalContract = await context.RentalContracts.ToListAsync();
+                    var listRentalContract = await context.RentalContracts.Where(x=> x.Room.RoomStatus==ROOM_STATUS.RENTING).ToListAsync();
+                    listRentalContract.Reverse();
+                    var listRoomIdRenting = await context.Rooms.Where(x => x.RoomStatus == ROOM_STATUS.RENTING).Select(x=>x.RoomId).ToListAsync();
                     var list = await context.RoomTypes.Select(x => new ListRoomTypeDTO
                     {   
                         RoomTypeName= x.RoomTypeName,
                         RoomTypeId= x.RoomTypeId,
                         Price= (double)x.Price,
-                        Rooms = x.Rooms.Select(t=> new RoomDTO
+                        Rooms = x.Rooms.Where(t=> t.RoomStatus!=ROOM_STATUS.UNABLE).Select(t=> new RoomDTO
                         {
                             RoomId= t.RoomId,
                             RoomTypeId= x.RoomTypeId,
                             RoomTypeName = x.RoomTypeName,
-                            RentalContractId = t.RentalContracts.FirstOrDefault(m=> m.Room.RoomStatus == ROOM_STATUS.RENTING).RentalContractId,
                             RoomStatus= t.RoomStatus,
                             RoomNumber= t.RoomNumber,
                             Note= t.Note,
-                            StartDate = t.RentalContracts.FirstOrDefault(m => m.Room.RoomStatus == ROOM_STATUS.RENTING).CreateDate ,
-                            NumberOfPerson = t.RentalContracts.FirstOrDefault(m => m.Room.RoomStatus == ROOM_STATUS.RENTING).RentalContractDetails.Count(),
                         }).ToList(),
                     }).ToListAsync();
+                    foreach (var item in list)
+                    {
+                        foreach (var room in item.Rooms)
+                        {
+                            if (listRoomIdRenting.Contains(room.RoomId))
+                            {
+                                var listRentalByRoomId = listRentalContract.Where(x => x.RoomId == room.RoomId).ToList();
+                                var rentalContract = listRentalByRoomId[0];
+                                room.RentalContractId = rentalContract.RentalContractId;
+                                room.StartDate = rentalContract.CreateDate;
+                                room.NumberOfPerson = rentalContract.RentalContractDetails.Count;
+                            }
+                        }
+                    }
+                  
                     return list;
                 }
             }
@@ -61,6 +76,13 @@ namespace HotelManagement.Model.Services
             {
                 throw ex;
             }
+        }
+        public RentalContract FindTrueRentalContract(string roomId, List<RentalContract> list)
+        {
+            var list2 = list.Where(x=> x.RoomId == roomId).ToList();
+            list2.Reverse();
+            var res = list2[0];
+            return res;
         }
         public async Task<List<RoomDTO>> GetAllRoom()
         {
@@ -73,6 +95,7 @@ namespace HotelManagement.Model.Services
                         join temp in db.RoomTypes
                         on r.RoomTypeId equals temp.RoomTypeId into gj
                         from d in gj.DefaultIfEmpty()
+                        where r.RoomStatus != ROOM_STATUS.UNABLE
                         select new RoomDTO
                         {
                             // DTO = db
@@ -84,7 +107,18 @@ namespace HotelManagement.Model.Services
                             RoomStatus = r.RoomStatus,
                         }
                     ).ToListAsync();
-             
+
+                    var list2 = await db.Rooms.Where(r => r.RoomStatus == ROOM_STATUS.UNABLE).Select(r => new RoomDTO
+                    {
+                        RoomId = r.RoomId,
+                        RoomNumber = (int)r.RoomNumber,
+                        RoomTypeName = r.RoomType.RoomTypeName,
+                        RoomTypeId = r.RoomType.RoomTypeId,
+                        Note = r.Note,
+                        RoomStatus = r.RoomStatus,
+                    }).ToListAsync();
+                    RoomDTOs.AddRange(list2);
+
                     return RoomDTOs;
                 }
             }
@@ -187,13 +221,60 @@ namespace HotelManagement.Model.Services
                 return (false, "Lỗi hệ thống!");
             }
         }
+        public async Task<(bool, string)> UnableRoom(string Id)
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+                    Room room = await (from p in context.Rooms
+                                       where p.RoomId == Id
+                                       select p).FirstOrDefaultAsync();
+                    room.RoomStatus = ROOM_STATUS.UNABLE;
+                     await context.SaveChangesAsync();
+                    return (true, "Ngưng sử dụng phòng thành công!");
+                }
+            }
+            catch (Exception)
+            {
+                return (false, "Lỗi hệ thống!");
+            }
+        }
+        public async Task<(bool, string)> EnableRoom(string Id)
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+                    Room room = await (from p in context.Rooms
+                                       where p.RoomId == Id
+                                       select p).FirstOrDefaultAsync();
+                    room.RoomStatus = ROOM_STATUS.READY;
+                    await context.SaveChangesAsync();
+                    return (true, "Kích hoạt sử dụng phòng thành công!");
+                }
+            }
+            catch (Exception)
+            {
+                return (false, "Lỗi hệ thống!");
+            }
+        }
 
         public async Task<(bool, string)> UpdateRoom(RoomDTO updatedRoom)
         {
             try
             {
                 using (var context = new HotelManagementNMCNPMEntities())
+
                 {
+                    Room r = context.Rooms.Where((Room Room) =>Room.RoomId!= updatedRoom.RoomId && Room.RoomNumber == updatedRoom.RoomNumber ).FirstOrDefault();
+
+                    if (r != null)
+                    {
+
+                        return (false, $"Phòng {r.RoomNumber} đã tồn tại!");
+
+                    }
                     Room room = context.Rooms.Find(updatedRoom.RoomId);
 
                     if (room is null)

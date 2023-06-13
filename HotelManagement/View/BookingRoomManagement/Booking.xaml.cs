@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BitMiracle.LibTiff.Classic;
+using HotelManagement.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +26,24 @@ namespace HotelManagement.View.BookingRoomManagement
             InitializeComponent();
         }
 
+        private bool Filter(object item)
+        {
+            if (String.IsNullOrEmpty(SearchBox.Text))
+                return true;
+            else
+                return ((item as RoomDTO).RoomNumber.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
+                    || (item as RoomDTO).RoomTypeName.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+      
+
+        private void SearchBox_SearchTextChange_1(object sender, EventArgs e)
+        {
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListRooms.ItemsSource);
+            if (view != null)
+            {
+                view.Filter = Filter;
+                CollectionViewSource.GetDefaultView(ListRooms.ItemsSource).Refresh();
+            }
+        }
     }
 }

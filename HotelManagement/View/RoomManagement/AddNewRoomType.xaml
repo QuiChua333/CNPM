@@ -121,6 +121,7 @@
                          VerticalAlignment="Top"
                              Margin="28 0 0 0" 
                              Height="36" Width="240" 
+                             PreviewTextInput="TextBox_PreviewTextInput"
                              materialDesign:HintAssist.Hint="Nhập giá loại phòng" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"

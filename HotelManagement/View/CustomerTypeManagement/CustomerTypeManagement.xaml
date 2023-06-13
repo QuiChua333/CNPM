@@ -78,7 +78,7 @@
                                   FontFamily="{StaticResource MaterialDesignFont}"
                                   Foreground="Black"
                                   FontSize="14"
-                                  ToolTip="Nháy đúp để xem chi tiết" 
+                             
                                   d:ItemsSource="{d:SampleData ItemCount=5}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">

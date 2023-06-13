@@ -30,7 +30,7 @@ namespace HotelManagement.ViewModel
         private void Statistical(object obj)
         {
             CurrentView = new StatisticalManagementVM.StatisticalManagementVM();
-            HomeWindow.lbPageName.Content = "THỐNG KÊ";
+            HomeWindow.lbPageName.Content = "BÁO CÁO DOANH THU THÁNG";
         }
         private void RoomLoookup(object obj)
         {
@@ -40,7 +40,7 @@ namespace HotelManagement.ViewModel
         private void BookingRoom(object obj)
         {
             CurrentView = new BookingRoomManagementVM.BookingRoomManagementVM();
-            HomeWindow.lbPageName.Content = "ĐẶT PHÒNG";
+            HomeWindow.lbPageName.Content = "QUẢN LÝ THUÊ PHÒNG";
         }
         private void Room(object obj)
         {
@@ -81,6 +81,7 @@ namespace HotelManagement.ViewModel
         public ICommand CustomerTypeCommand { get; set; }
         public HomeVM()
         {
+            homeVM = this;
             FirstLoadCM = new RelayCommand<Rectangle>((p) => { return true; }, (p) =>
             {
                 p.Fill = (SolidColorBrush)new BrushConverter().ConvertFrom(Properties.Settings.Default.MainAppColor);

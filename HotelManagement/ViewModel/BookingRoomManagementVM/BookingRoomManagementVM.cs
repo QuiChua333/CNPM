@@ -47,6 +47,16 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 OnPropertyChanged();
             }
         }
+        private double _Price;
+        public double Price
+        {
+            get => _Price;
+            set
+            {
+                _Price = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         private ObservableCollection<RentalContractDTO> _RentalContractList;
@@ -230,6 +240,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         public ICommand ConfirmSaveRentalContract { get; set; }
         public ICommand LoadDeleteRentalContractCM { get; set; }
         public ICommand ChangeTimeCM { get; set; }
+        public ICommand UpdateRentalPriceCM { get; set; }
 
         public BookingRoomManagementVM() 
         {
@@ -386,6 +397,11 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             {
                 p.Close();
             });
+            UpdateRentalPriceCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+               await UpdateRentalPrice();
+             
+            });
         }
         public async Task  LoadInforRentalContract(RentalContractInfo w)
         {
@@ -412,6 +428,11 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 !string.IsNullOrEmpty(CCCD) &&
                 !string.IsNullOrEmpty(AddressCustomer) &&
                 !string.IsNullOrEmpty(CustomerType));
+        }
+        public async Task UpdateRentalPrice()
+        {
+            Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+            PriceStr = Helper.FormatVNMoney2(Price);
         }
     }
 }

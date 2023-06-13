@@ -146,7 +146,7 @@
                     </Grid.RowDefinitions>
 
                     <Label Grid.Row="0" 
-                           Content="CMND/CCCD:" 
+                           Content="CCCD/ ID định danh:" 
                            FontWeight="Bold" 
                            Foreground="#000000" 
                            FontSize="14" 
@@ -161,9 +161,10 @@
                              FontSize="16" 
                              Text="{Binding CCCD, Mode=TwoWay}"
                              Foreground="#686868" 
+                              PreviewTextInput="TextBox_PreviewTextInput"
                              Margin="28 0 0 0" 
                              Height="30" Width="240" 
-                             materialDesign:HintAssist.Hint="Nhập CMND/CCCD" 
+                             materialDesign:HintAssist.Hint="Nhập CCCD/ ID định danh" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"/>
                 </Grid>

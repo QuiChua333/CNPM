@@ -69,11 +69,11 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
-                    CustomerType ct = context.CustomerTypes.Where((CustomerType CustomerType) => CustomerType.CustomerTypeId == newCustomerType.CustomerTypeId).FirstOrDefault();
+                    CustomerType ct = context.CustomerTypes.Where((CustomerType CustomerType) => CustomerType.CustomerTypeName == newCustomerType.CustomerTypeName).FirstOrDefault();
 
                     if (ct != null)
                     {
-                        return (false, $"Loại phòng {ct.CustomerTypeName} đã tồn tại!", null);
+                        return (false, $"Loại khách {ct.CustomerTypeName} đã tồn tại!", null);
                     }
                     else
                     {
@@ -125,6 +125,12 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
+                    CustomerType ct = context.CustomerTypes.Where((CustomerType CustomerType) => CustomerType.CustomerTypeId!= updatedCustomerType.CustomerTypeId && CustomerType.CustomerTypeName == updatedCustomerType.CustomerTypeName).FirstOrDefault();
+
+                    if (ct != null)
+                    {
+                        return (false, $"Loại khách {ct.CustomerTypeName} đã tồn tại!");
+                    }
                     CustomerType customertype = context.CustomerTypes.Find(updatedCustomerType.CustomerTypeId);
 
                     if (customertype is null)

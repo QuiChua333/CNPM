@@ -39,28 +39,48 @@ namespace HotelManagement.Model.Services
                     foreach (var roomNumberStr in ListRoomNumber)
                     {
                         int numPerForUnitPrice = (int) context.Parameters.FirstOrDefault(x => x.ParameterKey == "SoKhachKhongTinhPhuPhi").ParamaterValue;
-                        double rateForeign =(double)  context.CustomerTypes.FirstOrDefault(x => x.CustomerTypeName == "Nước ngoài").CoefficientSurcharge;
                         var listSurcharge = await context.SurchargeRates.ToListAsync();
+                        var listCusType = await context.CustomerTypes.ToListAsync();
+
                         int roomNumer = int.Parse(roomNumberStr);
                         Room r =  context.Rooms.FirstOrDefault(x => x.RoomNumber == roomNumer);
-                        RentalContract rentalContract = context.RentalContracts.FirstOrDefault(x => x.RoomId == r.RoomId);
+                        double RoomTypePrice = (double)r.RoomType.Price;
+
+                        var listRentalContract = await context.RentalContracts.Where(x=> x.Room.RoomId == r.RoomId && x.Room.RoomStatus==ROOM_STATUS.RENTING).ToListAsync();
+                        listRentalContract.Reverse();
+                        RentalContract rentalContract = listRentalContract[0];
                         int numPer = rentalContract.RentalContractDetails.Count;
-                        bool isHasForeign = rentalContract.RentalContractDetails.Any(x => x.CustomerType.CustomerTypeName == "Nước ngoài");
-                        double PricePerDay = (double)r.RoomType.Price;
+                        double PricePerDay = RoomTypePrice;
                         if (numPer > numPerForUnitPrice)
                         {
-                            for (int i = 0; i < numPer - numPerForUnitPrice; i++)
+                            for (int i = 3; i <= numPer; i++)
                             {
-                                PricePerDay += (double)r.RoomType.Price *(double)listSurcharge[i].Rate;
+                                PricePerDay += RoomTypePrice * (double)listSurcharge[i - 3].Rate;
                             }
                         }
-                        if (isHasForeign)
+
+                        double heSo = (double)listCusType.Min(x => x.CoefficientSurcharge);
+                        foreach (var item in rentalContract.RentalContractDetails)
                         {
-                            PricePerDay *= rateForeign;
+                            string cusTypeId = item.CustomerTypeId ;
+                            foreach (var item2 in listCusType)
+                            {
+                                string cusType2Id = item2.CustomerTypeId;
+                                double heSo2 = (double)item2.CoefficientSurcharge;
+                                if (cusTypeId == cusType2Id)
+                                {
+                                    if (heSo2 > heSo)
+                                    {
+                                        heSo = heSo2;
+                                    }
+                                }
+                            }
                         }
+                        PricePerDay *= heSo;
                         TimeSpan t = (TimeSpan)(DateTime.Now - rentalContract.CreateDate);
                         int NumberOfRentalDays = (int)t.TotalDays + 1;
                         double Price = PricePerDay * NumberOfRentalDays;
+
                         BillDetailDTO billDetailDTO = new BillDetailDTO
                         {
                             RoomId = r.RoomId,
@@ -148,14 +168,14 @@ namespace HotelManagement.Model.Services
                        
                     }
                     var revenueReportDetails = context.RevenueReports.FirstOrDefault(x => x.MonthReport.Value.Year == year && x.MonthReport.Value.Month == month).RevenueReportDetails;
-                    foreach (var item in list)
+                   
+                    foreach (var item in revenueReportDetails)
                     {
-                        
-                        foreach (var i in revenueReportDetails)
+                        foreach (var i in list)
                         {
-                            if (item.Room.RoomTypeId == i.RoomTypeId)
+                            if (item.RoomTypeId == i.Room.RoomTypeId)
                             {
-                                i.Revenue += item.Price;
+                                item.Revenue += i.Price;
                                 break;
                             }
                         }

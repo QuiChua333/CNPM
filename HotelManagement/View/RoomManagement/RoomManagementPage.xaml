@@ -78,7 +78,7 @@
                                   FontFamily="{StaticResource MaterialDesignFont}"
                                   Foreground="Black"
                                   FontSize="14"
-                                  ToolTip="Nháy đúp để xem chi tiết" d:ItemsSource="{d:SampleData ItemCount=20}">
+                                   d:ItemsSource="{d:SampleData ItemCount=20}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -95,7 +95,21 @@
                                                            FontSize="14" 
                                                            Margin="0 8 0 0"
                                                            HorizontalAlignment="Center"
-                                                           TextAlignment="Center"/>
+                                                           TextAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility"
+                                                                             Value="Visible" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUnable}"
+                                                                                Value="True">
+                                                                    <Setter Property="Foreground"
+                                                                                     Value="#EC4242" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -108,7 +122,21 @@
                                                            FontSize="14" 
                                                            Margin="0 8 0 0"
                                                            HorizontalAlignment="Center"
-                                                           TextAlignment="Center"/>
+                                                           TextAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility"
+                                                                             Value="Visible" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUnable}"
+                                                                                Value="True">
+                                                                    <Setter Property="Foreground"
+                                                                                     Value="#EC4242" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -121,12 +149,26 @@
                                                            FontSize="14" 
                                                            Margin="0 8 0 0"
                                                            HorizontalAlignment="Center"
-                                                           TextAlignment="Center"/>
+                                                           TextAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                                <Setter Property="Visibility"
+                                                                             Value="Visible" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsUnable}"
+                                                                                Value="True">
+                                                                        <Setter Property="Foreground"
+                                                                                     Value="#EC4242" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                </TextBlock>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="220" Header="Ghi chú" >
+                                    <GridViewColumn Width="180" Header="Ghi chú" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Grid Width="170" HorizontalAlignment="Center" 
@@ -149,7 +191,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="200" Header="Sửa / Xóa">
+                                    <GridViewColumn Width="240" Header="Sửa / Ngưng sử dụng/ Kích hoạt">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -179,16 +221,36 @@
                                                             Height="30"
                                                             Width="28"
                                                             Margin="8 0 0 0">
-                                                        <Image Source="{StaticResource iconXoa}"
+                                                        <Image Source="{StaticResource Hammer}"
                                                                 Width="20"
                                                                 Height="20" 
                                                                 VerticalAlignment="Center" 
                                                                 HorizontalAlignment="Center"/>
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="MouseLeftButtonUp">
-                                                                <i:InvokeCommandAction Command="{Binding ElementName=RoomListView, Path=DataContext.LoadDeleteRoomCM}" />
+                                                                <i:InvokeCommandAction Command="{Binding ElementName=RoomListView, Path=DataContext.LoadUnableRoomCM}" />
                                                             </i:EventTrigger>
                                                         </i:Interaction.Triggers>
+                                                    </Border>
+                                                    <Border BorderBrush="#009099"
+                                                            Background="#009099"
+                                                            BorderThickness="0.5"
+                                                            CornerRadius="5"
+                                                            Cursor="Hand"
+                                                            Height="30"
+                                                            Width="28"
+                                                            Margin="8 0 0 0">
+                                                        <Image Source="{StaticResource Activated}"
+                                                                   Width="24"
+                                                                   Height="24" 
+                                                                   VerticalAlignment="Center" 
+                                                                   HorizontalAlignment="Center"/>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                                                <i:InvokeCommandAction Command="{Binding ElementName=RoomListView, Path=DataContext.LoadActivateRoomCM}" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                       
                                                     </Border>
                                                 </StackPanel>
                                             </DataTemplate>

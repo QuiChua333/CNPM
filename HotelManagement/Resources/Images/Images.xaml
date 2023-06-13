@@ -36,4 +36,7 @@
     <ImageSource x:Key="iconZalo">./iconZalo.png</ImageSource>
     <ImageSource x:Key="iconInstargram">./iconInstargram.png</ImageSource>
     <ImageSource x:Key="BGLogin">./bgLogin.png</ImageSource>
+    <ImageSource x:Key="Hammer">./ic_hammer.png</ImageSource>
+    <ImageSource x:Key="Activated">./ic_activated.png</ImageSource>
+
 </ResourceDictionary>

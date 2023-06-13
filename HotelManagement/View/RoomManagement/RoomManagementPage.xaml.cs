@@ -32,7 +32,9 @@ namespace HotelManagement.View.RoomManagement
             if (String.IsNullOrEmpty(SearchBox.Text))
                 return true;
             else
-                return ((item as RoomDTO).RoomNumber.ToString().IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as RoomDTO).RoomNumber.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
+                    || (item as RoomDTO).RoomTypeName.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
+                    || (item as RoomDTO).RoomStatus.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0);
         }
         private void Search_SearchTextChange(object sender, EventArgs e)
         {

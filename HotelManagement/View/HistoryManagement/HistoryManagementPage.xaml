@@ -182,7 +182,7 @@
                                   Foreground="Black"
                                   Width="auto"
                                   FontSize="14"
-                                  ToolTip="Nháy đúp để xem chi tiết" d:ItemsSource="{d:SampleData ItemCount=20}">
+                                  d:ItemsSource="{d:SampleData ItemCount=20}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -326,6 +326,8 @@
             <Label Content="Kết quả: " FontSize="16" FontWeight="Bold" Foreground="#403F3F"/>
             <Label x:Name="result" Content="{Binding ListBill.Count}" FontSize="16" FontWeight="Bold" Foreground="#403F3F"/>
         </StackPanel>
+
+     
     </Grid>
 
 </Page>

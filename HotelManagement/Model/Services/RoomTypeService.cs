@@ -104,12 +104,12 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
-                    RoomType rt = context.RoomTypes.Where((RoomType RoomType) => RoomType.RoomTypeId == newRoomType.RoomTypeId).FirstOrDefault();
+                    RoomType rt = context.RoomTypes.Where((RoomType RoomType) => RoomType.RoomTypeName == newRoomType.RoomTypeName).FirstOrDefault();
 
                     if (rt != null)
                     {
 
-                        return (false, $"Loại phòng {rt.RoomTypeId} đã tồn tại!", null);
+                        return (false, $"Loại phòng {rt.RoomTypeName} đã tồn tại!", null);
 
                     }
                     else
@@ -163,6 +163,14 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
+                    RoomType r = context.RoomTypes.Where((RoomType RoomType) => RoomType.RoomTypeId != updatedRoomType.RoomTypeId && RoomType.RoomTypeName == updatedRoomType.RoomTypeName).FirstOrDefault();
+
+                    if (r != null)
+                    {
+
+                        return (false, $"Loại phòng {r.RoomTypeName} đã tồn tại!");
+
+                    }
                     RoomType roomtype = context.RoomTypes.Find(updatedRoomType.RoomTypeId);
 
                     if (roomtype is null)

@@ -38,13 +38,18 @@
     <Border CornerRadius="6" Background="#FFFFFF" BorderBrush="Gray" BorderThickness="0.3" VerticalAlignment="Top" Width="800" x:Name="invoice">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="10" />
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
                 <RowDefinition Height="55"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="1">
-                <Button 
+            <Grid Grid.Row="0" x:Name="rentalView">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Button 
+                        x:Name="btnExit"
                     Background="Transparent"
                     Height="auto"
                     Padding="0"
@@ -53,26 +58,26 @@
                     Margin="0,-20,20,0"
                     Command="{Binding CloseCM}"
                     CommandParameter="{Binding ElementName=rentalContractInfo}">
-                    <materialDesign:PackIcon Kind="Close" 
+                        <materialDesign:PackIcon Kind="Close" 
                                      Height="30"
                                      Width="30"
                                      VerticalAlignment="Center"
                                      HorizontalAlignment="Right"
                                      Foreground="#009099"
                                      FontWeight="Bold"/>
-                </Button>
+                    </Button>
 
-            </Grid>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="96*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="1">
-                    <Border  BorderBrush="#009099" BorderThickness="0,0,0,5"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="96*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <Border  BorderBrush="#009099" BorderThickness="0,0,0,5"/>
 
-                    <Label Padding="0" 
+                        <Label Padding="0" 
                            Content="PHIẾU THUÊ PHÒNG"
                            FontSize="22" 
                            FontWeight="Bold" 
@@ -80,42 +85,42 @@
                            HorizontalAlignment="Center" 
                            Foreground="#009099" 
                            FontFamily="{DynamicResource MaterialDesignFont}">
-                    </Label>
-                    <Image Source="{StaticResource Logo2}" 
+                        </Label>
+                        <Image Source="{StaticResource Logo2}" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            Width="70"
                            Margin="5,0,0,0">
 
-                    </Image>
+                        </Image>
+                    </Grid>
                 </Grid>
-            </Grid>
 
-            <Grid Grid.Row="2" Margin="20,20,20,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Margin="10,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
+                <Grid Grid.Row="2" Margin="20,20,20,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="10,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Column="0" HorizontalAlignment="Left">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40*"/>
-                            <RowDefinition Height="60*"/>
-                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="0" HorizontalAlignment="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40*"/>
+                                <RowDefinition Height="60*"/>
+                            </Grid.RowDefinitions>
 
-                        <Label Grid.Row="0" 
+                            <Label Grid.Row="0" 
                            Content="Phòng:" 
                            FontWeight="Bold" 
                            Foreground="#000000" 
                            FontSize="14" 
                            VerticalAlignment="Top"/>
-                        <TextBox Grid.Row="1" 
+                            <TextBox Grid.Row="1" 
                              Padding="10 0 10 0" 
                              HorizontalAlignment="Left" 
                              HorizontalContentAlignment="Left" 
@@ -129,21 +134,21 @@
                              Height="30" Width="160" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"/>
-                    </Grid>
+                        </Grid>
 
-                    <Grid Grid.Column="1" HorizontalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40*"/>
-                            <RowDefinition Height="60*"/>
-                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="1" HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40*"/>
+                                <RowDefinition Height="60*"/>
+                            </Grid.RowDefinitions>
 
-                        <Label Grid.Row="0" 
+                            <Label Grid.Row="0" 
                            Content="Ngày bắt đầu thuê:" 
                            FontWeight="Bold" 
                            Foreground="#000000" 
                            FontSize="14" 
                            VerticalAlignment="Top"/>
-                        <TextBox Grid.Row="1" 
+                            <TextBox Grid.Row="1" 
                                  Focusable="False"
                                  x:Name="createDateInfo"
                              Padding="10 0 10 0" 
@@ -156,21 +161,21 @@
                              Height="30" Width="160" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"/>
-                    </Grid>
+                        </Grid>
 
-                    <Grid Grid.Column="2" HorizontalAlignment="Right">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40*"/>
-                            <RowDefinition Height="60*"/>
-                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="2" HorizontalAlignment="Right">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40*"/>
+                                <RowDefinition Height="60*"/>
+                            </Grid.RowDefinitions>
 
-                        <Label Grid.Row="0" 
+                            <Label Grid.Row="0" 
                            Content="Đơn giá / Ngày:" 
                            FontWeight="Bold" 
                            Foreground="#000000" 
                            FontSize="14" 
                            VerticalAlignment="Top"/>
-                        <TextBox Grid.Row="1" 
+                            <TextBox Grid.Row="1" 
                                  Focusable="False"
                                  x:Name="priceInfo"
                              Padding="10 0 10 0" 
@@ -183,101 +188,104 @@
                              Height="30" Width="160" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"/>
+                        </Grid>
+
+
                     </Grid>
 
-
-                </Grid>
-
-                <Grid Grid.Row="1" Margin="0,15,0,0" Background="#F5F3F2">
-                    <ListView ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    <Grid Grid.Row="1" Margin="0,15,0,20" Background="#F5F3F2">
+                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               ItemsSource="{Binding ListCustomer}"
                               VerticalAlignment="Top"
                               MinHeight="110"
                               Focusable="False" 
                               BorderThickness="3" BorderBrush="#292D32"
                               x:Name="lsvCustomerInfo" d:ItemsSource="{d:SampleData ItemCount=5}">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Height" Value="40" />
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        
-                        <ListView.View>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Height" Value="40" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
 
-                            <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}">
+                            <ListView.View>
 
-                                <GridViewColumn Width="100" Header="STT">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding STT}" 
-                                                       FontSize="14" 
-                                                       HorizontalAlignment="Center"
-                                                       TextAlignment="Center"/> 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}">
 
-                                <GridViewColumn Width="220" Header="Tên khách hàng">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding CustomerName}" 
-                                                       FontSize="14" 
-                                                       HorizontalAlignment="Center"
-                                                       TextAlignment="Center"/> 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Width="150" Header="Loại khách hàng">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding CustomerType}" 
-                                                       FontSize="14" 
-                                                       HorizontalAlignment="Center"
-                                                       TextAlignment="Center"/> 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Width="140" Header="CMND / CCCD">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding CCCD}" 
-                                                       FontSize="14" 
-                                                       HorizontalAlignment="Center"
-                                                       TextAlignment="Center"/> 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Width="140" Header="Địa chỉ">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Address}" 
+                                    <GridViewColumn Width="100" Header="STT">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding STT}" 
                                                        FontSize="14" 
                                                        HorizontalAlignment="Center"
                                                        TextAlignment="Center"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                                    <GridViewColumn Width="220" Header="Tên khách hàng">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CustomerName}" 
+                                                       FontSize="14" 
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width="150" Header="Loại khách hàng">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CustomerType}" 
+                                                       FontSize="14" 
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width="140" Header="CMND / CCCD">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CCCD}" 
+                                                       FontSize="14" 
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width="140" Header="Địa chỉ">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Address}" 
+                                                       FontSize="14" 
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
                 </Grid>
+
             </Grid>
-            <Grid Grid.Row="3">
+           
+            <Grid Grid.Row="1">
                 <Button Grid.Row="4" 
+                        x:Name="btnPrint"
                         Background="#009099" 
                         Width="160" Height="34" 
                         Foreground="White" 
                         HorizontalAlignment="Right" 
                         Margin="0 0 20 0"
                         HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        Command="{Binding ConfirmSaveRentalContract}"
-                        CommandParameter="{Binding ElementName=rentalContractInfo}">
+                        VerticalContentAlignment="Center" Click="Button_Click"
+                        >
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Printer"
                                              Width="24"

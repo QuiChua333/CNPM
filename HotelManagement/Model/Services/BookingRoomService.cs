@@ -1,4 +1,5 @@
 ﻿using HotelManagement.DTOs;
+using HotelManagement.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,25 +64,40 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
                     int numPerForUnitPrice = (int)context.Parameters.FirstOrDefault(x => x.ParameterKey == "SoKhachKhongTinhPhuPhi").ParamaterValue;
-                    double rateForeign = (double)context.CustomerTypes.FirstOrDefault(x => x.CustomerTypeName == "Nước ngoài").CoefficientSurcharge;
                     var listSurcharge = await context.SurchargeRates.ToListAsync();
+                    var listCusType = await context.CustomerTypes.ToListAsync();
 
                     Room r = await context.Rooms.FindAsync(roomId);
-                    int numPer = ListCustomer.Count;
-                    bool isHasForeign = ListCustomer.Any(x => x.CustomerType == "Nước ngoài");
                     double RoomTypePrice = (double)r.RoomType.Price;
+                    int numPer = ListCustomer.Count;
                     double PricePerDay = RoomTypePrice;
                     if (numPer > numPerForUnitPrice)
                     {
-                        for (int i = 0; i < numPer - numPerForUnitPrice; i++)
+                        for (int i = 3; i <= numPer; i++)
                         {
-                            PricePerDay += RoomTypePrice * (double)listSurcharge[i].Rate;
+                            PricePerDay += RoomTypePrice * (double)listSurcharge[i-3].Rate;
                         }
                     }
-                    if (isHasForeign)
+
+                    double heSo = (double)listCusType.Min(x=> x.CoefficientSurcharge);
+                    foreach (var item in ListCustomer)
                     {
-                        PricePerDay *= rateForeign;
+                        string cusType = item.CustomerType;
+                        foreach (var item2 in listCusType)
+                        {
+                            string cusType2 = item2.CustomerTypeName;
+                            double heSo2 = (double)item2.CoefficientSurcharge;
+                            if (cusType == cusType2)
+                            {
+                                if (heSo2> heSo)
+                                {
+                                    heSo= heSo2;
+                                }
+                            }
+                        }
                     }
+                    PricePerDay *= heSo;
+                   
                     return PricePerDay;
                 }
             }
@@ -246,7 +262,7 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
-                    var list = await context.Rooms.Where(x => x.RoomStatus == "Phòng trống").Select(x => new RoomDTO
+                    var list = await context.Rooms.Where(x => x.RoomStatus == ROOM_STATUS.READY).Select(x => new RoomDTO
                     {
                         RoomId = x.RoomId,
                         RoomNumber = (int)x.RoomNumber,

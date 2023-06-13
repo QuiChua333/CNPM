@@ -23,5 +23,26 @@ namespace HotelManagement.View.BookingRoomManagement
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.IsEnabled = false;
+                PrintDialog printDialog= new PrintDialog();
+                btnPrint.Visibility= Visibility.Hidden;
+                btnExit.Visibility= Visibility.Hidden;
+                if (printDialog.ShowDialog() == true)
+                {
+                    printDialog.PrintVisual(rentalView, "RentalContract");
+                }
+            }
+            finally 
+            {
+                this.IsEnabled = true;
+                CustomMessageBox.ShowOk("In thành công!", "Thông báo", "Xác nhận", CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                this.Close();
+            }
+        }
     }
 }

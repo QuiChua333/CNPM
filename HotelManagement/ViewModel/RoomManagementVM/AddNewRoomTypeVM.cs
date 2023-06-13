@@ -17,7 +17,7 @@ namespace HotelManagement.ViewModel.RoomManagementVM
             {
                 RoomTypeDTO roomtype = new RoomTypeDTO
                 {   // check ở đây
-                    RoomTypeName = RoomTypeName,
+                    RoomTypeName = RoomTypeName.Trim(),
                     RoomTypePrice = RoomTypePrice,
                 };
 

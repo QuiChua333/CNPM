@@ -1,4 +1,5 @@
 ﻿using HotelManagement.Utilities;
+using HotelManagement.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +18,7 @@ namespace HotelManagement.DTOs
         public string RoomTypeName { get; set; }
         public string RoomStatus { get; set; }
         public string Note { get; set; }
-
+        
         public string RoomName
         {
             get { return "P" + RoomNumber.ToString(); }
@@ -57,6 +58,10 @@ namespace HotelManagement.DTOs
         public string RoomReadyName
         {
             get { return "PH" + RoomNumber.ToString(); }
+        }
+        public bool IsUnable
+        {
+            get { return RoomStatus == ROOM_STATUS.UNABLE; }
         }
     }
 }

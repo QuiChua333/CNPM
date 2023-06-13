@@ -91,6 +91,7 @@ namespace HotelManagement.Model.Services
                         int month = int.Parse(monthstr.Substring(6));
                         list = new List<BillDTO>(list.Where(x => x.CreateDate.Value.Month == month).ToList());
                     }
+                    list.Reverse();
                     return list;
                 }
             }

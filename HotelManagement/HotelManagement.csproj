@@ -739,6 +739,8 @@
       <DependentUpon>HotelManagementDatabase.edmx</DependentUpon>
       <LastGenOutput>HotelManagementDatabase.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\Images\ic_activated.png" />
+    <Resource Include="Resources\Images\ic_hammer.png" />
     <Resource Include="Resources\Icons\zoomout.png" />
   </ItemGroup>
   <ItemGroup />

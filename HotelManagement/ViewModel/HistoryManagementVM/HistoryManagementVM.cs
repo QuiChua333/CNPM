@@ -14,6 +14,12 @@ namespace HotelManagement.ViewModel.HistoryManagementVM
 {
     public class HistoryManagementVM : BaseVM
     {
+        private bool isExport;
+        public bool IsExport
+        {
+            get { return isExport; }
+            set { isExport = value; OnPropertyChanged(); }
+        }
         private List<string> _ListFilterYear;
         public List<string> ListFilterYear
         {

@@ -42,5 +42,28 @@ namespace HotelManagement.View.RoomLookupManagement
         {
             this.Close();
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.IsEnabled = false;
+                PrintDialog printDialog = new PrintDialog();
+                btnExit.Visibility=Visibility.Hidden;
+                btnPrint.Visibility=Visibility.Hidden;
+                lbHoaDon.Visibility = Visibility.Visible;
+                if (printDialog.ShowDialog() == true)
+                {
+                    printDialog.PrintVisual(bill, "RentalContract");
+                }
+            }
+            finally
+            {
+                this.IsEnabled = true;
+                CustomMessageBox.ShowOk("In thành công!", "Thông báo", "Xác nhận", CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                this.Close();
+            }
+
+        }
     }
 }

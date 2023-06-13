@@ -29,7 +29,7 @@ namespace HotelManagement.ViewModel.CustomerTypeManagementVM
                 CustomerTypeDTO customertype = new CustomerTypeDTO
                 {
                     CustomerTypeId = CustomerTypeId,
-                    CustomerTypeName = CustomerTypeName,
+                    CustomerTypeName = CustomerTypeName.Trim(),
                     CoefficientSurcharge = t,
                 };
 

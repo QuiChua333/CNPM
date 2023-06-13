@@ -102,9 +102,10 @@ namespace HotelManagement.ViewModel.RoomManagementVM
         public ICommand FirstLoadCM { get; set; }
         public ICommand CloseCM { get; set; }
         public ICommand LoadAddRoomCM { get; set; }
-        public ICommand LoadDeleteRoomCM { get; set; }
+        public ICommand LoadUnableRoomCM { get; set; }
         public ICommand LoadNoteRoomCM { get; set; }
         public ICommand LoadEditRoomCM { get; set; }
+        public ICommand LoadActivateRoomCM { get; set; }
         public ICommand SaveRoomCM { get; set; }
         public ICommand UpdateRoomCM { get; set; }
 
