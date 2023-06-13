@@ -63,6 +63,7 @@ namespace HotelManagement.ViewModel.SettingManagementVM
         }
         private RegistryKey reg { get; set; }
         public ICommand FirstLoadCM { get; set; }
+        public ICommand FirstLoadSettingViewCM { get; set; }
         public ICommand EditMaxCusCM { get; set; }
         public ICommand AutoStartAppCM { get; set; }
         public ICommand ColorPickerCM { get; set; }
@@ -86,6 +87,15 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                     SoKhachToiDa = (int)(db.Parameters.FirstOrDefault(item => item.ParameterKey == "SoKhachToiDa").ParamaterValue ?? 0);
                 }
                 IsEditMaxCus = false;
+                ColorPicked = (SolidColorBrush)new BrushConverter().ConvertFrom(Properties.Settings.Default.MainAppColor);
+            });
+            FirstLoadSettingViewCM = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                if (reg.GetValue("HotelManagementApp") == null)
+                    IsCheckedAutoStart = false;
+                else
+                    IsCheckedAutoStart = true;
                 ColorPicked = (SolidColorBrush)new BrushConverter().ConvertFrom(Properties.Settings.Default.MainAppColor);
             });
             OpenEditSurchargeCM = new RelayCommand<PackIcon>((p) => { return true; }, (p) =>
