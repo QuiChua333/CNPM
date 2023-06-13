@@ -25,27 +25,46 @@ namespace HotelManagement.ViewModel.CustomerTypeManagementVM
         {
             if (CustomerTypeId != null && IsValidDataCustomerType())
             {
-                double t = Double.Parse(CoefficientSurcharge);
-                CustomerTypeDTO customertype = new CustomerTypeDTO
+                double CoefficientSurchargeTemp;
+                bool isDouble = Double.TryParse(CoefficientSurcharge, out CoefficientSurchargeTemp);
+                if (!isDouble)
                 {
-                    CustomerTypeId = CustomerTypeId,
-                    CustomerTypeName = CustomerTypeName.Trim(),
-                    CoefficientSurcharge = t,
-                };
-
-                (bool successUpdate, string messageFromUpdate) = await CustomerTypeService.Ins.UpdateCustomerType(customertype);
-
-                if (successUpdate)
-                {
-                    isSaving = false;
-                    CustomMessageBox.ShowOk(messageFromUpdate, "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-                    LoadCustomerTypeListView(Operation.UPDATE, customertype);
-                    p.Close();
+                    CustomMessageBox.ShowOk("Vui lòng nhập kiểu số thực cho hệ số phụ thu!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
                 }
                 else
                 {
-                    CustomMessageBox.ShowOk(messageFromUpdate, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                    if (CoefficientSurchargeTemp < 0)
+                    {
+                        CustomMessageBox.ShowOk("Hệ số phụ thu không là số âm!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                        return;
+                    }
+                    else
+                    {
+                        CustomerTypeDTO customertype = new CustomerTypeDTO
+                        {   // check ở đây
+                            CustomerTypeId = CustomerTypeId,
+                            CustomerTypeName = CustomerTypeName.Trim(),
+                            CoefficientSurcharge = CoefficientSurchargeTemp,
+                        };
+
+                        (bool successUpdate, string messageFromUpdate) = await CustomerTypeService.Ins.UpdateCustomerType(customertype);
+
+                        if (successUpdate)
+                        {
+                            isSaving = false;
+                            CustomMessageBox.ShowOk(messageFromUpdate, "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                            LoadCustomerTypeListView(Operation.UPDATE, customertype);
+                            p.Close();
+                        }
+                        else
+                        {
+                            CustomMessageBox.ShowOk(messageFromUpdate, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                        }
+                    }
                 }
+               
+                
             }
             else
             {
