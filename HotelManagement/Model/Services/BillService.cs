@@ -184,9 +184,13 @@ namespace HotelManagement.Model.Services
                     double totalPrice = (double)context.Bills.Where(x => x.CreateDate.Value.Month == month && x.CreateDate.Value.Year == year).Sum(x => x.TotalPrice);
                      revenueReportDetails = context.RevenueReports.FirstOrDefault(x => x.MonthReport.Value.Year == year && x.MonthReport.Value.Month == month).RevenueReportDetails;
 
+        
+                    
                     foreach (var i in revenueReportDetails)
                     {
+                      
                         i.Ratio = i.Revenue/ totalPrice;
+
                     }
                     await context.SaveChangesAsync();   
 

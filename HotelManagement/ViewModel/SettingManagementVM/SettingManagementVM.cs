@@ -132,6 +132,13 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                             CustomMessageBox.ShowOk("Số khách không tính phụ phí phải nhỏ hơn số khách tối đa", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                             return;
                         }
+                        if (SoKhachToiDa == SoKhachKhongTinhPhuPhi)
+                        {
+                            Equal2();
+                            p.Kind = PackIconKind.Pencil;
+                            IsEditMaxCus = false;
+                            return;
+                        }
                         EditSurchargeFee editSurchargeFee = new EditSurchargeFee(p);
                         ListSurchargeRate = new ObservableCollection<SurchargeRateDTO>();
                         GetValue();
@@ -226,7 +233,38 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                 }
             }
         }
+        public async void Equal2()
+        {
+            try
+            {
+                using (HotelManagementNMCNPMEntities db = new HotelManagementNMCNPMEntities())
+                {
+                    var listSurchargeRate = await db.SurchargeRates.ToListAsync();
+                    if (listSurchargeRate == null || listSurchargeRate.Count == 0)
+                    {
+                        CustomMessageBox.ShowOk("Lưu thông tin thành công", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                        return;
+                    }
+                    Parameter p = await db.Parameters.FirstOrDefaultAsync(item => item.ParameterKey == "SoKhachToiDa");
+                    var list = await db.SurchargeRates.ToListAsync();
+                    db.SurchargeRates.RemoveRange(list);
+                    p.ParamaterValue = 2;
+                    await db.SaveChangesAsync();
+                    CustomMessageBox.ShowOk("Lưu thông tin thành công", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
 
+                  
+                   
+                }
+            }
+            catch (EntityException e)
+            {
+                CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            }
+            catch (Exception e)
+            {
+                CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            }
+        }
         public async Task<bool> SaveEditSurchargeRate()
         {
             try
