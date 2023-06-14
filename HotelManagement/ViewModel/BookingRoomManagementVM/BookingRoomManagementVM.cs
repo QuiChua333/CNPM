@@ -361,7 +361,12 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             });
             LoadDeleteRentalContractCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
-
+                string status = await BookingRoomService.Ins.GetCurrentRoomStatus(SelectedItem.RentalContractId);
+                if (status == ROOM_STATUS.RENTING)
+                {
+                    CustomMessageBox.ShowOk("Phiếu thuê cho phòng đang thuê, không thể xóa!", "Thông báo", "Xác nhận", CustomMessageBoxImage.Warning);
+                    return;
+                }
                 string message = "Bạn có chắc muốn xoá phiếu thuê này không? Dữ liệu không thể phục hồi sau khi xoá!";
                 CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo","Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
 

@@ -173,16 +173,11 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementNMCNPMEntities())
                 {
                     RentalContract rentalContract = await context.RentalContracts.FindAsync(rentalContractId);
-                    bool isRenting = rentalContract.Room.RoomStatus == "Phòng đang thuê";
-                    if (isRenting)
-                    {
-                        return (false, "Phiếu thuê của phòng đang thuê, không thể xóa!");
-                    }
                     context.RentalContractDetails.RemoveRange(rentalContract.RentalContractDetails);
                     await context.SaveChangesAsync();
                     context.RentalContracts.Remove(rentalContract);
                     await context.SaveChangesAsync();
-                    return (true, "Xóa thành công");
+                    return (true, "Xóa phiếu thuê thành công");
                 }
             }
             catch (Exception)
@@ -315,6 +310,39 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
+        public async Task<string> GetCurrentRoomStatus(string rentId)
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+                    string res = "";
+                    RentalContract currentRental = await context.RentalContracts.FindAsync(rentId);
+                    Room room = currentRental.Room;
+                    res = room.RoomStatus.ToString();
+
+                    if (room.RoomStatus.ToString() == ROOM_STATUS.RENTING)
+                    {
+                        var listRentalId = await context.RentalContracts.Where(x => x.RoomId == room.RoomId).Select(x => x.RentalContractId).ToListAsync();
+                        listRentalId.Reverse();
+                        if (rentId == listRentalId[0])
+                        {
+                            res = ROOM_STATUS.RENTING.ToString();
+                        }
+                        else
+                        {
+                            res = ROOM_STATUS.READY;
+                        }
+
+                    }
+                    return res;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
         public async Task<List<RentalContractDTO>> GetRentalContractList()
         {
             try
@@ -322,27 +350,24 @@ namespace HotelManagement.Model.Services
                 using (HotelManagementNMCNPMEntities db = new HotelManagementNMCNPMEntities())
                 {
                     int index = 1;
-                    List<RentalContractDTO> RentalContractDTOs = await (
-                        from r in db.RentalContracts
-                        join room in db.Rooms
-                        on r.RoomId equals room.RoomId
-                        select new RentalContractDTO
+                    var RentalContractDTOs = await db.RentalContracts.OrderByDescending(x=> x.CreateDate).Select(r => new RentalContractDTO
+                    {
+                        RentalContractId = r.RentalContractId,
+                        CreateDate = r.CreateDate,
+                        RoomId = r.RoomId,
+                        RoomNumber = (int)r.Room.RoomNumber,
+                        RentalContracts = r.RentalContractDetails.Select(x => new RentalContractDetailDTO
                         {
-                            RentalContractId = r.RentalContractId,
-                            CreateDate = r.CreateDate,
-                            RoomId = r.RoomId,
-                            RoomNumber = (int)room.RoomNumber,
-                            RentalContracts = r.RentalContractDetails.Select(x => new RentalContractDetailDTO
-                            {
-                                RentalContractId = x.RentalContractId,
-                                CustomerName = x.CustomerName,
-                                CCCD = x.CCCD,  
-                                Address = x.Address,    
-                                CustomerType = x.CustomerType.CustomerTypeName,
-                            }).ToList()
-                        }
-                    ).ToListAsync();
-                    RentalContractDTOs.Reverse();
+                            RentalContractId = x.RentalContractId,
+                            CustomerName = x.CustomerName,
+                            CCCD = x.CCCD,
+                            Address = x.Address,
+                            CustomerType = x.CustomerType.CustomerTypeName,
+                        }).ToList()
+
+                    }).ToListAsync();
+                   
+                 
                     foreach (var  r in RentalContractDTOs)
                     {
                         r.STT_RentalContract = index++;

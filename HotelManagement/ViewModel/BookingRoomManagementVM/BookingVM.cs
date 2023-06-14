@@ -25,6 +25,16 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         }
         public async Task SaveRentalContract(Window p)
         {
+            if (SelectedRoom == null)
+            {
+                CustomMessageBox.ShowOk("Vui lòng chọn phòng và thêm khách hàng", "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                return;
+            }
+            if (ListCustomer==null || ListCustomer.Count == 0)
+            {
+                CustomMessageBox.ShowOk("Vui lòng thêm khách hàng", "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                return;
+            }
             RentalContractDTO temp = new RentalContractDTO
             {
                 CreateDate = CreateDate,
