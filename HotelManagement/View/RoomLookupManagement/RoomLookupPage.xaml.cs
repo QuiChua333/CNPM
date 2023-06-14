@@ -54,7 +54,8 @@ namespace HotelManagement.View.RoomLookupManagement
             if (String.IsNullOrEmpty(SearchBox.Text))
                 return true;
             else
-                return ((item as RoomDTO).RoomName.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as RoomDTO).RoomName.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
+                    || (item as RoomDTO).RoomTypeName.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
         private void listListRoomType_Loaded(object sender, RoutedEventArgs e)

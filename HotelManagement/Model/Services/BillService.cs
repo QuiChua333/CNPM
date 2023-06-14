@@ -152,7 +152,7 @@ namespace HotelManagement.Model.Services
 
                         context.RevenueReports.Add(revenueReport);
                         await context.SaveChangesAsync();
-
+                       
                        var listRoomTypeId = await context.RoomTypes.Select(x=> x.RoomTypeId).ToListAsync();
                         foreach(var roomTypeId in listRoomTypeId)
                         {
