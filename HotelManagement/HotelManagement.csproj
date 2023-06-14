@@ -232,9 +232,6 @@
     <Compile Include="Model\Services\RoomService.cs" />
     <Compile Include="Model\Services\RoomTypeService.cs" />
     <Compile Include="Model\Services\StatisticalService.cs" />
-    <Compile Include="Model\SurchargeRate.cs">
-      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Services\BookingRoomService.cs" />
     <Compile Include="Model\Services\CustomerTypeService.cs" />
     <Compile Include="Model\SurchargeRate.cs">
@@ -736,6 +733,11 @@
     <Resource Include="Resources\Images\unchecked.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Images\ic_activated.png" />
+    <Resource Include="Resources\Images\ic_hammer.png" />
+    <Resource Include="Resources\Icons\zoomout.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Model\HotelManagementDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HotelManagementDatabase.edmx</DependentUpon>
@@ -746,11 +748,7 @@
       <DependentUpon>HotelManagementDatabase.edmx</DependentUpon>
       <LastGenOutput>HotelManagementDatabase.cs</LastGenOutput>
     </Content>
-    <Resource Include="Resources\Images\ic_activated.png" />
-    <Resource Include="Resources\Images\ic_hammer.png" />
-    <Resource Include="Resources\Icons\zoomout.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

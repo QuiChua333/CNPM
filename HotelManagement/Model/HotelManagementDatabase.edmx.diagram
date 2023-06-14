@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9d74021cb13e4456bc4547ec214b1af8" Name="Diagram1">
+      <Diagram DiagramId="cbb34ab148d043cebd0712748700154f" Name="Diagram1">
         <EntityTypeShape EntityType="HotelManagementNMCNPMModel.Bill" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelManagementNMCNPMModel.BillDetail" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelManagementNMCNPMModel.CustomerType" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
@@ -21,6 +21,7 @@
         <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RentalContractDetail_CustomerType" ManuallyRouted="false" />
         <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RentalContract_Room" ManuallyRouted="false" />
         <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RentalContractDetail_RentalContract" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RevenueReportDetail_RevenueReport" ManuallyRouted="false" />
         <AssociationConnector Association="HotelManagementNMCNPMModel.FK_RevenueReportDetail_RoomType" ManuallyRouted="false" />
         <AssociationConnector Association="HotelManagementNMCNPMModel.FK_Room_RoomType" ManuallyRouted="false" />
       </Diagram>
