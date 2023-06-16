@@ -93,7 +93,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             {
                 foreach (var i in ListCustomer)
                 {
-                    if (CCCD.Equals(i.CCCD))
+                    if (CCCD.Equals(i.CCCD) && i!= SelectedCustomer)
                     {
                         CustomMessageBox.ShowOk("Số CCCD/ ID định danh này đã tồn tại trong danh sách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
                         return;

@@ -324,15 +324,17 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             {
                 IsSave = true;
                 await EditCustomerFunc(p);
-                SelectedCustomer = null;
             });
-            LoadDeleteCustomerCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
+            LoadDeleteCustomerCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, async (p) =>
             {
                 string message = "Bạn có chắc muốn xoá khách hàng này không?";
                 CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
 
                 if (kq == CustomMessageBoxResult.OK)
+                {
                     ListCustomer.Remove(SelectedCustomer);
+                    await UpdateRentalPrice();
+                }    
             });
             LoadEditCustomerCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, async (p) =>
             {
