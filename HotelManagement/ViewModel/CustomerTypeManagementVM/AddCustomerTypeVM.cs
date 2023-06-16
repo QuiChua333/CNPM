@@ -24,9 +24,9 @@ namespace HotelManagement.ViewModel.CustomerTypeManagementVM
                 }
                 else
                 {
-                    if (CoefficientSurchargeTemp<0)
+                    if (CoefficientSurchargeTemp<=0)
                     {
-                        CustomMessageBox.ShowOk("Hệ số phụ thu không là số âm!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                        CustomMessageBox.ShowOk("Hệ số phụ thu phải lớn hơn 0!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                         return;
                     }
                     else

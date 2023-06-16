@@ -121,30 +121,67 @@
                                     </TextBlock>
                                     <TextBox 
                                         x:Name="soKhachKhongTinhPhuPhi"
+                                        PreviewTextInput="_soKhachPhuPhi_PreviewTextInput"
                                         Text="{Binding SoKhachKhongTinhPhuPhi,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                         FontSize="18" FontFamily="{StaticResource MaterialDesignFont}" FontWeight="Regular" Margin="5,0,0,0"
+                                        Width="40"
+                                         IsEnabled="{Binding IsEditSoKhachPhuPhi, Mode=TwoWay}"
                                     >
-                                        <TextBox.Style>
-                                            <Style TargetType="TextBox">
-                                                <Setter Property="BorderThickness"
-                                                        Value="0" />
-                                                <Setter Property="Background"
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="BorderThickness"
+                                                        Value="1" />
+                                            <Setter Property="Background"
                                                         Value="#FFFFFF" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsEdit}" Value="True">
-                                                        <Setter Property="Background"
-                                                        Value="#FFF0F3F7" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBox.Style>
-                                    </TextBox>
-                                </StackPanel>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsEdit}" Value="True">
+                                                    <Setter Property="BorderThickness"
+                                                        Value="1" />
+                                                    <Setter Property="BorderBrush"
+                                                        Value="#FFFF6666" />
+                                                    <Setter Property="Focusable" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <Border Cursor="Hand" Margin="10,0,0,0">
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver"
+                                                Value="True">
+                                                    <Setter Property="Background"
+                                                Value="#00e5ff" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <materialDesign:PackIcon 
+                                            Kind="Pencil"
+                                            Width="22"
+                                            Height="22"
+                                            Cursor="Hand"
+                                            x:Name="iconEditSoKhachPhuPhi"
+                                        >
+                                    </materialDesign:PackIcon>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding EditNumCusSurchargeCM}"
+                                                           CommandParameter="{Binding ElementName=iconEditSoKhachPhuPhi}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Border>
+
+                            </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,7,0,7">
                                     <TextBlock FontSize="18" FontFamily="{StaticResource MaterialDesignFont}" FontWeight="Regular" Text="Số khách tối đa: ">
                                     </TextBlock>
                                     <TextBox 
                                         x:Name="_soKhachToiDa"
+                                        PreviewTextInput="_soKhachToiDa_PreviewTextInput"
                                         Text="{Binding SoKhachToiDa,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                         FontSize="18" FontFamily="{StaticResource MaterialDesignFont}" FontWeight="Regular" Margin="5,0,0,0"
                                         Width="40"

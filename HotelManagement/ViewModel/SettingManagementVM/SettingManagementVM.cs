@@ -43,6 +43,13 @@ namespace HotelManagement.ViewModel.SettingManagementVM
             get { return _IsEditMaxCus; }
             set { _IsEditMaxCus = value; OnPropertyChanged(); }
         }
+        private bool _IsEditSoKhachPhuPhi { get; set; }
+        public bool IsEditSoKhachPhuPhi
+        {
+            get { return _IsEditSoKhachPhuPhi; }
+            set { _IsEditSoKhachPhuPhi = value; OnPropertyChanged(); }
+        }
+        
         private ObservableCollection<SurchargeRateDTO> listSurchargeRate;
         public ObservableCollection<SurchargeRateDTO> ListSurchargeRate
         {
@@ -65,6 +72,7 @@ namespace HotelManagement.ViewModel.SettingManagementVM
         public ICommand FirstLoadCM { get; set; }
         public ICommand FirstLoadSettingViewCM { get; set; }
         public ICommand EditMaxCusCM { get; set; }
+        public ICommand EditNumCusSurchargeCM { get; set; }
         public ICommand AutoStartAppCM { get; set; }
         public ICommand ColorPickerCM { get; set; }
         public ICommand ChooseColorCM { get; set; }
@@ -134,7 +142,7 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                         }
                         if (SoKhachToiDa == SoKhachKhongTinhPhuPhi)
                         {
-                            Equal2();
+                            Equal();
                             p.Kind = PackIconKind.Pencil;
                             IsEditMaxCus = false;
                             return;
@@ -154,6 +162,50 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                     }
                 }    
             });
+            EditNumCusSurchargeCM = new RelayCommand<PackIcon>((p) => { return true; }, (p) =>
+            {
+                if (IsEditSoKhachPhuPhi == false)
+                {
+                    IsEditSoKhachPhuPhi = true;
+                    p.Kind = PackIconKind.Tick;
+                }
+                else
+                {
+                    try
+                    {
+                        if (SoKhachKhongTinhPhuPhi < 1)
+                        {
+                            CustomMessageBox.ShowOk("Số khách không tính phụ phí phải từ 1 trở lên", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                        if (SoKhachKhongTinhPhuPhi > SoKhachToiDa)
+                        {
+                            CustomMessageBox.ShowOk("Số khách không tính phụ phí phải nhỏ hơn số khách tối đa", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                        if (  SoKhachKhongTinhPhuPhi == SoKhachToiDa)
+                        {
+                            Equal();
+                            p.Kind = PackIconKind.Pencil;
+                            IsEditSoKhachPhuPhi = false;
+                            return;
+                        }
+                        EditSurchargeFee editSurchargeFee = new EditSurchargeFee(p);
+                        ListSurchargeRate = new ObservableCollection<SurchargeRateDTO>();
+                        GetValue();
+                        editSurchargeFee.ShowDialog();
+                    }
+                    catch (EntityException ex)
+                    {
+                        CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                    }
+                    catch (Exception e)
+                    {
+                        CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                    }
+                }
+            });
+            
             AutoStartAppCM = new RelayCommand<ToggleButton>((p) => { return true; }, (p) =>
             {
                 if (p.IsChecked == true)
@@ -178,8 +230,13 @@ namespace HotelManagement.ViewModel.SettingManagementVM
             CloseEditSurchargeRateCM = new RelayCommand<Rectangle>((p) => { return true; }, (p) =>
             {
                 IsEditMaxCus = false;
+                IsEditSoKhachPhuPhi = false;
                 using (HotelManagementNMCNPMEntities db = new HotelManagementNMCNPMEntities())
+                {
                     SoKhachToiDa = (int)db.Parameters.FirstOrDefault(item => item.ParameterKey == "SoKhachToiDa").ParamaterValue;
+                    SoKhachKhongTinhPhuPhi = (int)db.Parameters.FirstOrDefault(item => item.ParameterKey == "SoKhachKhongTinhPhuPhi").ParamaterValue;
+                }
+                    
             });
             SaveSurchargeListCM = new RelayCommand<Window>((p) => { return true; }, async (p) =>
             {
@@ -209,6 +266,7 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                 ListSurchargeRate.Clear();
                 p.Close();
                 IsEditMaxCus = false;
+                IsEditSoKhachPhuPhi = false;
             });
             CLoseColorPickerCM = new RelayCommand<Grid>((p) => { return true; }, (p) =>
             {
@@ -231,9 +289,10 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                     srDTO.RateStr = System.Convert.ToString(srDTO.Rate);
                     ListSurchargeRate.Add(srDTO);
                 }
+                
             }
         }
-        public async void Equal2()
+        public async void Equal()
         {
             try
             {
@@ -246,14 +305,12 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                         return;
                     }
                     Parameter p = await db.Parameters.FirstOrDefaultAsync(item => item.ParameterKey == "SoKhachToiDa");
+                    Parameter p2 = await db.Parameters.FirstOrDefaultAsync(item => item.ParameterKey == "SoKhachKhongTinhPhuPhi");
                     var list = await db.SurchargeRates.ToListAsync();
                     db.SurchargeRates.RemoveRange(list);
-                    p.ParamaterValue = 2;
+                    p.ParamaterValue =p2.ParamaterValue= SoKhachKhongTinhPhuPhi;
                     await db.SaveChangesAsync();
                     CustomMessageBox.ShowOk("Lưu thông tin thành công", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-
-                  
-                   
                 }
             }
             catch (EntityException e)
@@ -265,6 +322,9 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                 CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
             }
         }
+  
+
+
         public async Task<bool> SaveEditSurchargeRate()
         {
             try
@@ -273,6 +333,7 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                 {
                     List<SurchargeRate> srList = db.SurchargeRates.ToList();
                     int OldLength = 0;
+          
                     if (srList.Count != 0)
                         OldLength = srList.Last().CustomerIndex;
                     for (int i = SoKhachKhongTinhPhuPhi; i < SoKhachToiDa; i++)
@@ -296,9 +357,16 @@ namespace HotelManagement.ViewModel.SettingManagementVM
                         if(sr != null)
                             db.SurchargeRates.Remove(sr);
                     }
+                    for (int i=2; i<=SoKhachKhongTinhPhuPhi; i++)
+                    {
+                        SurchargeRate sr = await db.SurchargeRates.FirstOrDefaultAsync(item => item.CustomerIndex == i);
+                        if (sr != null)
+                            db.SurchargeRates.Remove(sr);
+                    }
 
                     (await db.Parameters.FirstOrDefaultAsync(item => item.ParameterKey == "SoKhachToiDa")).ParamaterValue = SoKhachToiDa;
-                    
+                    (await db.Parameters.FirstOrDefaultAsync(item => item.ParameterKey == "SoKhachKhongTinhPhuPhi")).ParamaterValue = SoKhachKhongTinhPhuPhi;
+
                     await db.SaveChangesAsync();
                     return true;
                 }
