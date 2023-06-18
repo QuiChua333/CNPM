@@ -53,9 +53,9 @@ namespace HotelManagement.Model.Services
                         double PricePerDay = RoomTypePrice;
                         if (numPer > numPerForUnitPrice)
                         {
-                            for (int i = 3; i <= numPer; i++)
+                            for (int i = numPerForUnitPrice+1; i <= numPer; i++)
                             {
-                                PricePerDay += RoomTypePrice * (double)listSurcharge[i - 3].Rate;
+                                PricePerDay += RoomTypePrice * (double)listSurcharge[i - (numPerForUnitPrice+1)].Rate;
                             }
                         }
 

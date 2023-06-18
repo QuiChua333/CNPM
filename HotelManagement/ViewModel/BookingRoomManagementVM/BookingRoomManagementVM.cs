@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices.ComTypes;
@@ -54,6 +55,26 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             set
             {
                 _Price = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _IsEditRental;
+        public bool IsEditRental
+        {
+            get => _IsEditRental;
+            set
+            {
+                _IsEditRental = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _PriceInfo;
+        public string PriceInfo
+        {
+            get => _PriceInfo;
+            set
+            {
+                _PriceInfo = value;
                 OnPropertyChanged();
             }
         }
@@ -229,9 +250,11 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             set { _SelectedMonth = value; OnPropertyChanged(); }
         }
         public ICommand CloseCM { get; set; }
+        public ICommand CloseCM2 { get; set; }
         public ICommand FirstLoadCM { get; set; }
         public ICommand LoadBookingCM { get; set; }
         public ICommand LoadFormInfoCustomerCM { get; set; }
+        public ICommand LoadAddCustomerCM { get; set; }
         public ICommand ConfirmCustomerCM { get; set; }
         public ICommand LoadEditCustomerCM { get; set; }
         public ICommand LoadDeleteCustomerCM { get; set; }
@@ -239,6 +262,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         public ICommand LoadRentalContractInfoCM { get; set; }
         public ICommand ConfirmSaveRentalContract { get; set; }
         public ICommand LoadDeleteRentalContractCM { get; set; }
+        public ICommand UpdateListCustomerCM { get; set; }
         public ICommand ChangeTimeCM { get; set; }
         public ICommand UpdateRentalPriceCM { get; set; }
 
@@ -314,6 +338,39 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 
                 }
             });
+            LoadAddCustomerCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+               
+                    int maxPer = BookingRoomService.Ins.GetMaxNumOfPer();
+                    if (ListCustomer.Count == maxPer)
+                    {
+                        CustomMessageBox.ShowOk($"Mỗi phòng chỉ được ở tối đa {maxPer} khách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+                        return;
+                    }
+
+                    try
+                    {
+                        ListCustomerType = new ObservableCollection<string>((await CustomerTypeService.Ins.GetAllCustomerType()).Select(x => x.CustomerTypeName));
+                    }
+                    catch (System.Data.Entity.Core.EntityException e)
+                    {
+                        Console.WriteLine(e);
+                        CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                    }
+
+                    RenewWindowDataCusTomer();
+                    EnterInfoCustomer w = new EnterInfoCustomer();
+                    w.cbbCusType.SelectedIndex = 0;
+                    w.ShowDialog();
+
+
+                
+            });
             ConfirmCustomerCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; },async (p) =>
             {
                 IsSaving = true;
@@ -333,6 +390,11 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 if (kq == CustomMessageBoxResult.OK)
                 {
                     ListCustomer.Remove(SelectedCustomer);
+                    int i = 1;
+                    foreach (var item in ListCustomer)
+                    {
+                        item.STT = i++;
+                    }
                     await UpdateRentalPrice();
                 }    
             });
@@ -393,6 +455,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 RentalDay = DateTime.Today;
                 RentalContractInfo w = new RentalContractInfo();
                 await LoadInforRentalContract(w);
+                IsEditRental= true;
                 w.ShowDialog();
             });
             ConfirmSaveRentalContract = new RelayCommand<Window>((p) => { return true; }, async (p) =>
@@ -402,6 +465,12 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
 
             CloseCM = new RelayCommand<Window>((p) => { return true; }, (p) =>
             {
+                
+                p.Close();
+            });
+            CloseCM2 = new RelayCommand<Window>((p) => { return true; }, (p) =>
+            {
+                IsEditRental = false;
                 p.Close();
             });
             UpdateRentalPriceCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
@@ -409,14 +478,34 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                await UpdateRentalPrice();
              
             });
+            UpdateListCustomerCM = new RelayCommand<Window>((p) => { return true; }, async (p) =>
+            {
+                if (ListCustomer.Count == 0)
+                {
+                    CustomMessageBox.ShowOk("Danh sách khách hàng không được trống!", "Thông báo", "OK", CustomMessageBoxImage.Warning);
+                    return;
+                }
+                (bool isSucsses, string message) = await BookingRoomService.Ins.UpdateListCustomer(SelectedItem, new List<RentalContractDetailDTO>(ListCustomer));
+                if (isSucsses)
+                {
+                    CustomMessageBox.ShowOk(message, "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                    RentalContractList = new ObservableCollection<RentalContractDTO>(await BookingRoomService.Ins.GetRentalContractList());
+                    p.Close();
+                }
+                else
+                {
+                    CustomMessageBox.ShowOk(message, "Lỗi", "OK", CustomMessageBoxImage.Error);
+                }
+
+            });
         }
         public async Task  LoadInforRentalContract(RentalContractInfo w)
         {
             w.roomNumberInfo.Text = SelectedItem.RoomNumber.ToString();
             w.createDateInfo.Text = ((DateTime)SelectedItem.CreateDate).ToString("dd/MM/yyyy");
             double  RentalContractPrice = await BookingRoomService.Ins.GetRentalContractPrice(SelectedItem.RentalContractId);
-            w.priceInfo.Text = Helper.FormatVNMoney2(RentalContractPrice);
-            w.lsvCustomerInfo.ItemsSource = SelectedItem.RentalContracts;
+            PriceInfo = Helper.FormatVNMoney2(RentalContractPrice);
+            ListCustomer = new  ObservableCollection<RentalContractDetailDTO>(SelectedItem.RentalContracts);
         }
         private async Task ChangeView()
         {
@@ -438,9 +527,21 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         }
         public async Task UpdateRentalPrice()
         {
-            if (SelectedRoom == null) return;
-            Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
-            PriceStr = Helper.FormatVNMoney2(Price);
+            if (IsEditRental)
+            {
+             
+                Price = await BookingRoomService.Ins.GetPriceBooking(SelectedItem.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                PriceStr = Helper.FormatVNMoney2(Price);
+                PriceInfo = PriceStr;
+            }
+            else
+            {
+                if (SelectedRoom == null) return;
+                Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                PriceStr = Helper.FormatVNMoney2(Price);
+                PriceInfo = PriceStr;
+            }
+            
         }
     }
 }

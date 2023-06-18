@@ -74,9 +74,9 @@ namespace HotelManagement.Model.Services
                     double PricePerDay = RoomTypePrice;
                     if (numPer > numPerForUnitPrice)
                     {
-                        for (int i = 3; i <= numPer; i++)
+                        for (int i = numPerForUnitPrice+1; i <= numPer; i++)
                         {
-                            PricePerDay += RoomTypePrice * (double)listSurcharge[i-3].Rate;
+                            PricePerDay += RoomTypePrice * (double)listSurcharge[i- (numPerForUnitPrice + 1)].Rate;
                         }
                     }
 
@@ -225,6 +225,43 @@ namespace HotelManagement.Model.Services
                         await context.SaveChangesAsync();
                     }
                     return (true, "Xác nhận đặt phòng thành công!");
+                }
+            }
+            catch (Exception e)
+            {
+                return (false, "Lỗi hệ thống");
+            }
+        }
+        public async Task<(bool, string)> UpdateListCustomer(RentalContractDTO rentalContract, List<RentalContractDetailDTO> list)
+        {
+            try
+            {
+                using (var context = new HotelManagementNMCNPMEntities())
+                {
+                    string rentalId = rentalContract.RentalContractId;
+                    var listDetail =  context.RentalContracts.FindAsync(rentalId).Result.RentalContractDetails.ToList();
+                    context.RentalContractDetails.RemoveRange(listDetail);
+                    await context.SaveChangesAsync();
+                    foreach (var item in list)
+                    {
+
+                        string customerTypeId = context.CustomerTypes.FirstOrDefault(x => x.CustomerTypeName == item.CustomerType.Trim())
+                            .CustomerTypeId;
+                        var maxCPId = await context.RentalContractDetails.MaxAsync(s => s.RentalContractDetailId);
+                        string CPId = CreateNextRentalContractId(maxCPId);
+                        RentalContractDetail rentalContractDetail = new RentalContractDetail
+                        {
+                            RentalContractDetailId = CPId,
+                            RentalContractId = rentalId,
+                            CustomerName = item.CustomerName,
+                            Address = item.Address,
+                            CCCD = item.CCCD,
+                            CustomerTypeId = customerTypeId,
+                        };
+                        context.RentalContractDetails.Add(rentalContractDetail);
+                        await context.SaveChangesAsync();
+                    }
+                    return (true, "Cập nhật phiếu thuê thành công!");
                 }
             }
             catch (Exception e)
